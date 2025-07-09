@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Embr Platform
 
 A modular, modern platform for building micro apps—apps that serve a single purpose with maximum clarity and ease.
@@ -234,3 +235,6 @@ For questions and support:
 ---
 
 **Embr Platform** - Empowering events and businesses with beautiful, focused digital experiences. 
+=======
+# embr
+>>>>>>> a8e760b3486b51ba5bb9a9d02e1ac9e1b50ee863
