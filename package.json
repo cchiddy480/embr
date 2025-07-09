@@ -1,0 +1,47 @@
+{
+  "name": "embr-platform",
+  "version": "1.0.0",
+  "description": "Embr - Micro app platform for events and businesses",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=hub-app",
+    "build": "npm run build --workspace=hub-app",
+    "generate": "node scripts/generate-standalone.js",
+    "build-client": "node scripts/build-client.js",
+    "setup": "npm install && npm run setup:firebase",
+    "setup:firebase": "node scripts/setup-firebase.js",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/embr-platform/embr-platform.git"
+  },
+  "keywords": [
+    "micro-apps",
+    "events",
+    "business",
+    "capacitor",
+    "nextjs",
+    "firebase"
+  ],
+  "author": "Embr Team",
+  "license": "MIT"
+} 

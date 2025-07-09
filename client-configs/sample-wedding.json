@@ -1,0 +1,108 @@
+{
+  "clientId": "smith-jones-wedding-2024",
+  "name": "Smith & Jones Wedding",
+  "description": "Celebrating the wedding of Sarah Smith and Michael Jones",
+  "version": "1.0.0",
+  "expiry": "2024-08-15T23:59:59Z",
+  "theme": {
+    "colors": {
+      "primary": "#9C27B0",
+      "secondary": "#E1BEE7",
+      "accent": "#FFD700",
+      "background": "#FAFAFA",
+      "surface": "#FFFFFF",
+      "text": "#212121",
+      "textSecondary": "#757575"
+    },
+    "fonts": {
+      "heading": "Playfair Display",
+      "body": "Inter"
+    },
+    "logo": {
+      "light": "/assets/wedding-logo-light.png",
+      "dark": "/assets/wedding-logo-dark.png",
+      "favicon": "/assets/wedding-favicon.ico"
+    }
+  },
+  "navigation": [
+    {
+      "id": "schedule",
+      "title": "Wedding Day",
+      "icon": "heart",
+      "path": "/schedule"
+    },
+    {
+      "id": "guests",
+      "title": "Guest Info",
+      "icon": "users",
+      "path": "/guests"
+    },
+    {
+      "id": "venue",
+      "title": "Venue Details",
+      "icon": "map-pin",
+      "path": "/venue"
+    },
+    {
+      "id": "rsvp",
+      "title": "RSVP",
+      "icon": "check-circle",
+      "path": "/rsvp"
+    }
+  ],
+  "features": {
+    "offline": true,
+    "pushNotifications": true,
+    "qrCode": true,
+    "analytics": false
+  },
+  "content": {
+    "schedule": {
+      "enabled": true,
+      "timezone": "Europe/London",
+      "events": [
+        {
+          "id": "ceremony",
+          "title": "Wedding Ceremony",
+          "description": "Join us for the ceremony",
+          "startTime": "2024-08-10T14:00:00Z",
+          "endTime": "2024-08-10T15:00:00Z",
+          "location": "St. Mary's Church",
+          "notes": "Please arrive 30 minutes early"
+        },
+        {
+          "id": "reception",
+          "title": "Wedding Reception",
+          "description": "Celebration and dinner",
+          "startTime": "2024-08-10T16:00:00Z",
+          "endTime": "2024-08-10T23:00:00Z",
+          "location": "The Grand Hotel",
+          "notes": "Cocktail attire"
+        }
+      ]
+    },
+    "guests": {
+      "enabled": true,
+      "showPhotos": true,
+      "allowContact": true
+    },
+    "venue": {
+      "enabled": true,
+      "address": "123 Wedding Lane, Cornwall",
+      "coordinates": {
+        "lat": 50.2660,
+        "lng": -5.0527
+      },
+      "parking": "Free parking available on-site",
+      "accessibility": "Wheelchair accessible"
+    }
+  },
+  "pushNotifications": {
+    "topics": ["embr_smith-jones-wedding-2024"],
+    "defaultTitle": "Smith & Jones Wedding",
+    "defaultIcon": "/assets/wedding-notification-icon.png"
+  },
+  "analytics": {
+    "enabled": false
+  }
+} 

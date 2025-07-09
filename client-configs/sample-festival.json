@@ -1,0 +1,97 @@
+{
+  "clientId": "cornwall-food-festival-2024",
+  "name": "Cornwall Food Festival 2024",
+  "description": "A celebration of local Cornish cuisine and producers",
+  "version": "1.0.0",
+  "expiry": "2024-09-30T23:59:59Z",
+  "theme": {
+    "colors": {
+      "primary": "#FF6B35",
+      "secondary": "#2E8B57",
+      "accent": "#FFD700",
+      "background": "#FFFFFF",
+      "surface": "#F8F9FA",
+      "text": "#1A1A1A",
+      "textSecondary": "#6B7280"
+    },
+    "fonts": {
+      "heading": "Inter",
+      "body": "Inter"
+    },
+    "logo": {
+      "light": "/assets/logo-light.png",
+      "dark": "/assets/logo-dark.png",
+      "favicon": "/assets/favicon.ico"
+    }
+  },
+  "navigation": [
+    {
+      "id": "schedule",
+      "title": "Schedule",
+      "icon": "calendar",
+      "path": "/schedule"
+    },
+    {
+      "id": "vendors",
+      "title": "Vendors",
+      "icon": "store",
+      "path": "/vendors"
+    },
+    {
+      "id": "map",
+      "title": "Festival Map",
+      "icon": "map",
+      "path": "/map"
+    },
+    {
+      "id": "contact",
+      "title": "Contact",
+      "icon": "phone",
+      "path": "/contact"
+    }
+  ],
+  "features": {
+    "offline": true,
+    "pushNotifications": true,
+    "qrCode": true,
+    "analytics": true
+  },
+  "content": {
+    "schedule": {
+      "enabled": true,
+      "timezone": "Europe/London",
+      "events": [
+        {
+          "id": "opening",
+          "title": "Festival Opening",
+          "description": "Welcome to Cornwall Food Festival 2024",
+          "startTime": "2024-09-15T10:00:00Z",
+          "endTime": "2024-09-15T10:30:00Z",
+          "location": "Main Stage",
+          "speaker": "Mayor of Cornwall"
+        }
+      ]
+    },
+    "vendors": {
+      "enabled": true,
+      "categories": ["Food", "Drinks", "Crafts", "Produce"]
+    },
+    "map": {
+      "enabled": true,
+      "center": {
+        "lat": 50.2660,
+        "lng": -5.0527
+      },
+      "zoom": 15
+    }
+  },
+  "pushNotifications": {
+    "topics": ["embr_cornwall-food-festival-2024"],
+    "defaultTitle": "Cornwall Food Festival",
+    "defaultIcon": "/assets/notification-icon.png"
+  },
+  "analytics": {
+    "enabled": true,
+    "trackingId": "GA-XXXXXXXXX"
+  }
+} 
