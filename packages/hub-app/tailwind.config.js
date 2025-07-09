@@ -8,31 +8,30 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // These will be overridden by client configs
+        // Embr branding colors
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+          50: '#e6f7f6',
+          100: '#b3ece7',
+          200: '#80e0d8',
+          300: '#4dd5c9',
+          400: '#26cbbd',
+          500: '#0F766E', // Embr teal
+          600: '#0c5c56',
+          700: '#09423e',
+          800: '#062926',
+          900: '#101926', // Embr dark background
         },
-        secondary: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-        }
+        accent: {
+          500: '#1FA89F',
+          600: '#38F9E4',
+        },
+        background: '#101926',
+        foreground: '#FEFEFE',
+        gray: {
+          100: '#ededed',
+          200: '#6c757d',
+          300: '#212529',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

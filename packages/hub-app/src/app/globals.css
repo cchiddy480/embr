@@ -3,27 +3,25 @@
 @tailwind utilities;
 
 :root {
-  /* Default Embr theme colors - will be overridden by client configs */
-  --color-primary: 14 165 233;
-  --color-secondary: 100 116 139;
-  --color-accent: 255 215 0;
-  --color-background: 255 255 255;
+  /* Embr branding colors */
+  --color-primary: 15 118 110; /* #0F766E */
+  --color-accent: 31 168 159;  /* #1FA89F */
+  --color-background: 16 25 38; /* #101926 */
   --color-surface: 248 250 252;
-  --color-text: 26 26 26;
-  --color-text-secondary: 107 114 128;
-  
+  --color-text: 254 254 254; /* #FEFEFE */
+  --color-text-secondary: 236 237 237; /* #ededed */
+  --color-gray: 108 117 125; /* #6c757d */
   /* Font variables */
   --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 }
 
-/* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: 15 23 42;
-    --color-surface: 30 41 59;
-    --color-text: 248 250 252;
-    --color-text-secondary: 148 163 184;
+    --color-background: 16 25 38; /* #101926 */
+    --color-surface: 6 41 38; /* #062926 */
+    --color-text: 254 254 254; /* #FEFEFE */
+    --color-text-secondary: 236 237 237; /* #ededed */
   }
 }
 

@@ -1,6 +1,5 @@
-import type { NextConfig } from 'next'
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   experimental: {
     appDir: true,
   },
@@ -38,4 +37,4 @@ const nextConfig: NextConfig = {
   distDir: 'out',
 }
 
-export default nextConfig 
+module.exports = nextConfig 
