@@ -1,8 +1,85 @@
 'use client'
 
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import { QRCodeScanner } from '../components/QRCodeScanner'
+import { AccessCodeEntry } from '../components/AccessCodeEntry'
+import { LoadingScreen } from '../components/LoadingScreen'
+import { ClientApp } from '../components/ClientApp'
+import { useClientConfig } from '../hooks/useClientConfig'
 
 export default function HomePage() {
+  const [showQRScanner, setShowQRScanner] = useState(false)
+  const [showAccessCode, setShowAccessCode] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  
+  const { config, loadConfig, clearConfig, isExpired, loading } = useClientConfig();
+
+  useEffect(() => {
+    console.log('[HomePage] config:', config);
+    console.log('[HomePage] isExpired:', isExpired);
+  }, [config, isExpired]);
+
+  const handleQRScan = async (data: string) => {
+    setShowQRScanner(false)
+    setIsLoading(true)
+    setError(null)
+    
+    try {
+      // Parse the QR code data - it should contain a clientId or full config URL
+      let clientId = data
+      
+      // If it's a URL, extract the clientId from it
+      if (data.startsWith('http')) {
+        const url = new URL(data)
+        clientId = url.searchParams.get('clientId') || url.pathname.split('/').pop() || data
+      }
+      
+      await loadConfig(clientId)
+    } catch (err) {
+      setError('Invalid QR code. Please try again.')
+      console.error('QR scan error:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Access code flow: keep modal open until success or error
+  const handleAccessCodeSubmit = async (code: string, setModalError: (msg: string) => void, setModalLoading: (loading: boolean) => void) => {
+    setModalError('')
+    setModalLoading(true)
+    setError(null)
+    try {
+      await loadConfig(code)
+      setShowAccessCode(false)
+    } catch (err) {
+      setModalError('Invalid access code. Please try again.')
+      console.error('Access code error:', err)
+    } finally {
+      setModalLoading(false)
+    }
+  }
+
+  const handleBackToHome = () => {
+    clearConfig()
+    setError(null)
+  }
+
+  if (loading) {
+    return <LoadingScreen message="Loading your app..." />;
+  }
+
+  // If we have a config loaded, show the client app (no back button)
+  if (config && !isExpired) {
+    return <ClientApp config={config} />;
+  }
+
+  // Show loading screen
+  if (isLoading) {
+    return <LoadingScreen message="Loading your app..." />
+  }
+
   return (
     <div className="min-h-screen bg-[#101926] flex flex-col justify-between items-center px-4 font-sans pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
       <div className="w-full flex-1 flex flex-col justify-center items-center">
@@ -18,9 +95,24 @@ export default function HomePage() {
         <p className="text-gray-200 text-center mb-8 text-lg font-medium font-sans">
           Micro Apps. One Purpose. No Bloat.
         </p>
+        
+        {/* Error Message and Expiry Notification */}
+        {(error || (config && isExpired)) && (
+          <div className="w-full max-w-sm mx-auto mb-6 p-4 bg-red-900/20 border border-red-500/30 rounded-xl text-red-200 text-center">
+            {error}
+            {config && isExpired && (
+              <>
+                {error && <br />}
+                This app code has expired or is no longer available. Please check with your event organizer or try another code.
+              </>
+            )}
+          </div>
+        )}
+        
         {/* Action Buttons */}
         <div className="w-full flex flex-col gap-5 mb-10 max-w-sm mx-auto">
           <button
+            onClick={() => setShowQRScanner(true)}
             className="w-full bg-[#0F766E] hover:bg-[#13a89a] text-white font-semibold py-4 px-4 rounded-xl shadow transition-colors duration-200 flex items-center justify-center gap-2 text-lg font-sans"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,6 +121,7 @@ export default function HomePage() {
             <span>Scan QR Code</span>
           </button>
           <button
+            onClick={() => setShowAccessCode(true)}
             className="w-full bg-transparent hover:bg-[#22304a] text-white font-semibold py-4 px-4 rounded-xl border border-[#2d3c5a] transition-colors duration-200 flex items-center justify-center gap-2 text-lg font-sans"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,6 +136,22 @@ export default function HomePage() {
         <p>Powered by Embr Platform</p>
         <p className="mt-1">One app. One purpose. All power.</p>
       </footer>
+
+      {/* QR Scanner Modal */}
+      {showQRScanner && (
+        <QRCodeScanner
+          onScan={handleQRScan}
+          onClose={() => setShowQRScanner(false)}
+        />
+      )}
+
+      {/* Access Code Modal */}
+      {showAccessCode && (
+        <AccessCodeEntry
+          onSubmit={handleAccessCodeSubmit}
+          onClose={() => setShowAccessCode(false)}
+        />
+      )}
     </div>
   )
 } 
