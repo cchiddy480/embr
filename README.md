@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Embr Platform
 
 A modular, modern platform for building micro apps—apps that serve a single purpose with maximum clarity and ease.
