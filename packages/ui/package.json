@@ -1,0 +1,9 @@
+{
+  "name": "@embr/ui",
+  "version": "0.1.0",
+  "main": "src/components/index.ts",
+  "types": "src/components/index.ts",
+  "private": true,
+  "description": "Embr shared UI component library",
+  "license": "MIT"
+} 

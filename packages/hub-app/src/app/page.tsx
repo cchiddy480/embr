@@ -108,7 +108,7 @@ export default function HomePage() {
             )}
           </div>
         )}
-        
+
         {/* Action Buttons */}
         <div className="w-full flex flex-col gap-5 mb-10 max-w-sm mx-auto">
           <button
