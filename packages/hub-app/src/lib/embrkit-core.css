@@ -70,18 +70,23 @@
   --embr-slate-text: #4B5563;        /* Secondary body copy */
   --embr-elevated-bg: #EDEDED;       /* Alt section backgrounds, dark-mode text */
   
-  /* Semantic Color Mapping */
+  /* Semantic Color Mapping - Landing Page Aligned */
   --embr-primary: var(--embr-teal);
   --embr-primary-hover: var(--embr-glow-mid);
   --embr-primary-active: #0d5d56;
   --embr-accent: var(--embr-glow-bright);
-  --embr-background: var(--embr-deep-charcoal);
-  --embr-surface: #374151;           /* Darker shade of charcoal for cards */
-  --embr-surface-elevated: #4B5563;  /* Even darker for elevated elements */
-  --embr-border: var(--embr-warm-grey);
-  --embr-text: var(--embr-cream-white);
-  --embr-text-secondary: var(--embr-elevated-bg);
-  --embr-text-muted: var(--embr-neutral-grey);
+  
+  /* Landing Page Background System */
+  --embr-background: #1e293b;        /* Navy base matching landing page */
+  --embr-background-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 25%, #1e293b 50%, #134e4a 100%);
+  --embr-surface: rgba(30, 41, 59, 0.8);     /* Semi-transparent navy */
+  --embr-surface-elevated: rgba(15, 23, 42, 0.9); /* Darker semi-transparent */
+  --embr-border: rgba(107, 114, 128, 0.3);   /* Subtle warm grey border */
+  
+  /* Landing Page Text System */
+  --embr-text: #ffffff;              /* Pure white like landing page */
+  --embr-text-secondary: #cbd5e1;    /* Light grey for secondary text */
+  --embr-text-muted: rgba(203, 213, 225, 0.7); /* Muted version */
 
   /* EmbrKit: Shadows (Mathematical Progression) */
   --embr-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -157,28 +162,28 @@
   font-weight: 600; 
   line-height: 1.1;
   font-family: 'Inter', system-ui, sans-serif;
-  color: var(--embr-deep-charcoal);
+  color: var(--embr-text);
 }
 .embr-h2 { 
   font-size: var(--embr-h2-size); 
   font-weight: 500; 
   line-height: 1.3;
   font-family: 'Inter', system-ui, sans-serif;
-  color: var(--embr-deep-charcoal);
+  color: var(--embr-text);
 }
 .embr-body { 
   font-size: var(--embr-body-size); 
   font-weight: 400; 
   line-height: 1.6;
   font-family: 'Inter', system-ui, sans-serif;
-  color: var(--embr-deep-charcoal);
+  color: var(--embr-text-secondary);
 }
 .embr-caption { 
   font-size: var(--embr-caption-size); 
   font-weight: 500; 
   line-height: 1.5;
   font-family: 'Inter', system-ui, sans-serif;
-  color: var(--embr-warm-grey);
+  color: var(--embr-text-muted);
 }
 
 /* EmbrKit: Letter Spacing (Optical Corrections) */
