@@ -1,0 +1,255 @@
+/* EmbrKit Button Component - Aligned with Embr Brand */
+/* Based on golden ratio principles with Embr's refined aesthetic */
+
+.embr-btn {
+  /* Base Structure */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--embr-space-2);
+  
+  /* Typography - Bold Inter Font */
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700; /* Bold as per brand requirements */
+  font-size: var(--embr-text-base); /* 18px base */
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  
+  /* Substantial Sizing - Golden Ratio Based */
+  padding: var(--embr-space-4) var(--embr-space-8); /* Generous padding: 16px 26px */
+  min-height: calc(var(--embr-space-4) * 3.5); /* Substantial height: ~56px */
+  
+  /* Embr Brand Styling */
+  border-radius: var(--embr-radius-2xl); /* rounded-2xl as per brand requirements */
+  border: 2px solid transparent;
+  cursor: pointer;
+  
+  /* Smooth Transitions */
+  transition: all var(--embr-transition-normal);
+  
+  /* Focus States */
+  outline: none;
+}
+
+.embr-btn:focus-visible {
+  ring: 2px;
+  ring-offset: 2px;
+  ring-opacity: 0.5;
+}
+
+/* Disabled State */
+.embr-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==============================================
+   BUTTON VARIANTS
+   ============================================== */
+
+/* Primary Button - Embr Teal with Soft Glow */
+.embr-btn-primary {
+  background: var(--embr-teal);
+  color: white;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2); /* Soft teal glow */
+  border-color: var(--embr-teal);
+}
+
+.embr-btn-primary:hover {
+  background: var(--embr-glow-mid);
+  box-shadow: 0 6px 20px rgba(15, 118, 110, 0.3); /* Enhanced glow on hover */
+  transform: translateY(-1px);
+  border-color: var(--embr-glow-mid);
+}
+
+.embr-btn-primary:active {
+  background: var(--embr-primary-active);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
+}
+
+.embr-btn-primary:focus-visible {
+  ring-color: var(--embr-teal);
+}
+
+/* Secondary Button - Outlined with Teal */
+.embr-btn-secondary {
+  background: transparent;
+  color: var(--embr-teal);
+  border-color: var(--embr-teal);
+  box-shadow: 0 2px 4px rgba(15, 118, 110, 0.1);
+}
+
+.embr-btn-secondary:hover {
+  background: rgba(15, 118, 110, 0.05);
+  border-color: var(--embr-glow-mid);
+  color: var(--embr-glow-mid);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.15);
+  transform: translateY(-1px);
+}
+
+.embr-btn-secondary:active {
+  background: rgba(15, 118, 110, 0.1);
+  transform: translateY(0);
+}
+
+.embr-btn-secondary:focus-visible {
+  ring-color: var(--embr-teal);
+}
+
+/* Text Button - Minimal with Hover Effects */
+.embr-btn-text {
+  background: transparent;
+  color: var(--embr-teal);
+  border-color: transparent;
+  box-shadow: none;
+  padding: var(--embr-space-3) var(--embr-space-6); /* Slightly less padding */
+  min-height: calc(var(--embr-space-4) * 2.5); /* Smaller height */
+}
+
+.embr-btn-text:hover {
+  background: rgba(15, 118, 110, 0.05);
+  color: var(--embr-glow-mid);
+  transform: translateY(-1px);
+}
+
+.embr-btn-text:active {
+  background: rgba(15, 118, 110, 0.1);
+  transform: translateY(0);
+}
+
+.embr-btn-text:focus-visible {
+  ring-color: var(--embr-teal);
+}
+
+/* ==============================================
+   BUTTON SIZES - Golden Ratio Progression
+   ============================================== */
+
+/* Small Button */
+.embr-btn-sm {
+  font-size: var(--embr-text-sm); /* 16px */
+  padding: var(--embr-space-3) var(--embr-space-6); /* 12px 24px */
+  min-height: calc(var(--embr-space-4) * 2.5); /* ~40px */
+}
+
+/* Medium Button (Default) */
+.embr-btn-md {
+  font-size: var(--embr-text-base); /* 18px */
+  padding: var(--embr-space-4) var(--embr-space-8); /* 16px 26px */
+  min-height: calc(var(--embr-space-4) * 3.5); /* ~56px */
+}
+
+/* Large Button */
+.embr-btn-lg {
+  font-size: var(--embr-text-lg); /* 20px */
+  padding: var(--embr-space-5) var(--embr-space-10); /* 18px 30px */
+  min-height: calc(var(--embr-space-4) * 4); /* ~64px */
+}
+
+/* ==============================================
+   SPECIAL EFFECTS & STATES
+   ============================================== */
+
+/* Glow Effect - Enhanced Teal Glow */
+.embr-btn-glow {
+  box-shadow: 0 0 20px rgba(15, 118, 110, 0.4), 0 4px 12px rgba(15, 118, 110, 0.2);
+}
+
+.embr-btn-glow:hover {
+  box-shadow: 0 0 30px rgba(15, 118, 110, 0.6), 0 6px 20px rgba(15, 118, 110, 0.3);
+}
+
+/* Loading State */
+.embr-btn-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.embr-btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: embr-spin 1s linear infinite;
+  color: white;
+}
+
+@keyframes embr-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Icon Button */
+.embr-btn-icon {
+  width: calc(var(--embr-space-4) * 3.5); /* Square aspect ratio */
+  padding: var(--embr-space-4);
+}
+
+.embr-btn-icon-sm {
+  width: calc(var(--embr-space-4) * 2.5);
+  padding: var(--embr-space-3);
+}
+
+.embr-btn-icon-lg {
+  width: calc(var(--embr-space-4) * 4);
+  padding: var(--embr-space-5);
+}
+
+/* Full Width Button */
+.embr-btn-full {
+  width: 100%;
+}
+
+/* ==============================================
+   DARK MODE SUPPORT
+   ============================================== */
+
+@media (prefers-color-scheme: dark) {
+  .embr-btn-secondary {
+    border-color: var(--embr-glow-mid);
+    color: var(--embr-glow-mid);
+  }
+  
+  .embr-btn-text {
+    color: var(--embr-glow-mid);
+  }
+}
+
+/* ==============================================
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================== */
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .embr-btn {
+    border-width: 3px;
+  }
+  
+  .embr-btn-primary {
+    border-color: white;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .embr-btn {
+    transition: none;
+  }
+  
+  .embr-btn:hover {
+    transform: none;
+  }
+  
+  .embr-btn-loading::after {
+    animation: none;
+  }
+} 

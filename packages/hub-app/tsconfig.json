@@ -41,6 +41,12 @@
       ],
       "@/utils/*": [
         "./src/utils/*"
+      ],
+      "@embr/ui": [
+        "../ui/src/index.ts"
+      ],
+      "@embr/ui/*": [
+        "../ui/src/*"
       ]
     }
   },

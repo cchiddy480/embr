@@ -131,7 +131,7 @@ export default function HomePage() {
           </button>
         </div>
       </div>
-      <footer className="text-center text-sm text-gray-400 mb-4 font-sans w-full">
+      <footer className="text-center text-sm text-gray-300 mb-4 font-sans w-full">
         <hr className="w-1/2 border-gray-700 mb-2 opacity-40 mx-auto" />
         <p>Powered by Embr Platform</p>
         <p className="mt-1">One app. One purpose. All power.</p>

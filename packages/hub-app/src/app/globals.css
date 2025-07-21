@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import LiftKit CSS */
-@import url('@/lib/index.css');
+/* Import EmbrKit CSS */
+/* EmbrKit styles are imported directly in components that need them */
 
 :root {
   /* Embr branding colors */
