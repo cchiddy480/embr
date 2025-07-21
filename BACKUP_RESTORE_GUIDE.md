@@ -224,4 +224,4 @@ If you need to restore this version:
 4. Test with sample configurations
 5. Check that all build scripts work as expected
 
-**Remember**: This backup preserves the working state of Embr v1.0 with custom components and can serve as a fallback if LiftKit integration encounters issues. 
+**Remember**: This backup preserves the working state of Embr v1.0 with custom components and can serve as a fallback if LiftKit integration encounters issues.
