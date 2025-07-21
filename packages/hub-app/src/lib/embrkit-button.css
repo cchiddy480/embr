@@ -73,7 +73,7 @@
 /* Text Button - Minimal but with Mathematical Spacing */
 .embr-btn-text {
   background-color: transparent;
-  color: var(--embr-accent);
+  color: var(--embr-teal);
   border: none;
   box-shadow: none;
   padding: var(--embr-space-3) var(--embr-space-4); /* Smaller but proportional */

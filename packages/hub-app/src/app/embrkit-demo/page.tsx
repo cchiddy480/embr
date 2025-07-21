@@ -15,10 +15,8 @@ export default function EmbrKitDemo() {
         
         {/* Header */}
                   <div className="text-center mb-16">
-            <div className="flex flex-col items-center mb-8 relative">
-              <div className="w-[24rem] h-[24rem] rounded-full blur-3xl z-0 embr-glow-animation" 
-                   style={{ backgroundColor: 'var(--embr-teal)' }} />
-              <h1 className="embr-h1 mb-4 z-10 embr-tracking-tight" style={{ color: '#ffffff' }}>
+            <div className="flex flex-col items-center mb-8">
+              <h1 className="embr-h1 mb-4 embr-tracking-tight" style={{ color: '#ffffff' }}>
                 <span style={{ color: 'var(--embr-teal)' }}>EmbrKit</span> Design System
               </h1>
               <p className="text-lg text-center max-w-xl font-light mb-2 z-10" style={{ color: 'var(--embr-text-secondary)' }}>
