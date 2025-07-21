@@ -1,11 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
+// Import all necessary LiftKit CSS
+import '@/lib/liftkit-core.css';
+import '@/lib/liftkitvars.css';
+import '@/lib/typography.css';
 import '@/components/button.css';
 import '@/components/card.css';
+import '@/components/heading.css';
 import '@/components/material-layer.css';
 import '@/components/state-layer.css';
-import '@/lib/liftkit-core.css';
 
 // Mock client configurations for testing
 const festivalTheme = {
@@ -162,10 +166,10 @@ export default function ComponentsDemo() {
         {/* Theme Selector */}
         <LiftKitCard className="mb-8" scaleFactor="heading">
           <div className="space-y-4">
-            <h1 className="text-2xl font-bold text-white">
+            <h1 data-lk-component="heading" className="display2 text-white">
               Real LiftKit Components Demo
             </h1>
-            <p className="text-gray-300">
+            <p className="body text-gray-300">
               Using actual LiftKit CSS components with golden ratio proportions and optical corrections.
             </p>
             
@@ -194,34 +198,34 @@ export default function ComponentsDemo() {
 
         {/* Theme Information */}
         <LiftKitCard scaleFactor="body">
-          <h2 className="text-xl font-semibold text-white mb-4">
+          <h2 data-lk-component="heading" className="title2 text-white mb-4">
             Current Theme: {currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1)}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <h3 className="font-semibold text-gray-300 mb-2">LiftKit Settings:</h3>
-              <ul className="space-y-1 text-gray-400">
-                <li>Primary Color: {currentThemeData.liftkit.primaryColor}</li>
-                <li>Border Radius: {currentThemeData.liftkit.borderRadius}</li>
-                <li>Material Style: {currentThemeData.liftkit.materialStyle}</li>
-                <li>Scaling: {currentThemeData.liftkit.scaling}x</li>
-              </ul>
+              <h3 data-lk-component="heading" className="subheading text-gray-300 mb-2">LiftKit Settings:</h3>
+                              <ul className="space-y-1 text-gray-400 body">
+                  <li>Primary Color: {currentThemeData.liftkit.primaryColor}</li>
+                  <li>Border Radius: {currentThemeData.liftkit.borderRadius}</li>
+                  <li>Material Style: {currentThemeData.liftkit.materialStyle}</li>
+                  <li>Scaling: {currentThemeData.liftkit.scaling}x</li>
+                </ul>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-300 mb-2">Features:</h3>
-              <ul className="space-y-1 text-gray-400">
-                <li>Optical Correction: {currentThemeData.liftkit.opticalCorrection ? 'Enabled' : 'Disabled'}</li>
-                <li>Accessibility: {currentThemeData.liftkit.accessibility}</li>
-                <li>Golden Ratio: Applied automatically</li>
-                <li>CSS-Based: Real LiftKit components</li>
-              </ul>
+              <h3 data-lk-component="heading" className="subheading text-gray-300 mb-2">Features:</h3>
+                              <ul className="space-y-1 text-gray-400 body">
+                  <li>Optical Correction: {currentThemeData.liftkit.opticalCorrection ? 'Enabled' : 'Disabled'}</li>
+                  <li>Accessibility: {currentThemeData.liftkit.accessibility}</li>
+                  <li>Golden Ratio: Applied automatically</li>
+                  <li>CSS-Based: Real LiftKit components</li>
+                </ul>
             </div>
           </div>
         </LiftKitCard>
 
         {/* Button Variants */}
         <LiftKitCard scaleFactor="body">
-          <h2 className="text-xl font-semibold text-white mb-4">LiftKit Button Variants</h2>
+          <h2 data-lk-component="heading" className="title2 text-white mb-4">LiftKit Button Variants</h2>
           <div className="space-y-4">
             <div className="flex flex-wrap gap-4">
               <LiftKitButton variant="filled">Filled Button</LiftKitButton>
@@ -239,11 +243,11 @@ export default function ComponentsDemo() {
 
         {/* Nested Cards */}
         <LiftKitCard scaleFactor="body">
-          <h2 className="text-xl font-semibold text-white mb-4">Nested Cards & Layouts</h2>
+          <h2 data-lk-component="heading" className="title2 text-white mb-4">Nested Cards & Layouts</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <LiftKitCard variant="outline" scaleFactor="body" opticalCorrection={true}>
-              <h3 className="font-semibold text-gray-300 mb-3">Event Schedule</h3>
-              <div className="space-y-2 text-gray-400 mb-4">
+              <h3 data-lk-component="heading" className="subheading text-gray-300 mb-3">Event Schedule</h3>
+              <div className="space-y-2 text-gray-400 mb-4 body">
                 <div className="flex justify-between">
                   <span>9:00 AM</span>
                   <span>Opening Ceremony</span>
@@ -261,7 +265,7 @@ export default function ComponentsDemo() {
             </LiftKitCard>
 
             <LiftKitCard variant="outline" scaleFactor="body">
-              <h3 className="font-semibold text-gray-300 mb-3">Quick Actions</h3>
+              <h3 data-lk-component="heading" className="subheading text-gray-300 mb-3">Quick Actions</h3>
               <div className="space-y-3">
                 <LiftKitButton variant="filled">Register Now</LiftKitButton>
                 <LiftKitButton variant="outline">View Map</LiftKitButton>
@@ -273,26 +277,26 @@ export default function ComponentsDemo() {
 
         {/* Design Principles */}
         <LiftKitCard scaleFactor="body">
-          <h2 className="text-xl font-semibold text-white mb-4">Real LiftKit Features</h2>
+          <h2 data-lk-component="heading" className="title2 text-white mb-4">Real LiftKit Features</h2>
           <div className="space-y-4 text-gray-300">
             <div>
-              <h3 className="font-semibold text-white mb-2">Authentic LiftKit Components</h3>
-              <p className="text-sm">Using the actual LiftKit CSS framework with proper data attributes and golden ratio calculations.</p>
+              <h3 data-lk-component="heading" className="subheading text-white mb-2">Authentic LiftKit Components</h3>
+              <p className="body">Using the actual LiftKit CSS framework with proper data attributes and golden ratio calculations.</p>
             </div>
             
             <div>
-              <h3 className="font-semibold text-white mb-2">CSS Custom Properties</h3>
-              <p className="text-sm">Dynamic theming through CSS variables that integrate with your Embr client configurations.</p>
+              <h3 data-lk-component="heading" className="subheading text-white mb-2">CSS Custom Properties</h3>
+              <p className="body">Dynamic theming through CSS variables that integrate with your Embr client configurations.</p>
             </div>
             
             <div>
-              <h3 className="font-semibold text-white mb-2">Optical Corrections</h3>
-              <p className="text-sm">Built-in visual adjustments for perfect spacing and alignment, activated via data attributes.</p>
+              <h3 data-lk-component="heading" className="subheading text-white mb-2">Optical Corrections</h3>
+              <p className="body">Built-in visual adjustments for perfect spacing and alignment, activated via data attributes.</p>
             </div>
             
             <div>
-              <h3 className="font-semibold text-white mb-2">Scale Factors</h3>
-              <p className="text-sm">Different card scale factors (body, heading, title, display) for hierarchical layouts.</p>
+              <h3 data-lk-component="heading" className="subheading text-white mb-2">Scale Factors</h3>
+              <p className="body">Different card scale factors (body, heading, title, display) for hierarchical layouts.</p>
             </div>
           </div>
         </LiftKitCard>

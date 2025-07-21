@@ -1,151 +1,322 @@
 "use client";
-// import "./material-layer-core.css";
-import { propsToDataAttrs } from "@/lib/utilities";
-import { useMemo } from "react";
 
-/** LKMatProps is an object of any of the given types. Each material type has different unique props. */
-type LkMatProps = LkMatProps_Glass | LkMatProps_Flat;
+import React, { useState, useEffect, useContext } from "react";
+import { createPortal } from "react-dom";
+import { ThemeContext } from "@/components/theme";
+import Card from "@/components/card.css";
+import Column from "@/components/column.css";
+import Row from "@/components/row.css";
+import Switch from "@/components/switch.css";
+import IconButton from "@/components/icon-button.css";
 
-type LkMatProps_Glass = {
-  thickness?: "thick" | "normal" | "thin"; // Thickness of the glass material. Thicker material blurs more.
-  tint?: LkColor; // Optional tint color for the glass material.
-  tintOpacity?: number; // Optional opacity for the tint color. Defaults to 0.5.
-  light?: boolean; // Optional. If true, adds a secondary layer for luminance effects.
-  lightExpression?: string; //Optional. The value to pass to the light's background css property. Should be a gradient.
-};
+type LkColorGroup =
+  | "master"
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "neutral"
+  | "neutralvariant"
+  | "error"
+  | "warning"
+  | "success"
+  | "info";
 
-type LkMatProps_Flat = {
-  bgColor?: LkColorWithOnToken;
-  textColor?: LkColor;
-};
+export default function ThemeController() {
+  const { palette, setPalette, theme, updateTheme, updateThemeFromMaster, colorMode, setColorMode } =
+    useContext(ThemeContext);
 
-type LkMaterialType = "flat" | "glass" | "debug";
+  const brandPalette: LkColorGroup[] = ["primary", "secondary", "tertiary"];
 
-interface LkMaterialLayerProps extends React.HTMLAttributes<HTMLDivElement> {
-  zIndex?: number; // Optional z-index for the material layer. Different use cases might need it to be at different z-indexes.
-  type?: LkMaterialType;
-  materialProps?: LkMatProps; // Optional material-specific properties
-}
+  const semanticPalette: LkColorGroup[] = ["error", "warning", "success", "info"];
+
+  const layoutPalette: LkColorGroup[] = ["neutral", "neutralvariant"];
+
+  const [paletteArray, setPaletteArray] = useState(
+    Object.keys(palette).map((key) => {
+      return { key, value: palette[key] };
+    })
+  );
+  useEffect(() => {
+    updateTheme(palette);
+    const newPaletteArray = Object.keys(palette).map((key) => {
+      return { key, value: palette[key] };
+    });
+    setPaletteArray(newPaletteArray);
+  }, [palette]);
+
+  const handleColorChange = (key: LkColorGroup, newValue: string) => {
 
 
-export default function MaterialLayer({ zIndex = 0, type, materialProps }: LkMaterialLayerProps) {
-  /**If materialProps are provided, loop through the keys and pass each one as a data attribute to the component. */
-  let lkMatProps: LkMatProps;
+    if (key === "master") {
+      updateThemeFromMaster(newValue, setPalette);
+    } else {
+      setPalette((prevPalette) => ({
+        ...prevPalette,
+        [key]: newValue,
+      }));
+    }
+  };
 
-  if (materialProps) {
-
-    lkMatProps = useMemo(() => propsToDataAttrs(materialProps, `${type}`), [materialProps]);
-
+  function handleColorModeSwitch() {
+    if (colorMode === "dark") {
+      setColorMode("light");
+    } else {
+      setColorMode("dark");
+    }
   }
 
-  /**Commented out, was likely used for debugging */
+  const handleCopyPalette = async () => {
+    try {
+      const codeContent = `const [colorMode, setColorMode] = useState<"light" | "dark">("${colorMode}");
+  
+  const [palette, setPalette] = useState<PaletteState>(${JSON.stringify(palette, null, 2)}`;
+      await navigator.clipboard.writeText(codeContent);
+      alert("Code copied");
+    } catch (err) {
+      console.error("Failed to copy palette:", err);
+    }
+  };
 
-  // switch (material) {
-  //   case "glass":
-  //     break;
-  //   case "debug":
-  //     break;
-  // }
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <div data-lk-component="material-layer" data-lk-material-type={type} style={{ zIndex: zIndex }}>
-        {type === "glass" && (
-          <div>
-            <div data-lk-material-sublayer="texture">
-              {(materialProps as LkMatProps_Glass)?.tint && (
-                <div data-lk-material-sublayer="tint">
-                  {(materialProps as LkMatProps_Glass)?.light && <div data-lk-material-sublayer="light"></div>}
+      {!isOpen && (
+        <div className="position-fixed" style={{ zIndex: 1000 }}>
+          <IconButton
+            icon="palette"
+            fontClass="display2"
+            onClick={() => setIsOpen(true)}
+            className="shadow-xl"
+            color="inversesurface"
+            style={{
+              position: "fixed",
+              zIndex: 1000,
+              top: "var(--lk-size-xs)",
+              left: "var(--lk-size-xs)",
+            }}
+          />
+        </div>
+      )}
+      {isOpen &&
+        createPortal(
+          <div className="lk-theme-drawer">
+            <Card
+              scaleFactor="heading"
+              bgColor="surfacecontainerlowest"
+              className="shadow-lg mb-2xl h-full"
+              material="glass"
+              materialProps={{ thickness: "normal" }}
+              isScrollable={true}
+            >
+              <Column gap="md">
+                <Row alignItems="center" justifyContent="space-between">
+                  <h2 className="body-bold">Theme Controller</h2>
+
+                  <IconButton
+                    icon="x"
+                    variant="outline"
+                    color="onsurface"
+                    onClick={() => setIsOpen(false)}
+                  ></IconButton>
+                </Row>
+                <div>
+                  <h2 className="label mb-xs">Config</h2>
+                  <p className="caption color-onsurfacevariant mb-xs">
+                    Copy and paste this snippet into your theme/index.tsx file to update your project to match the
+                    current configuration.
+                  </p>
+
+                  <Card
+                    material="glass"
+                    materialProps={{ thickness: "thin", tint: "onsurface", tintOpacity: 0.1 }}
+                    bgColor="surfacecontainerlowest"
+                    scaleFactor="body"
+                    className="position-relative"
+                  >
+                    <pre style={{ fontSize: "0.618em", overflow: "auto" }}>
+                      {`
+const [colorMode, setColorMode] = useState<"light" | "dark">("${colorMode}");
+
+const [palette, setPalette] = useState<PaletteState>(${JSON.stringify(palette, null, 2)}
+`}
+                    </pre>
+                    <IconButton
+                      icon="copy"
+                      style={{ position: "absolute", inset: "1em 1em auto auto" }}
+                      onClick={handleCopyPalette}
+                    ></IconButton>
+                  </Card>
                 </div>
-              )}
-            </div>
-            <div data-lk-material-sublayer="base-glass-fill"></div>
-          </div>
+                <div>
+                  <h2 className="capline mb-lg color-onsurfacevariant">Mode</h2>
+                  <Row alignItems="start" gap="md">
+                    <Column>
+                      <Switch onClick={handleColorModeSwitch} value={colorMode === "dark" ? true : false}></Switch>
+                    </Column>
+                    <Column>
+                      <label className="label mb-xs">Default to Dark Mode</label>
+                      <p className="caption color-onsurfacevariant mb-xs">Toggles dark mode.</p>
+                    </Column>
+                  </Row>
+                </div>
+                <div>
+                  <h2 className="capline mb-lg color-onsurfacevariant">Globals</h2>
+                  <Row alignItems="start" gap="md">
+                    <input
+                      type="color"
+                      name="master"
+                      value={palette["master"]}
+                      onChange={(event) => handleColorChange("master", event.target.value)}
+                    ></input>
+                    <Column>
+                      <label className="label mb-xs" htmlFor={"master"}>
+                        {"master"}
+                      </label>
+                      <p className="caption color-onsurfacevariant mb-xs">
+                        The seed color.{" "}
+                        <strong className="color-error">If you edit this, all other color tokens will reset.</strong>
+                      </p>
+                    </Column>
+                  </Row>
+                </div>
+                <div>
+                  <div>
+                    <h2 className="capline mb-lg color-onsurfacevariant">Brand</h2>
+                  </div>
+                  {brandPalette.map((colorGroup) => (
+                    <Row key={colorGroup} alignItems="start" gap="md" className="mb-sm">
+                      <input
+                        type="color"
+                        name={colorGroup}
+                        value={palette[colorGroup]}
+                        onChange={(event) => handleColorChange(colorGroup, event.target.value)}
+                      ></input>
+                      <Column>
+                        <label className="caption-bold mono mb-2xs" htmlFor={colorGroup}>
+                          {colorGroup}
+                        </label>
+                        <p className="caption color-onsurfacevariant mb-xs">
+                          {colorGroup === "primary"
+                            ? "Main brand color, used for most UI elements."
+                            : colorGroup === "secondary"
+                              ? "Desaturated variant of primary."
+                              : colorGroup === "tertiary"
+                                ? "Your accent color. Defaults to complementary hue to primary."
+                                : null}
+                        </p>
+                      </Column>
+                    </Row>
+                  ))}
+                </div>
+                <div>
+                  <div>
+                    <h2 className="capline color-onsurfacevariant mb-lg">Semantic</h2>
+                  </div>
+                  {semanticPalette.map((colorGroup) => (
+                    <Row key={colorGroup} alignItems="start" gap="md" className="mb-sm">
+                      <input
+                        type="color"
+                        name={colorGroup}
+                        value={palette[colorGroup]}
+                        onChange={(event) => handleColorChange(colorGroup, event.target.value)}
+                      ></input>
+                      <Column>
+                        <label className="caption-bold mono mb-2xs" htmlFor={colorGroup}>
+                          {colorGroup}
+                        </label>
+                        <p className="caption color-onsurfacevariant mb-xs">
+                          {colorGroup === "error"
+                            ? "A pink or red, indicating problems."
+                            : colorGroup === "warning"
+                              ? "An orange or yellow, indicating caution."
+                              : colorGroup === "success"
+                                ? "A green, indicating success."
+                                : colorGroup === "info"
+                                  ? "A blue, indicating neutral information."
+                                  : null}
+                        </p>
+                      </Column>
+                    </Row>
+                  ))}
+                </div>
+                <div>
+                  <div>
+                    <h2 className="capline color-onsurfacevariant mb-lg">Layout</h2>
+                  </div>
+                  {layoutPalette.map((colorGroup) => (
+                    <Row key={colorGroup} alignItems="start" gap="md" className="mb-sm">
+                      <input
+                        type="color"
+                        name={colorGroup}
+                        value={palette[colorGroup]}
+                        onChange={(event) => handleColorChange(colorGroup, event.target.value)}
+                      ></input>
+                      <Column>
+                        <label className="caption-bold mono mb-xs" htmlFor={colorGroup}>
+                          {colorGroup}
+                        </label>
+                        <p className="caption color-onsurfacevariant mb-xs">
+                          {colorGroup === "neutral"
+                            ? "Backgrounds, surfaces, outlines, and default text color"
+                            : colorGroup === "neutralvariant"
+                              ? "Surface variant, outline variant, and text color variant"
+                              : null}
+                        </p>
+                      </Column>
+                    </Row>
+                  ))}
+                </div>
+              </Column>
+            </Card>
+          </div>,
+          document.body
         )}
-
-        {type === "flat" && (
-          <div><div data-lk-material-sublayer="bgColor"></div></div>
-        )}
-      </div>
-
-      <style jsx>
-        {`
-          [data-lk-component="material-layer"] {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-
-            [data-lk-material-sublayer] {
-              position: absolute;
-              inset: 0;
-              pointer-events: none;
-            }
-          }
-        `}
-      </style>
-
-      {/** Glass behavior */}
 
       <style jsx>{`
-        [data-lk-material-type="glass"] {
-          [data-lk-material-sublayer="tint"] {
-            opacity: ${(materialProps as LkMatProps_Glass)?.tintOpacity || 0.2};
-            background-color: var(--lk-${(materialProps as LkMatProps_Glass)?.tint || "transparent"});
+        input[type="color"] {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          width: var(--lk-size-lg);
+          height: var(--lk-size-lg);
+          flex-basis: auto;
+          flex: 0 0 auto;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          outline: 2px solid var(--lk-onsurface);
+          border-radius: 100em;
+
+          padding-block: 0px;
+          padding-inline: 0px;
+
+          &::-webkit-color-swatch-wrapper {
+            padding: 0;
           }
 
-          [data-lk-material-sublayer="texture"] {
-            --blur-thick: var(--lk-size-lg);
-            --blur-normal: var(--lk-size-md);
-            --blur-thin: var(--lk-size-xs);
-
-            z-index: 1;
-            isolation: isolate;
-            backdrop-filter: blur(var(--blur-${(materialProps as LkMatProps_Glass)?.thickness || "normal"}));
+          &::-webkit-color-swatch {
+            border-radius: 100em;
+            border: none;
           }
-
-          [data-lk-material-sublayer="light"] {
-            background: ${(materialProps as LkMatProps_Glass)?.lightExpression || "none"};
-            mix-blend-mode: soft-light;
-            opacity: 1;
-          }
-
-          [data-lk-material-sublayer="base-glass-fill"] {
-            background-color: var(--lk-surface);
-            opacity: ${getGlassFillOpacity((materialProps as LkMatProps_Glass)?.thickness || "normal")};
+          &::-moz-color-swatch {
+            border-radius: 100%;
+            border: none;
           }
         }
-        [data-lk-material-type="flat"] {
-          [data-lk-material-sublayer="bgColor"] {
-            background-color: ${getBgColor((materialProps as LkMatProps_Flat)?.bgColor)};
 
-          }
+        .lk-theme-drawer {
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          overflow: hidden;
+
+          width: calc(var(--lk-size-4xl) * var(--lk-wholestep));
+          z-index: 1000;
+          padding: var(--lk-size-md);
         }
       `}</style>
     </>
   );
-}
-
-function getGlassFillOpacity(thickness: "thick" | "normal" | "thin") {
-  switch (thickness) {
-    case "thick":
-      return 0.8;
-    case "normal":
-      return 0.6;
-    case "thin":
-      return 0.4;
-    default:
-      return 0.6;
-  }
-}
-
-function getBgColor(token: LkColorWithOnToken | undefined) {
-
-
-  if (token) {
-    return `var(--lk-${token})`;
-  } else {
-    return `var(--lk-surface)`;
-  }
 }
