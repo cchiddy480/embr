@@ -88,9 +88,9 @@
   
   /* Landing Page Text System - EXACT MATCH */
   --embr-text: #ffffff;              /* Pure white - exact match */
-  --embr-text-secondary: #d1d5db;    /* text-gray-300 equivalent */
-  --embr-text-muted: #9ca3af;        /* text-gray-400 equivalent */
-  --embr-text-footer: #6b7280;       /* text-gray-600 equivalent */
+  --embr-text-secondary: #e5e7eb;    /* Lighter text-gray-200 for better readability */
+  --embr-text-muted: #d1d5db;        /* Lighter text-gray-300 for better visibility */
+  --embr-text-footer: #9ca3af;       /* Lighter text-gray-400 for footer */
 
   /* EmbrKit: Shadows (Mathematical Progression) */
   --embr-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);

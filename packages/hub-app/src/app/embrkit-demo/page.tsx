@@ -19,7 +19,7 @@ export default function EmbrKitDemo() {
               <div className="w-[24rem] h-[24rem] rounded-full blur-3xl z-0 embr-glow-animation" 
                    style={{ backgroundColor: 'var(--embr-teal)' }} />
               <h1 className="embr-h1 mb-4 z-10 embr-tracking-tight" style={{ color: '#ffffff' }}>
-                <span style={{ color: 'var(--embr-glow-bright)' }}>EmbrKit</span> Design System
+                <span style={{ color: 'var(--embr-teal)' }}>EmbrKit</span> Design System
               </h1>
               <p className="text-lg text-center max-w-xl font-light mb-2 z-10" style={{ color: 'var(--embr-text-secondary)' }}>
                 Micro Apps. One Purpose. No Bloat.
