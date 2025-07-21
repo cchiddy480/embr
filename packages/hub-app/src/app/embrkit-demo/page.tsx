@@ -6,27 +6,29 @@ import '@/lib/embrkit-button.css';
 
 export default function EmbrKitDemo() {
   return (
-    <div className="min-h-screen bg-[#101926] p-8" style={{
+    <div className="min-h-screen p-8" style={{
+      backgroundColor: 'var(--embr-background)',
       fontFamily: 'Inter, system-ui, sans-serif',
       color: 'var(--embr-text)'
     }}>
       <div className="max-w-4xl mx-auto space-y-12">
         
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="flex flex-col items-center mb-8 relative">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full bg-[#0F766E] opacity-20 blur-2xl z-0" />
-            <h1 className="embr-text-4xl embr-font-bold text-white mb-4 z-10 embr-tracking-tight">
-              <span style={{ color: 'var(--embr-accent)' }}>EmbrKit</span> Design System
-            </h1>
-            <p className="embr-text-xl text-gray-300 mb-6 embr-tracking-normal">
-              Mathematical precision meets bold expression
-            </p>
-            <div className="embr-text-base text-gray-400 space-y-2">
-              <p>Golden Ratio (φ = 1.618) • Optical Corrections • Brand Consistency</p>
+                  <div className="text-center mb-16">
+            <div className="flex flex-col items-center mb-8 relative">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full opacity-20 blur-2xl z-0" 
+                   style={{ backgroundColor: 'var(--embr-glow-bright)' }} />
+              <h1 className="embr-h1 text-white mb-4 z-10 embr-tracking-tight">
+                <span style={{ color: 'var(--embr-glow-bright)' }}>EmbrKit</span> Design System
+              </h1>
+              <p className="embr-text-xl mb-6 embr-tracking-normal" style={{ color: 'var(--embr-elevated-bg)' }}>
+                Build with Embr • Micro, but mighty
+              </p>
+              <div className="embr-caption space-y-2">
+                <p>Official Embr Brand Guidelines • Golden Ratio (φ = 1.618) • Inter Typography</p>
+              </div>
             </div>
           </div>
-        </div>
 
         {/* Philosophy Section */}
         <section style={{
@@ -35,24 +37,24 @@ export default function EmbrKitDemo() {
           borderRadius: 'var(--embr-radius-xl)',
           border: '1px solid var(--embr-border)'
         }}>
-          <h2 className="embr-text-2xl embr-font-bold text-white mb-6">Design Philosophy</h2>
+          <h2 className="embr-h2 text-white mb-6">Brand Philosophy</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="embr-text-lg embr-font-semibold text-white mb-3">Mathematical Foundation</h3>
-              <p className="embr-text-base text-gray-300 leading-relaxed">
-                Every measurement follows golden ratio progressions (φ = 1.618) for natural, harmonious proportions.
+              <h3 className="embr-text-xl text-white mb-3">Modern but not trendy</h3>
+              <p className="embr-body" style={{ color: 'var(--embr-elevated-bg)' }}>
+                Clean, confident design with mathematical precision. Every measurement follows golden ratio progressions (φ = 1.618).
               </p>
             </div>
             <div>
-              <h3 className="embr-text-lg embr-font-semibold text-white mb-3">Bold Expression</h3>
-              <p className="embr-text-base text-gray-300 leading-relaxed">
-                Embr's confident, rectangular aesthetic with substantial presence and strong brand identity.
+              <h3 className="embr-text-xl text-white mb-3">Direct without being cold</h3>
+              <p className="embr-body" style={{ color: 'var(--embr-elevated-bg)' }}>
+                Embr's bold, rectangular aesthetic with substantial presence. Quietly confident, never boastful.
               </p>
             </div>
             <div>
-              <h3 className="embr-text-lg embr-font-semibold text-white mb-3">Optical Precision</h3>
-              <p className="embr-text-base text-gray-300 leading-relaxed">
-                Careful letter spacing, line heights, and visual corrections for perfect readability.
+              <h3 className="embr-text-xl text-white mb-3">Minimal yet warm</h3>
+              <p className="embr-body" style={{ color: 'var(--embr-elevated-bg)' }}>
+                Generous whitespace, Inter typography, and careful optical corrections for perfect readability.
               </p>
             </div>
           </div>
@@ -141,58 +143,101 @@ export default function EmbrKitDemo() {
           </div>
         </section>
 
-        {/* Spacing System */}
+        {/* Brand Colors */}
         <section style={{
           backgroundColor: 'var(--embr-surface)',
           padding: 'var(--embr-space-8)',
           borderRadius: 'var(--embr-radius-xl)',
           border: '1px solid var(--embr-border)'
         }}>
-          <h2 className="embr-text-2xl embr-font-bold text-white mb-6">Spacing System</h2>
-          <p className="embr-text-base text-gray-300 mb-8">
-            Harmonious spacing based on golden ratio progressions
+          <h2 className="embr-h2 text-white mb-6">Official Embr Color Palette</h2>
+          <p className="embr-body mb-8" style={{ color: 'var(--embr-elevated-bg)' }}>
+            Brand Guidelines v1.2 - Primary Brand & Typography Palettes
           </p>
           
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <div style={{ 
-                width: 'var(--embr-space-1)', 
-                height: '20px', 
-                backgroundColor: 'var(--embr-primary)' 
-              }}></div>
-              <span className="embr-text-sm text-gray-300">Space 1 - 0.25rem</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="embr-text-xl text-white mb-4">Primary Brand Palette</h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-4">
+                  <div style={{ 
+                    width: '60px', 
+                    height: '40px', 
+                    backgroundColor: 'var(--embr-teal)',
+                    borderRadius: 'var(--embr-radius-md)'
+                  }}></div>
+                  <div>
+                    <div className="embr-caption text-white">Embr Teal (Accent)</div>
+                    <div className="embr-caption" style={{ color: 'var(--embr-warm-grey)' }}>#0F766E</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div style={{ 
+                    width: '60px', 
+                    height: '40px', 
+                    backgroundColor: 'var(--embr-glow-bright)',
+                    borderRadius: 'var(--embr-radius-md)'
+                  }}></div>
+                  <div>
+                    <div className="embr-caption text-white">Glow Bright (Fluorescent Cyan)</div>
+                    <div className="embr-caption" style={{ color: 'var(--embr-warm-grey)' }}>#39F2E0</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div style={{ 
+                    width: '60px', 
+                    height: '40px', 
+                    backgroundColor: 'var(--embr-glow-mid)',
+                    borderRadius: 'var(--embr-radius-md)'
+                  }}></div>
+                  <div>
+                    <div className="embr-caption text-white">Glow Mid (Keppel)</div>
+                    <div className="embr-caption" style={{ color: 'var(--embr-warm-grey)' }}>#14B8A6</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-4">
-              <div style={{ 
-                width: 'var(--embr-space-4)', 
-                height: '20px', 
-                backgroundColor: 'var(--embr-primary)' 
-              }}></div>
-              <span className="embr-text-sm text-gray-300">Space 4 - 1rem (base)</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <div style={{ 
-                width: 'var(--embr-space-6)', 
-                height: '20px', 
-                backgroundColor: 'var(--embr-primary)' 
-              }}></div>
-              <span className="embr-text-sm text-gray-300">Space 6 - ~1.272rem (√φ)</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <div style={{ 
-                width: 'var(--embr-space-8)', 
-                height: '20px', 
-                backgroundColor: 'var(--embr-primary)' 
-              }}></div>
-              <span className="embr-text-sm text-gray-300">Space 8 - ~1.618rem (φ)</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <div style={{ 
-                width: 'var(--embr-space-16)', 
-                height: '20px', 
-                backgroundColor: 'var(--embr-primary)' 
-              }}></div>
-              <span className="embr-text-sm text-gray-300">Space 16 - ~2.618rem (φ²)</span>
+            
+            <div>
+              <h3 className="embr-text-xl text-white mb-4">Typography Palette</h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-4">
+                  <div style={{ 
+                    width: '60px', 
+                    height: '40px', 
+                    backgroundColor: 'var(--embr-deep-charcoal)',
+                    borderRadius: 'var(--embr-radius-md)'
+                  }}></div>
+                  <div>
+                    <div className="embr-caption text-white">Deep Charcoal</div>
+                    <div className="embr-caption" style={{ color: 'var(--embr-warm-grey)' }}>#1F2937</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div style={{ 
+                    width: '60px', 
+                    height: '40px', 
+                    backgroundColor: 'var(--embr-warm-grey)',
+                    borderRadius: 'var(--embr-radius-md)'
+                  }}></div>
+                  <div>
+                    <div className="embr-caption text-white">Warm Grey</div>
+                    <div className="embr-caption" style={{ color: 'var(--embr-warm-grey)' }}>#6B7280</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div style={{ 
+                    width: '60px', 
+                    height: '40px', 
+                    backgroundColor: 'var(--embr-elevated-bg)',
+                    borderRadius: 'var(--embr-radius-md)'
+                  }}></div>
+                  <div>
+                    <div className="embr-caption text-white">Elevated Background</div>
+                    <div className="embr-caption" style={{ color: 'var(--embr-warm-grey)' }}>#EDEDED</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

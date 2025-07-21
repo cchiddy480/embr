@@ -15,15 +15,22 @@
   --embr-size-2xl: calc(1rem * var(--embr-whole-step) * var(--embr-half-step)); /* ~2.058rem */
   --embr-size-3xl: calc(1rem * pow(var(--embr-scale-factor), 2)); /* ~2.618rem */
 
-  /* EmbrKit: Typography (Golden Ratio + Embr Boldness) */
-  --embr-text-xs: var(--embr-size-xs);
-  --embr-text-sm: var(--embr-size-sm);
-  --embr-text-base: var(--embr-size-md);
-  --embr-text-lg: var(--embr-size-lg);
-  --embr-text-xl: var(--embr-size-xl);
-  --embr-text-2xl: var(--embr-size-2xl);
-  --embr-text-3xl: var(--embr-size-3xl);
-  --embr-text-4xl: calc(1rem * pow(var(--embr-scale-factor), 3)); /* ~4.236rem */
+  /* EmbrKit: Typography (Brand Guidelines + Golden Ratio) */
+  /* Brand Guidelines Hierarchy */
+  --embr-h1-size: 3rem;        /* 48px - H1 SemiBold 36-48px */
+  --embr-h2-size: 2rem;        /* 32px - H2 Medium 28-32px */
+  --embr-body-size: 1.125rem;  /* 18px - Body Regular 16-18px */
+  --embr-caption-size: 0.875rem; /* 14px - Caption Medium 12-14px */
+  
+  /* Extended Scale with Golden Ratio */
+  --embr-text-xs: var(--embr-caption-size);     /* 14px - Captions */
+  --embr-text-sm: 1rem;                         /* 16px - Small body */
+  --embr-text-base: var(--embr-body-size);      /* 18px - Primary body */
+  --embr-text-lg: calc(var(--embr-body-size) * var(--embr-quarter-step)); /* ~20px */
+  --embr-text-xl: 1.5rem;                       /* 24px - Subheadings */
+  --embr-text-2xl: var(--embr-h2-size);         /* 32px - H2 */
+  --embr-text-3xl: 2.5rem;                      /* 40px - Large headings */
+  --embr-text-4xl: var(--embr-h1-size);         /* 48px - H1 */
 
   /* EmbrKit: Spacing (Mathematical Harmony) */
   --embr-space-1: calc(var(--embr-size-md) / 4); /* 0.25rem */
@@ -46,18 +53,35 @@
   --embr-radius-2xl: calc(var(--embr-size-md) * var(--embr-quarter-step)); /* ~1.128rem */
   --embr-radius-full: 9999px; /* For pills when needed */
 
-  /* EmbrKit: Embr Brand Colors */
-  --embr-primary: #0F766E;
-  --embr-primary-hover: #13a89a;
+  /* EmbrKit: Official Embr Brand Colors */
+  /* Primary Brand Palette */
+  --embr-teal: #0F766E;              /* Embr Teal (Accent) - CTAs, links, highlights */
+  --embr-cream-white: #FEFEFE;       /* Cream White (Base) - Backgrounds, canvas */
+  --embr-deep-charcoal: #1F2937;     /* Deep Charcoal (Dark) - Main text, dark UI */
+  --embr-warm-grey: #6B7280;         /* Warm Grey (Muted) - Secondary text, dividers */
+  --embr-glow-mid: #14B8A6;          /* Glow Mid (Keppel) - Soft accents, transitions */
+  --embr-glow-bright: #39F2E0;       /* Glow Bright (Fluorescent Cyan) - Hero glows */
+  
+  /* Typography Palette */
+  --embr-paper-base: #FEFEFE;        /* Content backgrounds */
+  --embr-muted-light: #E5E7EB;       /* Subtle headings, inactive states */
+  --embr-soft-grey: #D1D5DB;         /* Placeholder text */
+  --embr-neutral-grey: #9CA3AF;      /* Metadata, captions */
+  --embr-slate-text: #4B5563;        /* Secondary body copy */
+  --embr-elevated-bg: #EDEDED;       /* Alt section backgrounds, dark-mode text */
+  
+  /* Semantic Color Mapping */
+  --embr-primary: var(--embr-teal);
+  --embr-primary-hover: var(--embr-glow-mid);
   --embr-primary-active: #0d5d56;
-  --embr-accent: #38F9E4;
-  --embr-background: #101926;
-  --embr-surface: #1a2332;
-  --embr-surface-elevated: #22304a;
-  --embr-border: #2d3c5a;
-  --embr-text: #FEFEFE;
-  --embr-text-secondary: #EDEDED;
-  --embr-text-muted: #9CA3AF;
+  --embr-accent: var(--embr-glow-bright);
+  --embr-background: var(--embr-deep-charcoal);
+  --embr-surface: #374151;           /* Darker shade of charcoal for cards */
+  --embr-surface-elevated: #4B5563;  /* Even darker for elevated elements */
+  --embr-border: var(--embr-warm-grey);
+  --embr-text: var(--embr-cream-white);
+  --embr-text-secondary: var(--embr-elevated-bg);
+  --embr-text-muted: var(--embr-neutral-grey);
 
   /* EmbrKit: Shadows (Mathematical Progression) */
   --embr-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -72,21 +96,90 @@
   --embr-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* EmbrKit: Base Typography Classes */
-.embr-text-xs { font-size: var(--embr-text-xs); line-height: calc(var(--embr-text-xs) * var(--embr-scale-factor)); }
-.embr-text-sm { font-size: var(--embr-text-sm); line-height: calc(var(--embr-text-sm) * var(--embr-scale-factor)); }
-.embr-text-base { font-size: var(--embr-text-base); line-height: calc(var(--embr-text-base) * var(--embr-scale-factor)); }
-.embr-text-lg { font-size: var(--embr-text-lg); line-height: calc(var(--embr-text-lg) * var(--embr-scale-factor)); }
-.embr-text-xl { font-size: var(--embr-text-xl); line-height: calc(var(--embr-text-xl) * var(--embr-scale-factor)); }
-.embr-text-2xl { font-size: var(--embr-text-2xl); line-height: calc(var(--embr-text-2xl) * var(--embr-quarter-step)); }
-.embr-text-3xl { font-size: var(--embr-text-3xl); line-height: calc(var(--embr-text-3xl) * var(--embr-quarter-step)); }
-.embr-text-4xl { font-size: var(--embr-text-4xl); line-height: calc(var(--embr-text-4xl) * var(--embr-quarter-step)); }
+/* EmbrKit: Base Typography Classes (Brand Guidelines Compliant) */
+.embr-text-xs { 
+  font-size: var(--embr-text-xs); 
+  line-height: 1.5; 
+  font-weight: 500; /* Caption Medium */
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.embr-text-sm { 
+  font-size: var(--embr-text-sm); 
+  line-height: 1.6; 
+  font-weight: 400; /* Body Regular */
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.embr-text-base { 
+  font-size: var(--embr-text-base); 
+  line-height: 1.6; 
+  font-weight: 400; /* Body Regular */
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.embr-text-lg { 
+  font-size: var(--embr-text-lg); 
+  line-height: 1.5; 
+  font-weight: 400;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.embr-text-xl { 
+  font-size: var(--embr-text-xl); 
+  line-height: 1.4; 
+  font-weight: 500;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.embr-text-2xl { 
+  font-size: var(--embr-text-2xl); 
+  line-height: 1.3; 
+  font-weight: 500; /* H2 Medium */
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.embr-text-3xl { 
+  font-size: var(--embr-text-3xl); 
+  line-height: 1.2; 
+  font-weight: 600;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.embr-text-4xl { 
+  font-size: var(--embr-text-4xl); 
+  line-height: 1.1; 
+  font-weight: 600; /* H1 SemiBold */
+  font-family: 'Inter', system-ui, sans-serif;
+}
 
-/* EmbrKit: Font Weights (Purposeful Hierarchy) */
-.embr-font-normal { font-weight: 400; }
-.embr-font-medium { font-weight: 500; }
-.embr-font-semibold { font-weight: 600; }
-.embr-font-bold { font-weight: 700; }
+/* EmbrKit: Brand-Compliant Font Weights */
+.embr-font-regular { font-weight: 400; } /* Inter Regular */
+.embr-font-medium { font-weight: 500; }  /* Inter Medium */
+.embr-font-semibold { font-weight: 600; } /* Inter SemiBold */
+
+/* EmbrKit: Brand Typography Roles */
+.embr-h1 { 
+  font-size: var(--embr-h1-size); 
+  font-weight: 600; 
+  line-height: 1.1;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--embr-deep-charcoal);
+}
+.embr-h2 { 
+  font-size: var(--embr-h2-size); 
+  font-weight: 500; 
+  line-height: 1.3;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--embr-deep-charcoal);
+}
+.embr-body { 
+  font-size: var(--embr-body-size); 
+  font-weight: 400; 
+  line-height: 1.6;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--embr-deep-charcoal);
+}
+.embr-caption { 
+  font-size: var(--embr-caption-size); 
+  font-weight: 500; 
+  line-height: 1.5;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--embr-warm-grey);
+}
 
 /* EmbrKit: Letter Spacing (Optical Corrections) */
 .embr-tracking-tight { letter-spacing: -0.025em; }
