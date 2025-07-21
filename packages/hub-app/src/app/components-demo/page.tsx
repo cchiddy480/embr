@@ -160,48 +160,64 @@ export default function ComponentsDemo() {
   } as React.CSSProperties;
 
   return (
-    <div className="min-h-screen bg-gray-900 p-8" style={themeStyles}>
-      <div className="max-w-4xl mx-auto space-y-8">
-        
-        {/* Theme Selector */}
-        <LiftKitCard className="mb-8" scaleFactor="heading">
-          <div className="space-y-4">
-            <h1 data-lk-component="heading" className="display2 text-white">
-              Real LiftKit Components Demo
-            </h1>
-            <p className="body text-gray-300">
-              Using actual LiftKit CSS components with golden ratio proportions and optical corrections.
-            </p>
-            
-            <div className="flex gap-4">
-              <LiftKitButton
-                variant={currentTheme === 'festival' ? 'filled' : 'outline'}
-                onClick={() => setCurrentTheme('festival')}
-              >
-                Festival Theme
-              </LiftKitButton>
-              <LiftKitButton
-                variant={currentTheme === 'wedding' ? 'filled' : 'outline'}
-                onClick={() => setCurrentTheme('wedding')}
-              >
-                Wedding Theme
-              </LiftKitButton>
-              <LiftKitButton
-                variant={currentTheme === 'vibrant' ? 'filled' : 'outline'}
-                onClick={() => setCurrentTheme('vibrant')}
-              >
-                Vibrant Theme
-              </LiftKitButton>
+    <div className="min-h-screen bg-[#101926] p-8" style={themeStyles}>
+              <div className="max-w-4xl mx-auto space-y-8">
+          
+          {/* Header with Embr Branding */}
+          <div className="text-center mb-12">
+            <div className="flex flex-col items-center mb-8 relative">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full bg-[#0F766E] opacity-20 blur-2xl z-0" />
+              <h1 data-lk-component="heading" className="display2 text-white mb-4 z-10">
+                <span className="text-[#38F9E4]">Embr</span> + LiftKit Demo
+              </h1>
+              <p className="body text-gray-300 mb-6">
+                Authentic LiftKit components integrated with Embr's design system
+              </p>
             </div>
           </div>
+          
+          {/* Theme Selector */}
+          <LiftKitCard className="mb-8" scaleFactor="heading">
+                        <div className="space-y-4">
+              <h2 data-lk-component="heading" className="title3 text-white mb-4">
+                Choose Theme Configuration
+              </h2>
+              <p className="body text-gray-300 mb-6">
+                Test how LiftKit adapts to different Embr client configurations
+              </p>
+              
+              <div className="flex flex-wrap gap-4 justify-center">
+                <LiftKitButton
+                  variant={currentTheme === 'festival' ? 'filled' : 'outline'}
+                  onClick={() => setCurrentTheme('festival')}
+                  className={currentTheme === 'festival' ? 'bg-[#0F766E] hover:bg-[#13a89a]' : 'border-[#2d3c5a] hover:bg-[#22304a]'}
+                >
+                  Festival Theme
+                </LiftKitButton>
+                <LiftKitButton
+                  variant={currentTheme === 'wedding' ? 'filled' : 'outline'}
+                  onClick={() => setCurrentTheme('wedding')}
+                  className={currentTheme === 'wedding' ? 'bg-[#8B5CF6] hover:bg-[#9F7AEA]' : 'border-[#2d3c5a] hover:bg-[#22304a]'}
+                >
+                  Wedding Theme
+                </LiftKitButton>
+                <LiftKitButton
+                  variant={currentTheme === 'vibrant' ? 'filled' : 'outline'}
+                  onClick={() => setCurrentTheme('vibrant')}
+                  className={currentTheme === 'vibrant' ? 'bg-[#F59E0B] hover:bg-[#FBBF24]' : 'border-[#2d3c5a] hover:bg-[#22304a]'}
+                >
+                  Vibrant Theme
+                </LiftKitButton>
+              </div>
+            </div>
         </LiftKitCard>
 
         {/* Theme Information */}
-        <LiftKitCard scaleFactor="body">
+        <LiftKitCard scaleFactor="body" className="bg-[#1a2332] border border-[#2d3c5a]">
           <h2 data-lk-component="heading" className="title2 text-white mb-4">
             Current Theme: {currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1)}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 data-lk-component="heading" className="subheading text-gray-300 mb-2">LiftKit Settings:</h3>
                               <ul className="space-y-1 text-gray-400 body">
@@ -224,28 +240,34 @@ export default function ComponentsDemo() {
         </LiftKitCard>
 
         {/* Button Variants */}
-        <LiftKitCard scaleFactor="body">
+        <LiftKitCard scaleFactor="body" className="bg-[#1a2332] border border-[#2d3c5a]">
           <h2 data-lk-component="heading" className="title2 text-white mb-4">LiftKit Button Variants</h2>
-          <div className="space-y-4">
-            <div className="flex flex-wrap gap-4">
-              <LiftKitButton variant="filled">Filled Button</LiftKitButton>
-              <LiftKitButton variant="outline">Outline Button</LiftKitButton>
-              <LiftKitButton variant="text">Text Button</LiftKitButton>
+          <div className="space-y-6">
+            <div>
+              <h3 data-lk-component="heading" className="subheading text-gray-300 mb-3">Button Types</h3>
+              <div className="flex flex-wrap gap-4">
+                <LiftKitButton variant="filled" className="bg-[#0F766E] hover:bg-[#13a89a]">Filled Button</LiftKitButton>
+                <LiftKitButton variant="outline" className="border-[#2d3c5a] hover:bg-[#22304a]">Outline Button</LiftKitButton>
+                <LiftKitButton variant="text" className="hover:bg-[#22304a]">Text Button</LiftKitButton>
+              </div>
             </div>
             
-            <div className="flex flex-wrap gap-4">
-              <LiftKitButton variant="filled" size="sm">Small</LiftKitButton>
-              <LiftKitButton variant="filled" size="md">Medium</LiftKitButton>
-              <LiftKitButton variant="filled" size="lg">Large</LiftKitButton>
+            <div>
+              <h3 data-lk-component="heading" className="subheading text-gray-300 mb-3">Button Sizes</h3>
+              <div className="flex flex-wrap gap-4 items-center">
+                <LiftKitButton variant="filled" size="sm" className="bg-[#0F766E] hover:bg-[#13a89a]">Small</LiftKitButton>
+                <LiftKitButton variant="filled" size="md" className="bg-[#0F766E] hover:bg-[#13a89a]">Medium</LiftKitButton>
+                <LiftKitButton variant="filled" size="lg" className="bg-[#0F766E] hover:bg-[#13a89a]">Large</LiftKitButton>
+              </div>
             </div>
           </div>
         </LiftKitCard>
 
         {/* Nested Cards */}
-        <LiftKitCard scaleFactor="body">
+        <LiftKitCard scaleFactor="body" className="bg-[#1a2332] border border-[#2d3c5a]">
           <h2 data-lk-component="heading" className="title2 text-white mb-4">Nested Cards & Layouts</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <LiftKitCard variant="outline" scaleFactor="body" opticalCorrection={true}>
+            <LiftKitCard variant="outline" scaleFactor="body" opticalCorrection={true} className="bg-[#0f1419] border-[#2d3c5a]">
               <h3 data-lk-component="heading" className="subheading text-gray-300 mb-3">Event Schedule</h3>
               <div className="space-y-2 text-gray-400 mb-4 body">
                 <div className="flex justify-between">
@@ -261,24 +283,26 @@ export default function ComponentsDemo() {
                   <span>Workshop Sessions</span>
                 </div>
               </div>
-              <LiftKitButton variant="text">View Full Schedule</LiftKitButton>
+              <LiftKitButton variant="text" className="hover:bg-[#22304a] text-[#38F9E4]">View Full Schedule</LiftKitButton>
             </LiftKitCard>
 
-            <LiftKitCard variant="outline" scaleFactor="body">
+            <LiftKitCard variant="outline" scaleFactor="body" className="bg-[#0f1419] border-[#2d3c5a]">
               <h3 data-lk-component="heading" className="subheading text-gray-300 mb-3">Quick Actions</h3>
               <div className="space-y-3">
-                <LiftKitButton variant="filled">Register Now</LiftKitButton>
-                <LiftKitButton variant="outline">View Map</LiftKitButton>
-                <LiftKitButton variant="text">Contact Support</LiftKitButton>
+                <LiftKitButton variant="filled" className="bg-[#0F766E] hover:bg-[#13a89a] w-full">Register Now</LiftKitButton>
+                <LiftKitButton variant="outline" className="border-[#2d3c5a] hover:bg-[#22304a] w-full">View Map</LiftKitButton>
+                <LiftKitButton variant="text" className="hover:bg-[#22304a] text-[#38F9E4] w-full">Contact Support</LiftKitButton>
               </div>
             </LiftKitCard>
           </div>
         </LiftKitCard>
 
         {/* Design Principles */}
-        <LiftKitCard scaleFactor="body">
-          <h2 data-lk-component="heading" className="title2 text-white mb-4">Real LiftKit Features</h2>
-          <div className="space-y-4 text-gray-300">
+        <LiftKitCard scaleFactor="body" className="bg-[#1a2332] border border-[#2d3c5a]">
+          <h2 data-lk-component="heading" className="title2 text-white mb-4">
+            <span className="text-[#38F9E4]">Embr</span> + LiftKit Integration
+          </h2>
+          <div className="space-y-6 text-gray-300">
             <div>
               <h3 data-lk-component="heading" className="subheading text-white mb-2">Authentic LiftKit Components</h3>
               <p className="body">Using the actual LiftKit CSS framework with proper data attributes and golden ratio calculations.</p>
@@ -300,6 +324,13 @@ export default function ComponentsDemo() {
             </div>
           </div>
         </LiftKitCard>
+
+        {/* Footer matching hub app */}
+        <footer className="text-center text-sm text-gray-400 mt-12 pt-8">
+          <hr className="w-1/2 border-gray-700 mb-4 opacity-40 mx-auto" />
+          <p>Powered by <span className="text-[#38F9E4]">Embr</span> Platform + LiftKit</p>
+          <p className="mt-1">Micro apps. One purpose. Golden ratio perfection.</p>
+        </footer>
 
       </div>
     </div>
