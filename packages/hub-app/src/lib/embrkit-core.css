@@ -1,0 +1,94 @@
+:root {
+  /* EmbrKit: Mathematical Foundation (Golden Ratio φ = 1.618) */
+  --embr-scale-factor: 1.618;
+  --embr-whole-step: var(--embr-scale-factor);
+  --embr-half-step: calc(round(pow(var(--embr-scale-factor), 0.5), 0.001)); /* 1.272 */
+  --embr-quarter-step: calc(round(pow(var(--embr-scale-factor), 0.25), 0.001)); /* 1.128 */
+  --embr-eighth-step: calc(round(pow(var(--embr-scale-factor), 0.125), 0.001)); /* 1.062 */
+
+  /* EmbrKit: Size System (Mathematical Progression) */
+  --embr-size-xs: calc(1rem / var(--embr-scale-factor)); /* ~0.618rem */
+  --embr-size-sm: calc(1rem / var(--embr-half-step)); /* ~0.786rem */
+  --embr-size-md: 1rem;
+  --embr-size-lg: calc(1rem * var(--embr-half-step)); /* ~1.272rem */
+  --embr-size-xl: calc(1rem * var(--embr-scale-factor)); /* ~1.618rem */
+  --embr-size-2xl: calc(1rem * var(--embr-whole-step) * var(--embr-half-step)); /* ~2.058rem */
+  --embr-size-3xl: calc(1rem * pow(var(--embr-scale-factor), 2)); /* ~2.618rem */
+
+  /* EmbrKit: Typography (Golden Ratio + Embr Boldness) */
+  --embr-text-xs: var(--embr-size-xs);
+  --embr-text-sm: var(--embr-size-sm);
+  --embr-text-base: var(--embr-size-md);
+  --embr-text-lg: var(--embr-size-lg);
+  --embr-text-xl: var(--embr-size-xl);
+  --embr-text-2xl: var(--embr-size-2xl);
+  --embr-text-3xl: var(--embr-size-3xl);
+  --embr-text-4xl: calc(1rem * pow(var(--embr-scale-factor), 3)); /* ~4.236rem */
+
+  /* EmbrKit: Spacing (Mathematical Harmony) */
+  --embr-space-1: calc(var(--embr-size-md) / 4); /* 0.25rem */
+  --embr-space-2: calc(var(--embr-size-md) / 2); /* 0.5rem */
+  --embr-space-3: calc(var(--embr-size-md) * 0.75); /* 0.75rem */
+  --embr-space-4: var(--embr-size-md); /* 1rem */
+  --embr-space-5: calc(var(--embr-size-md) * var(--embr-quarter-step)); /* ~1.128rem */
+  --embr-space-6: calc(var(--embr-size-md) * var(--embr-half-step)); /* ~1.272rem */
+  --embr-space-8: calc(var(--embr-size-md) * var(--embr-scale-factor)); /* ~1.618rem */
+  --embr-space-10: calc(var(--embr-size-md) * var(--embr-whole-step) * var(--embr-quarter-step)); /* ~1.825rem */
+  --embr-space-12: calc(var(--embr-size-md) * var(--embr-whole-step) * var(--embr-half-step)); /* ~2.058rem */
+  --embr-space-16: calc(var(--embr-size-md) * pow(var(--embr-scale-factor), 2)); /* ~2.618rem */
+
+  /* EmbrKit: Border Radius (Embr's Rectangular + Mathematical Precision) */
+  --embr-radius-none: 0;
+  --embr-radius-sm: calc(var(--embr-size-md) * 0.25); /* 0.25rem */
+  --embr-radius-md: calc(var(--embr-size-md) * 0.375); /* 0.375rem - 6px */
+  --embr-radius-lg: calc(var(--embr-size-md) * 0.5); /* 0.5rem - 8px */
+  --embr-radius-xl: calc(var(--embr-size-md) * 0.75); /* 0.75rem - 12px (Embr Standard) */
+  --embr-radius-2xl: calc(var(--embr-size-md) * var(--embr-quarter-step)); /* ~1.128rem */
+  --embr-radius-full: 9999px; /* For pills when needed */
+
+  /* EmbrKit: Embr Brand Colors */
+  --embr-primary: #0F766E;
+  --embr-primary-hover: #13a89a;
+  --embr-primary-active: #0d5d56;
+  --embr-accent: #38F9E4;
+  --embr-background: #101926;
+  --embr-surface: #1a2332;
+  --embr-surface-elevated: #22304a;
+  --embr-border: #2d3c5a;
+  --embr-text: #FEFEFE;
+  --embr-text-secondary: #EDEDED;
+  --embr-text-muted: #9CA3AF;
+
+  /* EmbrKit: Shadows (Mathematical Progression) */
+  --embr-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --embr-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --embr-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --embr-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --embr-shadow-glow: 0 0 20px rgb(15 118 110 / 0.3);
+
+  /* EmbrKit: Transitions (Smooth & Purposeful) */
+  --embr-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --embr-transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --embr-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* EmbrKit: Base Typography Classes */
+.embr-text-xs { font-size: var(--embr-text-xs); line-height: calc(var(--embr-text-xs) * var(--embr-scale-factor)); }
+.embr-text-sm { font-size: var(--embr-text-sm); line-height: calc(var(--embr-text-sm) * var(--embr-scale-factor)); }
+.embr-text-base { font-size: var(--embr-text-base); line-height: calc(var(--embr-text-base) * var(--embr-scale-factor)); }
+.embr-text-lg { font-size: var(--embr-text-lg); line-height: calc(var(--embr-text-lg) * var(--embr-scale-factor)); }
+.embr-text-xl { font-size: var(--embr-text-xl); line-height: calc(var(--embr-text-xl) * var(--embr-scale-factor)); }
+.embr-text-2xl { font-size: var(--embr-text-2xl); line-height: calc(var(--embr-text-2xl) * var(--embr-quarter-step)); }
+.embr-text-3xl { font-size: var(--embr-text-3xl); line-height: calc(var(--embr-text-3xl) * var(--embr-quarter-step)); }
+.embr-text-4xl { font-size: var(--embr-text-4xl); line-height: calc(var(--embr-text-4xl) * var(--embr-quarter-step)); }
+
+/* EmbrKit: Font Weights (Purposeful Hierarchy) */
+.embr-font-normal { font-weight: 400; }
+.embr-font-medium { font-weight: 500; }
+.embr-font-semibold { font-weight: 600; }
+.embr-font-bold { font-weight: 700; }
+
+/* EmbrKit: Letter Spacing (Optical Corrections) */
+.embr-tracking-tight { letter-spacing: -0.025em; }
+.embr-tracking-normal { letter-spacing: 0em; }
+.embr-tracking-wide { letter-spacing: 0.025em; } 

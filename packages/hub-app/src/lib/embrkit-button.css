@@ -1,0 +1,177 @@
+/* EmbrKit Button: Mathematical Precision + Embr Boldness */
+.embr-btn {
+  /* Mathematical Foundation */
+  --btn-padding-y: var(--embr-space-4); /* 1rem - substantial like hub app */
+  --btn-padding-x: var(--embr-space-6); /* ~1.272rem - golden ratio */
+  --btn-font-size: var(--embr-text-lg); /* ~1.272rem */
+  --btn-line-height: calc(var(--btn-font-size) * var(--embr-quarter-step)); /* Optical correction */
+  --btn-border-radius: var(--embr-radius-xl); /* 0.75rem - matches hub app rounded-xl */
+  
+  /* Base Styles */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--embr-space-2);
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  font-size: var(--btn-font-size);
+  line-height: var(--btn-line-height);
+  font-weight: 600; /* Embr's semibold */
+  font-family: 'Inter', system-ui, sans-serif;
+  border-radius: var(--btn-border-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--embr-transition-normal);
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  
+  /* Optical Corrections */
+  letter-spacing: var(--embr-tracking-tight);
+  transform: translateZ(0); /* Hardware acceleration */
+}
+
+/* Primary Button - Matches Hub App */
+.embr-btn-primary {
+  background-color: var(--embr-primary);
+  color: var(--embr-text);
+  box-shadow: var(--embr-shadow-md);
+}
+
+.embr-btn-primary:hover {
+  background-color: var(--embr-primary-hover);
+  box-shadow: var(--embr-shadow-lg);
+  transform: translateY(-1px) translateZ(0);
+}
+
+.embr-btn-primary:active {
+  background-color: var(--embr-primary-active);
+  box-shadow: var(--embr-shadow-sm);
+  transform: translateY(0) translateZ(0);
+}
+
+/* Secondary Button - Matches Hub App Outline Style */
+.embr-btn-secondary {
+  background-color: transparent;
+  color: var(--embr-text);
+  border-color: var(--embr-border);
+  box-shadow: var(--embr-shadow-sm);
+}
+
+.embr-btn-secondary:hover {
+  background-color: var(--embr-surface-elevated);
+  border-color: var(--embr-primary);
+  box-shadow: var(--embr-shadow-md);
+}
+
+.embr-btn-secondary:active {
+  background-color: var(--embr-surface);
+  transform: translateY(0) translateZ(0);
+}
+
+/* Text Button - Minimal but with Mathematical Spacing */
+.embr-btn-text {
+  background-color: transparent;
+  color: var(--embr-accent);
+  border: none;
+  box-shadow: none;
+  padding: var(--embr-space-3) var(--embr-space-4); /* Smaller but proportional */
+}
+
+.embr-btn-text:hover {
+  background-color: var(--embr-surface-elevated);
+  color: var(--embr-text);
+}
+
+/* Size Variants - Mathematical Progression */
+.embr-btn-sm {
+  --btn-padding-y: var(--embr-space-3);
+  --btn-padding-x: var(--embr-space-5);
+  --btn-font-size: var(--embr-text-base);
+  --btn-border-radius: var(--embr-radius-lg);
+}
+
+.embr-btn-lg {
+  --btn-padding-y: var(--embr-space-5);
+  --btn-padding-x: var(--embr-space-8);
+  --btn-font-size: var(--embr-text-xl);
+  --btn-border-radius: var(--embr-radius-2xl);
+}
+
+/* Full Width - For Mobile/Card Layouts */
+.embr-btn-full {
+  width: 100%;
+}
+
+/* Disabled State */
+.embr-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.embr-btn:disabled:hover {
+  background-color: var(--embr-primary);
+  box-shadow: none;
+}
+
+/* Icon Buttons - Mathematical Icon Sizing */
+.embr-btn-icon {
+  --btn-padding-x: var(--btn-padding-y);
+  aspect-ratio: 1;
+}
+
+.embr-btn-icon svg {
+  width: calc(var(--btn-font-size) * var(--embr-quarter-step));
+  height: calc(var(--btn-font-size) * var(--embr-quarter-step));
+}
+
+/* Loading State */
+.embr-btn-loading {
+  color: transparent;
+  pointer-events: none;
+}
+
+.embr-btn-loading::after {
+  content: '';
+  position: absolute;
+  width: calc(var(--btn-font-size) * var(--embr-quarter-step));
+  height: calc(var(--btn-font-size) * var(--embr-quarter-step));
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: embr-spin 1s linear infinite;
+}
+
+@keyframes embr-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Focus States - Accessibility */
+.embr-btn:focus-visible {
+  outline: 2px solid var(--embr-accent);
+  outline-offset: 2px;
+}
+
+/* Group Styles - For Button Collections */
+.embr-btn-group {
+  display: flex;
+  gap: var(--embr-space-2);
+}
+
+.embr-btn-group .embr-btn:not(:last-child) {
+  margin-right: calc(var(--embr-space-1) * -1);
+}
+
+/* Glow Effect - For Special Actions */
+.embr-btn-glow {
+  box-shadow: var(--embr-shadow-glow), var(--embr-shadow-md);
+}
+
+.embr-btn-glow:hover {
+  box-shadow: var(--embr-shadow-glow), var(--embr-shadow-lg);
+} 
