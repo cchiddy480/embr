@@ -17,6 +17,7 @@
     "test": "npm run test --workspaces"
   },
   "devDependencies": {
+    "@chainlift/liftkit": "^0.1.1",
     "@types/node": "^20.0.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
@@ -48,7 +49,6 @@
   "license": "MIT",
   "dependencies": {
     "@capacitor/storage": "^1.2.5",
-    "@chainlift/liftkit": "^0.1.1",
     "firebase-admin": "^13.4.0",
     "react-zxing": "^2.1.0"
   }
