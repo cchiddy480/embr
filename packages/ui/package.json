@@ -5,5 +5,8 @@
   "types": "src/components/index.ts",
   "private": true,
   "description": "Embr shared UI component library",
-  "license": "MIT"
-} 
+  "license": "MIT",
+  "dependencies": {
+    "@chainlift/liftkit": "^0.1.1"
+  }
+}
