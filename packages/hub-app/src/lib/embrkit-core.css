@@ -1,3 +1,6 @@
+/* Inter Font Import - Exact Match with Landing Page */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
   /* EmbrKit: Mathematical Foundation (Golden Ratio φ = 1.618) */
   --embr-scale-factor: 1.618;
@@ -76,17 +79,18 @@
   --embr-primary-active: #0d5d56;
   --embr-accent: var(--embr-glow-bright);
   
-  /* Landing Page Background System */
-  --embr-background: #1e293b;        /* Navy base matching landing page */
-  --embr-background-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 25%, #1e293b 50%, #134e4a 100%);
-  --embr-surface: rgba(30, 41, 59, 0.8);     /* Semi-transparent navy */
-  --embr-surface-elevated: rgba(15, 23, 42, 0.9); /* Darker semi-transparent */
-  --embr-border: rgba(107, 114, 128, 0.3);   /* Subtle warm grey border */
+  /* Landing Page Background System - EXACT MATCH */
+  --embr-background: #101926;        /* EXACT landing page background */
+  --embr-background-gradient: linear-gradient(135deg, #101926 0%, #0f172a 25%, #101926 50%, #0F766E15 100%);
+  --embr-surface: rgba(16, 25, 38, 0.8);     /* Semi-transparent exact background */
+  --embr-surface-elevated: rgba(16, 25, 38, 0.95); /* More opaque version */
+  --embr-border: rgba(107, 114, 128, 0.2);   /* Subtle border like landing page */
   
-  /* Landing Page Text System */
-  --embr-text: #ffffff;              /* Pure white like landing page */
-  --embr-text-secondary: #cbd5e1;    /* Light grey for secondary text */
-  --embr-text-muted: rgba(203, 213, 225, 0.7); /* Muted version */
+  /* Landing Page Text System - EXACT MATCH */
+  --embr-text: #ffffff;              /* Pure white - exact match */
+  --embr-text-secondary: #d1d5db;    /* text-gray-300 equivalent */
+  --embr-text-muted: #9ca3af;        /* text-gray-400 equivalent */
+  --embr-text-footer: #6b7280;       /* text-gray-600 equivalent */
 
   /* EmbrKit: Shadows (Mathematical Progression) */
   --embr-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -99,6 +103,26 @@
   --embr-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --embr-transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --embr-transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Landing Page Glow Animation - EXACT MATCH */
+@keyframes embr-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+.embr-glow-animation {
+  animation: embr-glow 9s ease-in-out infinite;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* EmbrKit: Base Typography Classes (Brand Guidelines Compliant) */

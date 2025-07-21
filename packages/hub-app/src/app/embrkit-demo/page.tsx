@@ -7,7 +7,7 @@ import '@/lib/embrkit-button.css';
 export default function EmbrKitDemo() {
   return (
     <div className="min-h-screen p-8" style={{
-      background: 'var(--embr-background-gradient)',
+      backgroundColor: 'var(--embr-background)',
       fontFamily: 'Inter, system-ui, sans-serif',
       color: 'var(--embr-text)'
     }}>
@@ -16,13 +16,16 @@ export default function EmbrKitDemo() {
         {/* Header */}
                   <div className="text-center mb-16">
             <div className="flex flex-col items-center mb-8 relative">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full opacity-20 blur-2xl z-0" 
-                   style={{ backgroundColor: 'var(--embr-glow-bright)' }} />
+              <div className="w-[24rem] h-[24rem] rounded-full blur-3xl z-0 embr-glow-animation" 
+                   style={{ backgroundColor: 'var(--embr-teal)' }} />
               <h1 className="embr-h1 mb-4 z-10 embr-tracking-tight" style={{ color: '#ffffff' }}>
                 <span style={{ color: 'var(--embr-glow-bright)' }}>EmbrKit</span> Design System
               </h1>
-              <p className="embr-text-xl mb-6 embr-tracking-normal" style={{ color: 'var(--embr-text-secondary)' }}>
-                Build with Embr • Micro, but mighty
+              <p className="text-lg text-center max-w-xl font-light mb-2 z-10" style={{ color: 'var(--embr-text-secondary)' }}>
+                Micro Apps. One Purpose. No Bloat.
+              </p>
+              <p className="italic text-center text-base font-light mb-6 z-10" style={{ color: 'var(--embr-text-muted)' }}>
+                Built quietly. Built differently.
               </p>
               <div className="embr-caption space-y-2" style={{ color: 'var(--embr-text-muted)' }}>
                 <p>Official Embr Brand Guidelines • Golden Ratio (φ = 1.618) • Inter Typography</p>
@@ -299,15 +302,16 @@ export default function EmbrKitDemo() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="text-center mt-12 pt-8">
-          <hr className="w-1/2 mb-4 opacity-40 mx-auto" style={{ borderColor: 'var(--embr-border)' }} />
-          <p className="embr-caption" style={{ color: 'var(--embr-text-secondary)' }}>
-            Powered by <span style={{ color: 'var(--embr-glow-bright)' }}>EmbrKit</span> Design System
-          </p>
-          <p className="embr-caption mt-1" style={{ color: 'var(--embr-text-muted)' }}>
-            Build with Embr • Micro, but mighty
-          </p>
+        {/* Footer - Landing Page Style */}
+        <footer className="w-full flex flex-col items-center mt-12 pt-6 text-sm">
+          <hr className="w-1/2 border-gray-700 mb-4 opacity-40" />
+          <div className="mb-2 opacity-70" style={{ color: 'var(--embr-text-muted)' }}>© 2025 Embr</div>
+          <div className="flex gap-4 mb-2 opacity-80" style={{ color: 'var(--embr-text-muted)' }}>
+            <span className="hover:underline cursor-pointer">EmbrKit Demo</span>
+            <span className="hover:underline cursor-pointer">Design System</span>
+            <span className="hover:underline cursor-pointer">Brand Guidelines</span>
+          </div>
+          <div className="italic text-xs opacity-60" style={{ color: 'var(--embr-text-footer)' }}>Build with Embr.</div>
         </footer>
 
       </div>
