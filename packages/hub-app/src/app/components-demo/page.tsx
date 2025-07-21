@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import '@/components/button.css';
 import '@/components/card.css';
+import '@/components/material-layer.css';
+import '@/components/state-layer.css';
 import '@/lib/liftkit-core.css';
 
 // Mock client configurations for testing
@@ -90,10 +92,7 @@ function LiftKitButton({
       onClick={onClick}
       disabled={disabled}
       className={className}
-      style={{
-        backgroundColor: variant === 'filled' ? 'var(--lk-primary)' : undefined,
-        color: variant === 'filled' ? 'var(--lk-onprimary)' : 'var(--lk-primary)'
-      }}
+
     >
       <div data-lk-button-content-wrap="true">
         {children}
@@ -123,10 +122,7 @@ function LiftKitCard({
       data-lk-card-scale-factor={scaleFactor}
       data-lk-card-optic-correction={opticalCorrection}
       className={className}
-      style={{
-        backgroundColor: variant === 'fill' ? 'var(--lk-surfacecontainer)' : undefined,
-        color: 'var(--lk-onsurface)'
-      }}
+
     >
       {children}
     </div>
@@ -146,11 +142,16 @@ export default function ComponentsDemo() {
 
   // Apply CSS custom properties for theming
   const themeStyles = {
+    // Override LiftKit colors with our theme
+    '--light__primary_lkv': currentThemeData.liftkit.primaryColor,
+    '--dark__primary_lkv': currentThemeData.liftkit.primaryColor,
     '--lk-primary': currentThemeData.liftkit.primaryColor,
     '--lk-onprimary': '#FFFFFF',
     '--lk-surfacecontainer': currentThemeData.colors.surface,
     '--lk-onsurface': currentThemeData.colors.text,
     '--lk-outlinevariant': `${currentThemeData.liftkit.primaryColor}40`,
+    '--lk-background': '#1F2937',
+    '--lk-onbackground': currentThemeData.colors.text,
     fontFamily: currentThemeData.liftkit.fontFamily,
   } as React.CSSProperties;
 

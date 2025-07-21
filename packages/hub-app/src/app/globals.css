@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import LiftKit CSS */
+@import url('@/lib/index.css');
+
 :root {
   /* Embr branding colors */
   --color-primary: 15 118 110; /* #0F766E */

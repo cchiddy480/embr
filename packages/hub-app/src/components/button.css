@@ -74,10 +74,20 @@
 
 /* STYLE VARIANTS */
 
+/* Default/Filled variant */
+[data-lk-component="button"]:not([data-lk-button-variant]),
+[data-lk-button-variant="filled"] {
+  background: var(--lk-primary);
+  color: var(--lk-onprimary);
+}
+
 [data-lk-button-variant="text"] {
   background: transparent !important;
+  color: var(--lk-primary);
 }
+
 [data-lk-button-variant="outline"] {
   background: transparent !important;
   border: 1px solid var(--lk-outlinevariant);
+  color: var(--lk-primary);
 }

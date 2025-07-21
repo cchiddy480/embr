@@ -18,6 +18,8 @@
 /* Other material handling (that doesn't need to be nested) */
 
 [data-lk-card-variant="fill"] {
+  background-color: var(--lk-surfacecontainer);
+  color: var(--lk-onsurface);
 }
 
 [data-lk-card-variant="outline"] {
