@@ -107,30 +107,58 @@ export function ClientApp({ config }: ClientAppProps) {
               Navigate workshops, discover vendors, and plan your mindful weekend.
             </p>
 
-            {/* EMBRKIT: Grid system with Stat Cards */}
-            <div className="mb-12">
-              <EmbrKitGrid cols={4} gap={8}>
+            {/* EMBRKIT: Grid system with Stat Cards - IMPROVED LAYOUT */}
+            <div className="mb-16">
+              <EmbrKitGrid cols={2} gap={6} className="md:grid-cols-4">
                 {config.content?.schedule?.events && (
                   <EmbrKitStatCard 
                     value={config.content.schedule.events.length}
                     label="Events"
                     color={config.theme.colors.primary}
+                    size="lg"
+                    className="p-8 text-center"
+                    style={{
+                      backgroundColor: config.theme.colors.surface,
+                      borderRadius: '1rem',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    }}
                   />
                 )}
                 <EmbrKitStatCard 
                   value="3"
                   label="Vendors"
                   color={config.theme.colors.primary}
+                  size="lg"
+                  className="p-8 text-center"
+                  style={{
+                    backgroundColor: config.theme.colors.surface,
+                    borderRadius: '1rem',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
                 />
                 <EmbrKitStatCard 
                   value="8"
                   label="Locations"
                   color={config.theme.colors.primary}
+                  size="lg"
+                  className="p-8 text-center"
+                  style={{
+                    backgroundColor: config.theme.colors.surface,
+                    borderRadius: '1rem',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
                 />
                 <EmbrKitStatCard 
                   value="3"
                   label="Days"
                   color={config.theme.colors.primary}
+                  size="lg"
+                  className="p-8 text-center"
+                  style={{
+                    backgroundColor: config.theme.colors.surface,
+                    borderRadius: '1rem',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
                 />
               </EmbrKitGrid>
             </div>
@@ -194,7 +222,7 @@ export function ClientApp({ config }: ClientAppProps) {
             <div className="space-y-8">
               {config.content.schedule.events.slice(0, 3).map((event) => (
                 <EmbrKitCard 
-                  key={event.id} 
+                    key={event.id} 
                   variant="elevated"
                   className="hover:shadow-xl transition-all duration-300 group cursor-pointer"
                   style={{ 
@@ -212,8 +240,8 @@ export function ClientApp({ config }: ClientAppProps) {
                             color: config.theme.colors.text 
                           }}
                         >
-                          {event.title}
-                        </h3>
+                      {event.title}
+                    </h3>
                         <EmbrKitBadge 
                           variant="primary"
                           style={{ 
@@ -232,8 +260,8 @@ export function ClientApp({ config }: ClientAppProps) {
                           fontFamily: "'Inter', sans-serif"
                         }}
                       >
-                        {event.description}
-                      </p>
+                      {event.description}
+                    </p>
                       
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-base">
                         <div className="flex items-center gap-3">
@@ -411,10 +439,10 @@ export function ClientApp({ config }: ClientAppProps) {
             </EmbrKitCard>
           </EmbrKitContainer>
         </div>
-      )}
-    </div>
-  );
-
+            )}
+          </div>
+        );
+      
   const renderScheduleContent = () => (
     <EmbrKitContainer size="lg" className="px-6 py-8">
       <div className="text-center mb-12">
@@ -500,8 +528,8 @@ export function ClientApp({ config }: ClientAppProps) {
           </h3>
           <p className="text-lg max-w-2xl mx-auto" style={{ color: config.theme.colors.textSecondary }}>
             This feature is being carefully crafted to showcase your festival content.
-          </p>
-        </div>
+            </p>
+          </div>
       </EmbrKitCard>
     </EmbrKitContainer>
   );
@@ -550,22 +578,22 @@ export function ClientApp({ config }: ClientAppProps) {
             {/* CUSTOM: Navigation Pills - Exact replica */}
             <div className="flex items-center gap-2">
               {config.navigation.slice(0, 3).map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     activeTab === item.id ? 'scale-105' : 'hover:scale-105'
-                  }`}
+              }`}
                   style={{ 
                     backgroundColor: activeTab === item.id ? config.theme.colors.primary : 'transparent',
                     color: activeTab === item.id ? '#ffffff' : config.theme.colors.textSecondary,
                     fontFamily: "'Inter', sans-serif"
                   }}
-                >
-                  {getIcon(item.icon)}
+            >
+              {getIcon(item.icon)}
                   <span className="hidden md:inline">{item.title}</span>
-                </button>
-              ))}
+            </button>
+          ))}
             </div>
             
             <EmbrKitBadge
@@ -584,7 +612,7 @@ export function ClientApp({ config }: ClientAppProps) {
         <div className="pb-8">
           {renderContent()}
         </div>
-      </div>
+    </div>
     </EmbrKitProvider>
   );
 } 

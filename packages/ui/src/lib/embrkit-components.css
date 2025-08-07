@@ -761,12 +761,13 @@
   background: var(--embr-surface);
   border: 2px solid var(--embr-border);
   border-radius: var(--embr-radius-2xl);
-  padding: var(--embr-space-6);
+  padding: var(--embr-space-8);
   box-shadow: var(--embr-shadow-lg);
   font-family: 'Inter', system-ui, sans-serif;
   transition: all var(--embr-transition-fast);
   position: relative;
   overflow: hidden;
+  text-align: center;
 }
 
 .embr-stat-card:hover {
@@ -783,9 +784,11 @@
 
 .embr-stat-card-title {
   font-size: var(--embr-text-sm);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--embr-text-secondary-dark-bg);
-  margin: 0;
+  margin: 0 0 var(--embr-space-2) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .embr-stat-card-icon {
@@ -796,12 +799,13 @@
 }
 
 .embr-stat-card-value {
-  font-size: var(--embr-text-3xl);
+  font-size: var(--embr-text-4xl);
   font-weight: 700;
   color: var(--embr-text-on-dark);
   margin: 0 0 var(--embr-space-2) 0;
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
+  font-family: var(--embr-heading-font, var(--embr-font-family));
 }
 
 .embr-stat-card-change {
@@ -2892,7 +2896,7 @@
 .embr-rounded { border-radius: var(--embr-radius-md); }
 .embr-rounded-lg { border-radius: var(--embr-radius-lg); }
 .embr-rounded-xl { border-radius: var(--embr-radius-xl); }
-.embr-rounded-full { border-radius: var(--embr-radius-full); }
+.embr-rounded-full { border-radius: var(--embr-radius-full); } 
 
 /* ==============================================
    CONTAINER COMPONENT
