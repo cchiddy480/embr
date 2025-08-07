@@ -33,9 +33,8 @@
 }
 
 .embr-btn:focus-visible {
-  ring: 2px;
-  ring-offset: 2px;
-  ring-opacity: 0.5;
+  outline: 2px solid var(--embr-button-outline-color, var(--embr-primary-color, currentColor));
+  outline-offset: 2px;
 }
 
 /* Disabled State */

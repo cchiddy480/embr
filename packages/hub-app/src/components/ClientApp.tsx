@@ -559,6 +559,7 @@ export function ClientApp({ config }: ClientAppProps) {
                 --embr-primary-color: ${config.theme.colors.primary};
                 --embr-secondary-color: ${config.theme.colors.secondary};
                 --embr-text-color: ${config.theme.colors.text};
+                 --embr-button-outline-color: ${config.theme.colors.primary};
                 --embr-primary-hover: ${config.theme.colors.primary};
                 --embr-secondary-hover: ${config.theme.colors.secondary};
                 --embr-text-hover: ${config.theme.colors.text};

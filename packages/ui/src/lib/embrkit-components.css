@@ -2799,7 +2799,7 @@
 .embr-form-input:focus-visible,
 .embr-select-trigger:focus-visible,
 .embr-date-input:focus-visible {
-  outline: 2px solid var(--embr-primary-color, var(--embr-teal));
+  outline: 2px solid var(--embr-button-outline-color, var(--embr-primary-color, var(--embr-teal)));
   outline-offset: 2px;
 }
 
