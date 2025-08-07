@@ -24,10 +24,14 @@ export const applyEmbrKitTheme = (theme: EmbrKitTheme) => {
   // Apply theme variables to CSS custom properties
   const root = document.documentElement;
   if (theme.primaryColor) root.style.setProperty('--embr-primary', theme.primaryColor);
+  // Also set client-brand color overrides used by component CSS
+  if (theme.primaryColor) root.style.setProperty('--embr-primary-color', theme.primaryColor);
   if (theme.secondaryColor) root.style.setProperty('--embr-secondary', theme.secondaryColor);
+  if (theme.secondaryColor) root.style.setProperty('--embr-secondary-color', theme.secondaryColor);
   if (theme.backgroundColor) root.style.setProperty('--embr-background', theme.backgroundColor);
   if (theme.surfaceColor) root.style.setProperty('--embr-surface', theme.surfaceColor);
   if (theme.textColor) root.style.setProperty('--embr-text', theme.textColor);
+  if (theme.textColor) root.style.setProperty('--embr-text-color', theme.textColor);
   if (theme.textSecondaryColor) root.style.setProperty('--embr-text-secondary', theme.textSecondaryColor);
   if (theme.fontFamily) root.style.setProperty('--embr-font-family', theme.fontFamily);
   if (theme.headingFontFamily) root.style.setProperty('--embr-heading-font', theme.headingFontFamily);
