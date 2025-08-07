@@ -49,17 +49,17 @@
 
 /* Primary Button - Client Brand Neutral */
 .embr-btn-primary {
-  background: var(--embr-primary-color, var(--embr-teal));
+  background: var(--embr-primary-color, currentColor);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Neutral shadow */
-  border-color: var(--embr-primary-color, var(--embr-teal));
+  border-color: var(--embr-primary-color, currentColor);
 }
 
 .embr-btn-primary:hover {
-  background: var(--embr-primary-hover, var(--embr-glow-mid));
+  background: var(--embr-primary-hover, currentColor);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Neutral enhanced shadow */
   transform: translateY(-1px);
-  border-color: var(--embr-primary-hover, var(--embr-glow-mid));
+  border-color: var(--embr-primary-hover, currentColor);
 }
 
 .embr-btn-primary:active {
@@ -69,21 +69,21 @@
 }
 
 .embr-btn-primary:focus-visible {
-  ring-color: var(--embr-primary-color, var(--embr-teal));
+  ring-color: var(--embr-primary-color, currentColor);
 }
 
 /* Secondary Button - Client Brand Neutral */
 .embr-btn-secondary {
   background: transparent;
-  color: var(--embr-secondary-color, var(--embr-teal));
-  border-color: var(--embr-secondary-color, var(--embr-teal));
+  color: var(--embr-secondary-color, currentColor);
+  border-color: var(--embr-secondary-color, transparent);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .embr-btn-secondary:hover {
   background: var(--embr-secondary-hover-bg, rgba(0, 0, 0, 0.05));
-  border-color: var(--embr-secondary-hover, var(--embr-glow-mid));
-  color: var(--embr-secondary-hover, var(--embr-glow-mid));
+  border-color: var(--embr-secondary-hover, currentColor);
+  color: var(--embr-secondary-hover, currentColor);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);
 }
@@ -94,13 +94,13 @@
 }
 
 .embr-btn-secondary:focus-visible {
-  ring-color: var(--embr-secondary-color, var(--embr-teal));
+  ring-color: var(--embr-secondary-color, currentColor);
 }
 
 /* Text Button - Client Brand Neutral */
 .embr-btn-text {
   background: transparent;
-  color: var(--embr-text-color, var(--embr-teal));
+  color: var(--embr-text-color, currentColor);
   border-color: transparent;
   box-shadow: none;
   padding: var(--embr-space-3) var(--embr-space-6); /* Slightly less padding */
@@ -109,7 +109,7 @@
 
 .embr-btn-text:hover {
   background: var(--embr-text-hover-bg, rgba(0, 0, 0, 0.05));
-  color: var(--embr-text-hover, var(--embr-glow-mid));
+  color: var(--embr-text-hover, currentColor);
   transform: translateY(-1px);
 }
 
@@ -119,7 +119,7 @@
 }
 
 .embr-btn-text:focus-visible {
-  ring-color: var(--embr-text-color, var(--embr-teal));
+  ring-color: var(--embr-text-color, currentColor);
 }
 
 /* ==============================================

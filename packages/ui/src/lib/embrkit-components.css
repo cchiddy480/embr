@@ -166,7 +166,7 @@
 }
 
 .embr-badge-primary {
-  background: var(--embr-teal);
+  background: var(--embr-primary-color, var(--embr-primary));
   color: white;
 }
 
