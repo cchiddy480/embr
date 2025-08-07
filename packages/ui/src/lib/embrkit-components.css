@@ -10,21 +10,21 @@
   border: 1px solid var(--embr-border);
   border-radius: var(--embr-radius-2xl); /* Updated to rounded-2xl for Embr brand */
   padding: var(--embr-space-8); /* More generous padding */
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.08); /* Soft teal-tinted shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Neutral shadow */
   transition: all var(--embr-transition-normal);
   font-family: 'Inter', system-ui, sans-serif;
   font-weight: 500; /* Medium weight for better readability */
 }
 
 .embr-card:hover {
-  box-shadow: 0 8px 25px rgba(15, 118, 110, 0.12); /* Enhanced teal glow on hover */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Neutral enhanced shadow on hover */
   transform: translateY(-2px); /* More pronounced lift */
-  border-color: rgba(15, 118, 110, 0.2); /* Subtle teal border on hover */
+  border-color: rgba(0, 0, 0, 0.2); /* Neutral border on hover */
 }
 
 .embr-card-elevated {
   background: var(--embr-surface-elevated);
-  box-shadow: 0 8px 25px rgba(15, 118, 110, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .embr-card-flat {
@@ -104,8 +104,8 @@
 }
 
 .embr-input:focus {
-  border-color: var(--embr-teal);
-  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15); /* Soft teal glow */
+  border-color: var(--embr-primary-color, var(--embr-teal));
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1); /* Neutral focus glow */
   transform: translateY(-1px); /* Subtle lift on focus */
 }
 
@@ -2793,13 +2793,13 @@
   }
 }
 
-/* Keyboard Navigation */
+/* Keyboard Navigation - Client Brand Neutral */
 .embr-btn:focus-visible,
 .embr-input:focus-visible,
 .embr-form-input:focus-visible,
 .embr-select-trigger:focus-visible,
 .embr-date-input:focus-visible {
-  outline: 2px solid var(--embr-teal);
+  outline: 2px solid var(--embr-primary-color, var(--embr-teal));
   outline-offset: 2px;
 }
 
@@ -2813,7 +2813,7 @@
   padding: 8px;
   text-decoration: none;
   border-radius: var(--embr-radius-md);
-  border: 2px solid var(--embr-teal);
+  border: 2px solid var(--embr-primary-color, var(--embr-teal));
   z-index: 1000;
   font-family: 'Inter', system-ui, sans-serif;
   font-weight: 600;

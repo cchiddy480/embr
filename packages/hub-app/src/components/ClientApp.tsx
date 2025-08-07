@@ -563,6 +563,15 @@ export function ClientApp({ config }: ClientAppProps) {
                 --embr-secondary-hover: ${config.theme.colors.secondary};
                 --embr-text-hover: ${config.theme.colors.text};
               }
+              
+              /* Override any remaining teal glows with client colors */
+              .embr-btn:focus-visible,
+              .embr-input:focus-visible,
+              .embr-form-input:focus-visible,
+              .embr-select-trigger:focus-visible,
+              .embr-date-input:focus-visible {
+                outline-color: ${config.theme.colors.primary} !important;
+              }
             `
           }} />
       <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
