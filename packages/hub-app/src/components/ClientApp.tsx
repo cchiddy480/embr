@@ -18,7 +18,7 @@ interface ClientAppProps {
 export function ClientApp({ config }: ClientAppProps) {
   const [activeTab, setActiveTab] = useState(config.navigation[0]?.id || 'home');
 
-  // Convert config to EmbrKit theme
+  // Convert config to EmbrKit theme with button color overrides
   const embrKitTheme = {
     primaryColor: config.theme.colors.primary,
     secondaryColor: config.theme.colors.secondary,
@@ -552,7 +552,19 @@ export function ClientApp({ config }: ClientAppProps) {
   };
 
   return (
-    <EmbrKitProvider initialTheme={embrKitTheme}>
+            <EmbrKitProvider initialTheme={embrKitTheme}>
+          <style dangerouslySetInnerHTML={{
+            __html: `
+              :root {
+                --embr-primary-color: ${config.theme.colors.primary};
+                --embr-secondary-color: ${config.theme.colors.secondary};
+                --embr-text-color: ${config.theme.colors.text};
+                --embr-primary-hover: ${config.theme.colors.primary};
+                --embr-secondary-hover: ${config.theme.colors.secondary};
+                --embr-text-hover: ${config.theme.colors.text};
+              }
+            `
+          }} />
       <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
         {/* CUSTOM: Top Navigation Bar - Exact replica of HTML version */}
         <div 

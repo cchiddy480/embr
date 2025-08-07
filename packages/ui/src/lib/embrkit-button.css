@@ -48,60 +48,60 @@
    BUTTON VARIANTS
    ============================================== */
 
-/* Primary Button - Embr Teal with Soft Glow */
+/* Primary Button - Client Brand Neutral */
 .embr-btn-primary {
-  background: var(--embr-teal);
+  background: var(--embr-primary-color, var(--embr-teal));
   color: white;
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.2); /* Soft teal glow */
-  border-color: var(--embr-teal);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Neutral shadow */
+  border-color: var(--embr-primary-color, var(--embr-teal));
 }
 
 .embr-btn-primary:hover {
-  background: var(--embr-glow-mid);
-  box-shadow: 0 6px 20px rgba(15, 118, 110, 0.3); /* Enhanced glow on hover */
+  background: var(--embr-primary-hover, var(--embr-glow-mid));
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Neutral enhanced shadow */
   transform: translateY(-1px);
-  border-color: var(--embr-glow-mid);
+  border-color: var(--embr-primary-hover, var(--embr-glow-mid));
 }
 
 .embr-btn-primary:active {
-  background: var(--embr-primary-active);
+  background: var(--embr-primary-active, var(--embr-primary-active));
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .embr-btn-primary:focus-visible {
-  ring-color: var(--embr-teal);
+  ring-color: var(--embr-primary-color, var(--embr-teal));
 }
 
-/* Secondary Button - Outlined with Teal */
+/* Secondary Button - Client Brand Neutral */
 .embr-btn-secondary {
   background: transparent;
-  color: var(--embr-teal);
-  border-color: var(--embr-teal);
-  box-shadow: 0 2px 4px rgba(15, 118, 110, 0.1);
+  color: var(--embr-secondary-color, var(--embr-teal));
+  border-color: var(--embr-secondary-color, var(--embr-teal));
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .embr-btn-secondary:hover {
-  background: rgba(15, 118, 110, 0.05);
-  border-color: var(--embr-glow-mid);
-  color: var(--embr-glow-mid);
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.15);
+  background: var(--embr-secondary-hover-bg, rgba(0, 0, 0, 0.05));
+  border-color: var(--embr-secondary-hover, var(--embr-glow-mid));
+  color: var(--embr-secondary-hover, var(--embr-glow-mid));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-1px);
 }
 
 .embr-btn-secondary:active {
-  background: rgba(15, 118, 110, 0.1);
+  background: var(--embr-secondary-active-bg, rgba(0, 0, 0, 0.1));
   transform: translateY(0);
 }
 
 .embr-btn-secondary:focus-visible {
-  ring-color: var(--embr-teal);
+  ring-color: var(--embr-secondary-color, var(--embr-teal));
 }
 
-/* Text Button - Minimal with Hover Effects */
+/* Text Button - Client Brand Neutral */
 .embr-btn-text {
   background: transparent;
-  color: var(--embr-teal);
+  color: var(--embr-text-color, var(--embr-teal));
   border-color: transparent;
   box-shadow: none;
   padding: var(--embr-space-3) var(--embr-space-6); /* Slightly less padding */
@@ -109,18 +109,18 @@
 }
 
 .embr-btn-text:hover {
-  background: rgba(15, 118, 110, 0.05);
-  color: var(--embr-glow-mid);
+  background: var(--embr-text-hover-bg, rgba(0, 0, 0, 0.05));
+  color: var(--embr-text-hover, var(--embr-glow-mid));
   transform: translateY(-1px);
 }
 
 .embr-btn-text:active {
-  background: rgba(15, 118, 110, 0.1);
+  background: var(--embr-text-active-bg, rgba(0, 0, 0, 0.1));
   transform: translateY(0);
 }
 
 .embr-btn-text:focus-visible {
-  ring-color: var(--embr-teal);
+  ring-color: var(--embr-text-color, var(--embr-teal));
 }
 
 /* ==============================================
@@ -152,13 +152,13 @@
    SPECIAL EFFECTS & STATES
    ============================================== */
 
-/* Glow Effect - Enhanced Teal Glow */
+/* Glow Effect - Client Brand Neutral */
 .embr-btn-glow {
-  box-shadow: 0 0 20px rgba(15, 118, 110, 0.4), 0 4px 12px rgba(15, 118, 110, 0.2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .embr-btn-glow:hover {
-  box-shadow: 0 0 30px rgba(15, 118, 110, 0.6), 0 6px 20px rgba(15, 118, 110, 0.3);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Loading State */
