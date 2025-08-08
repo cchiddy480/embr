@@ -46,8 +46,8 @@ body {
 }
 
 body {
-  color: rgb(var(--color-text));
-  background: rgb(var(--color-background));
+  color: initial;
+  background: initial;
   font-family: var(--font-body);
 }
 

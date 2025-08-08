@@ -29,6 +29,7 @@ export const applyEmbrKitTheme = (theme: EmbrKitTheme) => {
   if (theme.secondaryColor) root.style.setProperty('--embr-secondary', theme.secondaryColor);
   if (theme.secondaryColor) root.style.setProperty('--embr-secondary-color', theme.secondaryColor);
   if (theme.backgroundColor) root.style.setProperty('--embr-background', theme.backgroundColor);
+  if (theme.backgroundColor) root.style.setProperty('--embr-background', theme.backgroundColor);
   if (theme.surfaceColor) root.style.setProperty('--embr-surface', theme.surfaceColor);
   // Ensure elevated surface follows client surface unless explicitly themed
   if (theme.surfaceColor) root.style.setProperty('--embr-surface-elevated', theme.surfaceColor);

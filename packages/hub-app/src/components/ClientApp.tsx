@@ -475,6 +475,7 @@ export function ClientApp({ config }: ClientAppProps) {
               className="hover:shadow-xl transition-all cursor-pointer"
               style={{ 
                 backgroundColor: config.theme.colors.surface,
+                color: config.theme.colors.text,
                 padding: '2rem'
               }}
             >
