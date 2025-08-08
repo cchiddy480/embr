@@ -12,11 +12,17 @@
   /* Minimal base vars; client theme overrides EmbrKit tokens */
   --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
-  /* Default Embr Hub theme fallbacks (overridden by client apps) */
-  --embr-background: #101926;
-  --embr-surface: #101926;
-  --embr-text: #ffffff;
-  --embr-text-secondary: #cbd5e1;
+
+  /* Embr Hub defaults (used when no client app is mounted) */
+  --embr-primary-color: #0F766E;
+  --embr-secondary-color: #38F9E4;
+  --embr-background: #101926; /* Hub dark background */
+  --embr-surface: #22304a;
+  --embr-surface-elevated: #22304a;
+  --embr-text: #FFFFFF;
+  --embr-text-secondary: #C8D2E1;
+  --embr-button-outline-color: var(--embr-primary-color);
+  --embr-border: rgba(255, 255, 255, 0.12);
 }
 
 /* Base styles */

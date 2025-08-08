@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-    <body className={`${inter.className} min-h-screen w-full flex flex-col`}>
+    <body className={`${inter.className} min-h-screen w-full flex flex-col`} style={{ background: 'var(--embr-background)', color: 'var(--embr-text)' }}>
         <ClientProviders>
           {children}
         </ClientProviders>
