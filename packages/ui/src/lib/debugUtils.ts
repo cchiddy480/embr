@@ -1,3 +1,5 @@
+type LkColor = string;
+
 export const LkColors: LkColor[] = [
   "primary",
   "onprimary",
