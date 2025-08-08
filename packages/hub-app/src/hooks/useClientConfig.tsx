@@ -183,10 +183,10 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
           primary: '#0F766E',
           secondary: '#38F9E4',
           accent: '#FFD700',
-        background: undefined,
-          surface: '#22304a',
-          text: '#FFFFFF',
-          textSecondary: '#CCCCCC'
+          background: '#FFFFFF',
+          surface: '#F7F7F7',
+          text: '#1F2937',
+          textSecondary: '#4B5563'
         },
         fonts: {
           heading: 'Inter',
