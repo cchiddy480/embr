@@ -547,6 +547,13 @@ npm run build
 npm run dev:hub
 ```
 
+### Session 2025-01-27 Highlights
+- Restored Embr Hub visual baseline (pre-LiftKit) and documented a locked baseline section.
+- Fixed dev export 404s; export options only enabled for production export builds.
+- Prevented indefinite Hub loading; improved escape hatch.
+- Client app (WildRoots) now owns page canvas while active (sets `html/body` background; uses `min-h-[100dvh]`).
+- Rules updated to enforce hybrid model, focus policy (outlines allowed on filled/ghost using `--embr-button-outline-color` on `:focus-visible`), and Hub baseline guardrails.
+
 ### Important File Locations
 - **Design Tokens**: `packages/ui/src/lib/embrkit-core.css`
 - **Component Styles**: `packages/ui/src/lib/embrkit-components.css`
