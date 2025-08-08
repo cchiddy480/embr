@@ -33,13 +33,13 @@ export function AccessCodeEntry({ onSubmit, onClose }: AccessCodeEntryProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
-      <div className="rounded-2xl p-6 shadow-2xl max-w-md w-full relative border border-[#2d3c5a]" style={{ backgroundColor: '#22304a' }}>
+      <div className="bg-[#101926] rounded-2xl p-6 shadow-2xl max-w-md w-full relative border border-[#2d3c5a]">
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-base font-semibold text-white font-sans">Enter Access Code</h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-gray-400 font-sans">Enter Access Code</h2>
           <button 
             onClick={onClose} 
-            className="text-gray-300 hover:text-white transition-colors duration-200 p-2"
+            className="text-gray-400 hover:text-white transition-colors duration-200 p-2"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -57,7 +57,7 @@ export function AccessCodeEntry({ onSubmit, onClose }: AccessCodeEntryProps) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="accessCode" className="block text-xs font-medium text-gray-300 mb-2 font-sans">
+            <label htmlFor="accessCode" className="block text-sm font-medium text-gray-400 mb-2 font-sans">
               Access Code
             </label>
             <input
@@ -66,7 +66,7 @@ export function AccessCodeEntry({ onSubmit, onClose }: AccessCodeEntryProps) {
               value={code}
               onChange={e => setCode(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="w-full bg-[#22304a] border border-[#2d3c5a] rounded-xl px-4 py-2.5 text-white placeholder-gray-400 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-[#3B82F6]/50 font-sans text-base"
+              className="w-full bg-[#22304a] border border-[#2d3c5a] rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#38F9E4] focus:border-transparent font-sans text-lg"
               placeholder="Enter your access code..."
               autoFocus
               autoComplete="off"
@@ -76,25 +76,25 @@ export function AccessCodeEntry({ onSubmit, onClose }: AccessCodeEntryProps) {
               maxLength={50}
               disabled={isSubmitting}
             />
-            <p className="text-xs text-gray-300 mt-2 font-sans">
+            <p className="text-xs text-gray-400 mt-2 font-sans">
               Enter the code provided by your event organizer
             </p>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-2.5">
+          <div className="flex gap-3">
             <button
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="flex-1 bg-transparent hover:bg-[#22304a] text-white font-semibold py-2.5 px-4 rounded-xl border border-[#2d3c5a] transition-colors duration-200 font-sans text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-transparent hover:bg-[#22304a] text-white font-semibold py-3 px-4 rounded-xl border border-[#2d3c5a] transition-colors duration-200 font-sans disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!code.trim() || isSubmitting}
-              className="flex-1 bg-[#0F766E] hover:bg-[#13a89a] disabled:bg-[#0F766E]/50 text-white font-semibold py-2.5 px-4 rounded-xl transition-colors duration-200 font-sans text-sm disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 bg-[#0F766E] hover:bg-[#13a89a] disabled:bg-[#0F766E]/50 text-white font-semibold py-3 px-4 rounded-xl transition-colors duration-200 font-sans disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
