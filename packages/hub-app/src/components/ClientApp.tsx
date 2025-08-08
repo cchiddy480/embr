@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ClientConfig } from '../types/client';
 // Import fixed EmbrKit components
 import { 
@@ -17,6 +17,20 @@ interface ClientAppProps {
 
 export function ClientApp({ config }: ClientAppProps) {
   const [activeTab, setActiveTab] = useState(config.navigation[0]?.id || 'home');
+  // Ensure the page canvas (html/body) matches the client theme while this app is active
+  useEffect(() => {
+    const prevBodyBg = document.body.style.background;
+    const prevHtmlBg = document.documentElement.style.background;
+    const prevBodyColor = document.body.style.color;
+    document.body.style.background = config.theme.colors.background;
+    document.documentElement.style.background = config.theme.colors.background;
+    document.body.style.color = config.theme.colors.text;
+    return () => {
+      document.body.style.background = prevBodyBg;
+      document.documentElement.style.background = prevHtmlBg;
+      document.body.style.color = prevBodyColor;
+    };
+  }, [config.theme.colors.background, config.theme.colors.text]);
 
   // Convert config to EmbrKit theme with button color overrides
   const embrKitTheme = {
@@ -592,7 +606,7 @@ export function ClientApp({ config }: ClientAppProps) {
               }
             `
           }} />
-      <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
+      <div className="min-h-screen min-h-[100dvh]" style={{ backgroundColor: config.theme.colors.background }}>
         {/* CUSTOM: Top Navigation Bar - Exact replica of HTML version */}
         <div 
           className="sticky top-0 z-50 backdrop-blur-md border-b"
@@ -635,29 +649,15 @@ export function ClientApp({ config }: ClientAppProps) {
           ))}
             </div>
             
-            <div className="flex items-center gap-3">
-              <EmbrKitBadge
-                variant="primary" 
-                style={{ 
-                  backgroundColor: `${config.theme.colors.primary}20`,
-                  color: config.theme.colors.primary
-                }}
-              >
-                v{config.version}
-              </EmbrKitBadge>
-              <a
-                href="/"
-                aria-label="Back to Embr Hub"
-                className="px-3 py-1 rounded-full text-sm font-medium transition-colors"
-                style={{
-                  color: config.theme.colors.textSecondary,
-                  border: `1px solid ${config.theme.colors.text}1A`,
-                  backgroundColor: 'transparent'
-                }}
-              >
-                Back to Hub
-              </a>
-            </div>
+            <EmbrKitBadge
+              variant="primary" 
+              style={{ 
+                backgroundColor: `${config.theme.colors.primary}20`,
+                color: config.theme.colors.primary
+              }}
+            >
+              v{config.version}
+            </EmbrKitBadge>
           </div>
         </div>
 
