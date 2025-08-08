@@ -20,7 +20,7 @@ Hybrid development model (required):
   - `--embr-background`, `--embr-surface`, `--embr-surface-elevated`
   - `--embr-text`, `--embr-text-secondary`, `--embr-border`
   - `--embr-button-outline-color`, optional `--embr-primary-hover`, `--embr-secondary-hover`
-- Focus policy: filled buttons have no outline; inputs/ghost controls use `--embr-button-outline-color` with `:focus-visible`.
+- Focus policy: outlines are allowed on filled and ghost controls, but must use `--embr-button-outline-color` and only appear on `:focus-visible` (no Tailwind `ring-*`).
 - No hardcoded colors in client code (hex/rgba/Tailwind ring-*). Use tokens or config brand constants only.
 - Theme injection centralized in the client renderer/provider; do not bleed into Hub.
 
