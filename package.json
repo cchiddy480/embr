@@ -19,8 +19,8 @@
   "devDependencies": {
     "@chainlift/liftkit": "^0.1.1",
     "@types/node": "^20.0.0",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "autoprefixer": "^10.4.0",
