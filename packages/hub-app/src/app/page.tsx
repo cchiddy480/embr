@@ -90,10 +90,10 @@ export default function HomePage() {
           <Image src="/embr_logo_transparent_dark.svg" alt="Embr Logo" width={200} height={200} className="h-52 w-52 z-10" />
         </div>
         {/* Welcome Text */}
-        <h1 className="text-3xl font-bold text-white mb-4 text-center font-sans">
+        <h1 className="text-2xl font-semibold text-white mb-3 text-center font-sans">
           Welcome to <span className="text-[#38F9E4]">Embr</span>
         </h1>
-        <p className="text-gray-200 text-center mb-8 text-lg font-medium font-sans">
+        <p className="text-gray-300 text-center mb-6 text-base font-medium font-sans">
           Micro Apps. One Purpose. No Bloat.
         </p>
         
@@ -114,7 +114,7 @@ export default function HomePage() {
         <div className="w-full flex flex-col gap-5 mb-10 max-w-sm mx-auto">
           <button
             onClick={() => setShowQRScanner(true)}
-            className="w-full bg-[#0F766E] hover:bg-[#13a89a] text-white font-semibold py-4 px-4 rounded-xl shadow transition-colors duration-200 flex items-center justify-center gap-2 text-lg font-sans"
+            className="w-full bg-[#0F766E] hover:bg-[#13a89a] text-white font-semibold py-3 px-4 rounded-xl shadow transition-colors duration-200 flex items-center justify-center gap-2 text-base font-sans"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V6a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1zm12 0h2a1 1 0 001-1V6a1 1 0 00-1-1h-2a1 1 0 00-1 1v1a1 1 0 001 1zM5 20h2a1 1 0 001-1v-1a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1z" />
@@ -123,7 +123,7 @@ export default function HomePage() {
           </button>
           <button
             onClick={() => setShowAccessCode(true)}
-            className="w-full bg-transparent hover:bg-[#22304a] text-white font-semibold py-4 px-4 rounded-xl border border-[#2d3c5a] transition-colors duration-200 flex items-center justify-center gap-2 text-lg font-sans"
+            className="w-full bg-transparent hover:bg-[#22304a] text-white font-semibold py-3 px-4 rounded-xl border border-[#2d3c5a] transition-colors duration-200 flex items-center justify-center gap-2 text-base font-sans"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
