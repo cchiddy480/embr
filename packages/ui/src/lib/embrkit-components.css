@@ -104,7 +104,7 @@
 }
 
 .embr-input:focus {
-  border-color: var(--embr-primary-color, var(--embr-teal));
+  border-color: var(--embr-primary-color, currentColor);
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1); /* Neutral focus glow */
   transform: translateY(-1px); /* Subtle lift on focus */
 }
@@ -363,7 +363,7 @@
 }
 
 .embr-toast-info {
-  border-left: 4px solid var(--embr-teal);
+  border-left: 4px solid var(--embr-primary-color, var(--embr-text));
 }
 
 @keyframes embr-toast-slide-in {
@@ -408,7 +408,7 @@
 }
 
 .embr-navbar-brand:hover {
-  color: var(--embr-teal);
+  color: var(--embr-primary-color, currentColor);
   transition: color var(--embr-transition-fast);
 }
 
@@ -438,13 +438,13 @@
 
 .embr-navbar-link:hover {
   color: var(--embr-text-on-dark);
-  background: rgba(15, 118, 110, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }
 
 .embr-navbar-link.active {
-  color: var(--embr-teal);
-  background: rgba(15, 118, 110, 0.15);
+  color: var(--embr-primary-color, currentColor);
+  background: rgba(0, 0, 0, 0.15);
   font-weight: 600;
 }
 
@@ -504,18 +504,18 @@
 
 .embr-tab:hover {
   color: var(--embr-text-on-dark);
-  background: rgba(15, 118, 110, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .embr-tab.active {
-  color: var(--embr-teal);
+  color: var(--embr-primary-color, currentColor);
   background: var(--embr-surface-elevated);
   font-weight: 600;
-  border-bottom: 2px solid var(--embr-teal);
+  border-bottom: 2px solid var(--embr-primary-color, currentColor);
 }
 
 .embr-tab:focus {
-  outline: 2px solid var(--embr-teal);
+  outline: 2px solid var(--embr-button-outline-color, var(--embr-primary-color));
   outline-offset: -2px;
 }
 
@@ -551,7 +551,7 @@
   font-family: 'Inter', system-ui, sans-serif;
   font-size: var(--embr-text-sm);
   padding: var(--embr-space-3) var(--embr-space-6);
-  background: rgba(15, 118, 110, 0.05);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: var(--embr-radius-xl);
   margin-bottom: var(--embr-space-6);
   overflow-x: auto;
@@ -574,8 +574,8 @@
 }
 
 .embr-breadcrumb-link:hover {
-  color: var(--embr-teal);
-  background: rgba(15, 118, 110, 0.1);
+  color: var(--embr-primary-color, currentColor);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .embr-breadcrumb-current {

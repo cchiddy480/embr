@@ -573,6 +573,15 @@ export function ClientApp({ config }: ClientAppProps) {
               .embr-date-input:focus-visible {
                 outline-color: ${config.theme.colors.primary} !important;
               }
+              
+              /* Remove outlines on filled buttons entirely for client brand parity */
+              .embr-btn-primary:focus,
+              .embr-btn-primary:focus-visible,
+              .embr-btn-secondary:focus,
+              .embr-btn-secondary:focus-visible {
+                outline: none !important;
+                box-shadow: none !important;
+              }
             `
           }} />
       <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>

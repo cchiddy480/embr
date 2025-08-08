@@ -1,0 +1,180 @@
+# EMBR UNIVERSAL MICRO-APP FRAMEWORK - CURSOR RULES
+# This file ensures every AI conversation has complete project context and maintains consistency
+
+## 🎯 PROJECT CONTEXT - READ FIRST
+You are working on **Embr**, a Universal Micro-App Framework that creates single-purpose digital tools.
+
+**CRITICAL**: Always reference `EMBR_KNOWLEDGE_LEDGER.md` at the start of every conversation. This contains all essential project information, current status, and architectural decisions.
+
+## 🏗️ CORE PROJECT INFORMATION
+
+### What Embr Does
+- **Universal Micro-App Framework** for single-purpose digital tools
+- **Not just events** - can create ANY focused digital experience
+- Examples: Breathing timers, contact forms, business menus, property showcases, event guides
+- **Mission**: "One App. One Purpose. Fast. Branded. Brilliant."
+
+### Current Status
+- **EmbrKit Design System**: COMPLETE ✅ (37/37 components)
+- **Component Library**: Production-ready with full TypeScript support
+- **Demo Pages**: Interactive showcases available
+- **Next Phase**: Template applications and enhanced tooling
+
+## 🎨 BRAND REQUIREMENTS - NON-NEGOTIABLE
+
+### EmbrKit Design System Standards
+- **Border Radius**: MUST use `--embr-radius-2xl` (1rem/16px) for primary components
+- **Typography**: MUST use Inter font family with `font-weight: 600` for buttons/headings
+- **Colors**: Primary teal (#0f766e), with success/warning/error variants
+- **Spacing**: Golden ratio-based spacing system using CSS custom properties
+- **Accessibility**: WCAG AA compliance required
+
+### Visual Identity
+- **Bold & Modern**: Substantial presence, generous padding
+- **Mathematical Precision**: Golden ratio proportions with optical corrections
+- **Soft Teal Glow**: Interactive elements have subtle teal glow effects
+- **Clean & Readable**: High contrast, clear typography hierarchy
+
+## 🛠️ TECHNICAL ARCHITECTURE
+
+### Technology Stack
+- **Frontend**: Next.js 14 + TypeScript + CSS Custom Properties
+- **Mobile**: Capacitor for native wrapper, PWA-first approach
+- **Backend**: Firebase Firestore for configs, Node.js for build tools
+- **Design System**: EmbrKit (hybrid of LiftKit precision + Embr branding)
+
+### Monorepo Structure
+```
+Embr/
+├── packages/
+│   ├── hub-app/           # Next.js Hub Application
+│   ├── ui/                # EmbrKit Design System
+│   └── standalone-app/    # Standalone App Generator
+├── EMBR_KNOWLEDGE_LEDGER.md  # Complete project reference
+└── .cursorrules          # This file
+```
+
+### Key Files
+- **Design Tokens**: `packages/ui/src/lib/embrkit-core.css`
+- **Component Styles**: `packages/ui/src/lib/embrkit-components.css`
+- **React Components**: `packages/ui/src/components/embrkit.tsx`
+- **Demo Pages**: `packages/hub-app/src/app/embrkit-*-demo/`
+
+## 📋 DEVELOPMENT STANDARDS
+
+### Code Quality Requirements
+- **TypeScript First**: Full type safety, no `any` types
+- **Component Naming**: `EmbrKit{ComponentName}` (PascalCase)
+- **CSS Classes**: `embr-{component-name}` (kebab-case)
+- **CSS Variables**: `--embr-{category}-{property}` (kebab-case)
+
+### Performance Standards
+- **Bundle Optimization**: Tree-shaking friendly exports
+- **CSS Efficiency**: Use CSS custom properties, avoid deep nesting
+- **Accessibility**: Keyboard navigation, screen reader support, reduced motion
+- **Mobile First**: Responsive design from smallest screen up
+
+### Component Development
+- **Single Responsibility**: One component per concern
+- **Reusable**: Design for multiple use cases
+- **Configurable**: Use props and CSS variables for customization
+- **Documented**: Include usage examples and TypeScript interfaces
+
+## 🎯 CURRENT PRIORITIES
+
+### Completed ✅
+- EmbrKit Design System (37 components complete)
+- Brand alignment with Embr identity
+- Accessibility enhancements
+- Production polish and optimization
+
+### Next Phases 🚀
+1. **Template Applications**: Create 5-10 complete micro-app templates
+2. **Enhanced Tooling**: Storybook, testing framework, CI/CD
+3. **Client Onboarding**: Configuration UI, template marketplace
+
+## 📝 CONVERSATION GUIDELINES
+
+### Always Start By:
+1. **Referencing the Knowledge Ledger** for current project status
+2. **Understanding the specific request** in context of Embr's mission
+3. **Considering brand consistency** in all suggestions
+4. **Maintaining architectural standards** in all implementations
+
+### When Making Suggestions:
+- **Align with Embr's Vision**: Universal micro-app framework
+- **Respect Brand Guidelines**: EmbrKit design system standards
+- **Consider Performance**: Bundle size, accessibility, mobile-first
+- **Think Systematically**: How does this fit the overall architecture?
+
+### When Writing Code:
+- **Use EmbrKit Components**: Leverage existing design system
+- **Follow Naming Conventions**: Consistent with established patterns
+- **Include TypeScript Types**: Full type safety required
+- **Add Accessibility**: ARIA labels, keyboard navigation, semantic HTML
+
+## 🧠 CRITICAL ARCHITECTURAL DECISIONS
+
+### Why These Technologies?
+- **Next.js + Capacitor**: Web-first with native capabilities
+- **CSS Custom Properties**: Dynamic theming without runtime overhead
+- **Monorepo**: Shared components, consistent versioning
+- **Configuration-Driven**: JSON configs enable rapid customization
+
+### Why EmbrKit Over Alternatives?
+- **LiftKit Foundation**: Mathematical precision and golden ratio
+- **Embr Brand Identity**: Bold, modern, substantial presence
+- **Universal Flexibility**: Components work for any micro-app scenario
+- **Production Quality**: Accessibility, performance, TypeScript support
+
+## 🎨 BRAND MEMORY TRIGGERS
+
+Remember these key brand elements:
+- **Inter Font Family** throughout all interfaces
+- **Rounded-2xl Border Radius** (16px) for primary components
+- **Bold Font Weight (600)** for buttons and headings
+- **Generous Padding** for substantial feel
+- **Soft Teal Glow** on interactive elements
+- **Mathematical Precision** in spacing and proportions
+
+## 📚 REFERENCE MATERIALS
+
+### Essential Files to Reference:
+- `EMBR_KNOWLEDGE_LEDGER.md` - Complete project overview
+- `packages/ui/src/lib/embrkit-core.css` - Design tokens
+- `packages/ui/src/components/embrkit.tsx` - Component library
+- `packages/hub-app/src/app/embrkit-components-demo/page.tsx` - Usage examples
+
+### Demo Pages:
+- `/embrkit-demo` - Design system principles
+- `/embrkit-components-demo` - Interactive component showcase
+
+## 🚀 SUCCESS METRICS
+
+### Technical Goals:
+- Maintain 100% TypeScript coverage
+- Ensure WCAG AA accessibility compliance
+- Optimize for sub-3-second load times
+- Keep bundle sizes minimal through tree-shaking
+
+### Business Goals:
+- Enable rapid micro-app creation (minutes, not hours)
+- Preserve perfect client brand integrity
+- Support any single-purpose digital tool scenario
+- Provide intuitive developer experience
+
+## 📋 CONVERSATION CHECKLIST
+
+Before responding to any request, ensure you:
+- [ ] Have referenced the Knowledge Ledger for current status
+- [ ] Understand how the request fits Embr's universal framework vision
+- [ ] Will maintain EmbrKit design system consistency
+- [ ] Are following established architectural patterns
+- [ ] Consider accessibility and performance implications
+- [ ] Use proper naming conventions and TypeScript types
+
+---
+
+**Remember: Embr is not just an event platform - it's a Universal Micro-App Framework that can create ANY single-purpose digital tool while maintaining perfect brand integrity and blazing-fast performance.**
+
+**Every decision should support the mission: "One App. One Purpose. Fast. Branded. Brilliant."** 

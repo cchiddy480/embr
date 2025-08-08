@@ -62,11 +62,59 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     })();
   }, [checkExpiry]);
 
+  // Access code to client ID mapping - static fallback for known codes
+  const ACCESS_CODE_MAPPING: Record<string, string> = {
+    'WILDROOTS2025': 'wildroots-festival-2025',
+    // Add more access codes here as needed
+  };
+
+  // Helper function to resolve access code to client ID
+  const resolveClientId = async (input: string): Promise<string> => {
+    const upperInput = input.toUpperCase();
+    
+    // First check static mapping
+    const clientIdFromMapping = ACCESS_CODE_MAPPING[upperInput];
+    if (clientIdFromMapping) {
+      console.log('[resolveClientId] Access code mapped from static:', input, '→', clientIdFromMapping);
+      return clientIdFromMapping;
+    }
+
+    // Try to find access code by scanning config files
+    const configFileNames = [
+      'wildroots-festival-2025.json',
+      'smith-jones-wedding-2024.json', 
+      'demo-festival.json'
+      // Add more as needed, or make this dynamic
+    ];
+
+    for (const fileName of configFileNames) {
+      try {
+        const clientId = fileName.replace('.json', '');
+        const res = await fetch(`/client-configs/${fileName}`);
+        if (res.ok) {
+          const config = await res.json();
+          if (config.accessCode && config.accessCode.toUpperCase() === upperInput) {
+            console.log('[resolveClientId] Access code found in config:', input, '→', clientId);
+            return clientId;
+          }
+        }
+      } catch (error) {
+        // Continue to next config file
+        console.log('[resolveClientId] Could not check', fileName, error);
+      }
+    }
+
+    // If not an access code, treat as direct client ID
+    console.log('[resolveClientId] Using as direct client ID:', input);
+    return input;
+  };
+
   // Load config from static file or fallback to generic
-  const loadConfig = useCallback(async (clientId?: string) => {
-    console.log('[loadConfig] called with clientId:', clientId);
+  const loadConfig = useCallback(async (clientIdOrAccessCode?: string) => {
+    console.log('[loadConfig] called with clientIdOrAccessCode:', clientIdOrAccessCode);
     console.log('[loadConfig] window:', typeof window);
-    if (!clientId) {
+    
+    if (!clientIdOrAccessCode) {
       // Try to load from Capacitor Storage
       const { value: cachedConfig } = await Preferences.get({ key: STORAGE_CONFIG_KEY });
       if (cachedConfig) {
@@ -86,12 +134,15 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
       }
     }
 
+    // Resolve access code to client ID
+    const clientId = await resolveClientId(clientIdOrAccessCode);
+
     // Try to fetch from Firestore first
     try {
       const docRef = doc(db, 'client-configs', clientId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        const fetchedConfig = docSnap.data();
+        const fetchedConfig = docSnap.data() as ClientConfig;
         setConfig(fetchedConfig);
         checkExpiry(fetchedConfig.expiry);
         await Preferences.set({ key: STORAGE_CLIENT_ID_KEY, value: clientId });
@@ -104,6 +155,7 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     } catch (err) {
       console.warn(`[ClientConfigProvider] Could not fetch config for ${clientId} from Firestore, falling back to static.`, err);
     }
+    
     // Fallback: fetch from static JSON
     try {
       const res = await fetch(`/client-configs/${clientId}.json`);

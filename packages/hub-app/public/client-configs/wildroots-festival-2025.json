@@ -7,7 +7,7 @@
   "theme": {
     "colors": {
       "primary": "#3B6A4C",
-      "secondary": "#D98C65",
+      "secondary": "#D98C65", 
       "background": "#FDF9F0",
       "surface": "#F8F4E9",
       "text": "#2D3748",
@@ -26,7 +26,7 @@
       "enabled": true
     },
     {
-      "id": "schedule",
+      "id": "schedule", 
       "title": "Schedule",
       "icon": "calendar",
       "enabled": true

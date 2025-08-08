@@ -37,6 +37,15 @@
   outline-offset: 2px;
 }
 
+/* Kill outlines on filled buttons for client apps (accessibility retained via elevation/contrast) */
+.embr-btn-primary:focus,
+.embr-btn-primary:focus-visible,
+.embr-btn-secondary:focus,
+.embr-btn-secondary:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 /* Disabled State */
 .embr-btn:disabled {
   opacity: 0.6;
@@ -69,7 +78,7 @@
 }
 
 .embr-btn-primary:focus-visible {
-  ring-color: var(--embr-primary-color, currentColor);
+  /* remove tailwind ring-color leak */
 }
 
 /* Secondary Button - Client Brand Neutral */
@@ -94,7 +103,7 @@
 }
 
 .embr-btn-secondary:focus-visible {
-  ring-color: var(--embr-secondary-color, currentColor);
+  /* remove tailwind ring-color leak */
 }
 
 /* Text Button - Client Brand Neutral */
@@ -214,12 +223,12 @@
 
 @media (prefers-color-scheme: dark) {
   .embr-btn-secondary {
-    border-color: var(--embr-glow-mid);
-    color: var(--embr-glow-mid);
+    border-color: var(--embr-secondary-color, currentColor);
+    color: var(--embr-secondary-color, currentColor);
   }
   
   .embr-btn-text {
-    color: var(--embr-glow-mid);
+    color: var(--embr-text-color, currentColor);
   }
 }
 
