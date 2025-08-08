@@ -1,3 +1,22 @@
+# Cursor Session Rules — Embr
+
+Always begin each session by:
+1) Reading `EMBR_KNOWLEDGE_LEDGER.md` (full context, decisions, standards)
+2) Reading `DEV_LOG.md` and the latest daily entry in `docs/dev-log/`
+
+When modifying the Hub (packages/hub-app):
+- Validate against HUB APP VISUAL BASELINE in the ledger
+- Do not replace fixed Hub hex colors with theme variables
+- Client theming is applied only within `ClientApp`
+
+When modifying the client app (ClientApp):
+- Ensure html/body background is set to the client theme while active
+- Use `min-h-[100dvh]` for full viewport coverage
+
+Quality gates for PRs:
+- No hardcoded colors in client code except documented brand constants
+- Hub baseline visuals unchanged unless explicitly approved
+- Run a manual 30s keyboard-focus check
 # EMBR UNIVERSAL MICRO-APP FRAMEWORK - CURSOR RULES
 # This file ensures every AI conversation has complete project context and maintains consistency
 
