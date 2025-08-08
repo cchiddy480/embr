@@ -207,7 +207,7 @@ export function ClientApp({ config }: ClientAppProps) {
 
       {/* EMBRKIT: Featured Events Section using Cards */}
       {config.content?.schedule?.events && config.content.schedule.events.length > 0 && (
-        <div className="px-6 py-12" style={{ backgroundColor: config.theme.colors.surface }}>
+        <div className="px-6 py-12" style={{ backgroundColor: config.theme.colors.background }}>
           <EmbrKitContainer size="lg">
             <h2 
               className="text-4xl text-center mb-12"
