@@ -23,7 +23,7 @@ export function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4">
-      <div className="bg-[#101926] rounded-2xl p-6 shadow-2xl max-w-md w-full relative border border-[#2d3c5a]">
+    <div className="rounded-2xl p-6 shadow-2xl max-w-md w-full relative border border-[#2d3c5a]" style={{ backgroundColor: 'var(--embr-surface)' }}>
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-white font-sans">Scan QR Code</h2>

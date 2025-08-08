@@ -9,26 +9,9 @@
 /* EmbrKit styles are imported directly in components that need them */
 
 :root {
-  /* Embr branding colors */
-  --color-primary: 15 118 110; /* #0F766E */
-  --color-accent: 31 168 159;  /* #1FA89F */
-  --color-background: 16 25 38; /* #101926 */
-  --color-surface: 248 250 252;
-  --color-text: 254 254 254; /* #FEFEFE */
-  --color-text-secondary: 236 237 237; /* #ededed */
-  --color-gray: 108 117 125; /* #6c757d */
-  /* Font variables */
+  /* Minimal base vars; client theme overrides EmbrKit tokens */
   --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: 16 25 38; /* #101926 */
-    --color-surface: 6 41 38; /* #062926 */
-    --color-text: 254 254 254; /* #FEFEFE */
-    --color-text-secondary: 236 237 237; /* #ededed */
-  }
 }
 
 /* Base styles */
