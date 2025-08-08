@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production'
+const isExport = process.env.NEXT_EXPORT === 'true'
+
 const nextConfig = {
   experimental: {
     appDir: true,
@@ -30,11 +33,14 @@ const nextConfig = {
       },
     ]
   },
-  // Capacitor configuration
-  output: 'export',
-  trailingSlash: true,
-  skipTrailingSlashRedirect: true,
-  distDir: 'out',
 }
 
-module.exports = nextConfig 
+// Only enable static export options explicitly when building for export
+if (isProd && isExport) {
+  nextConfig.output = 'export'
+  nextConfig.trailingSlash = true
+  nextConfig.skipTrailingSlashRedirect = true
+  nextConfig.distDir = 'out'
+}
+
+module.exports = nextConfig
