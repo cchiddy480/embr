@@ -44,21 +44,36 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
   }, [config]);
 
   useEffect(() => {
-    // On mount, try to load cached config from Capacitor Storage
+    // On mount, try to load cached config from Capacitor Storage (with safe web fallback)
     (async () => {
       setLoading(true);
-      const { value: cachedConfig } = await Preferences.get({ key: STORAGE_CONFIG_KEY });
-      if (cachedConfig) {
+      try {
+        let cachedConfig: string | null = null;
         try {
-          const parsed = JSON.parse(cachedConfig);
-          setConfig(parsed);
-          checkExpiry(parsed.expiry);
-          console.log('[ClientConfigProvider] loaded cached config from Capacitor Storage:', parsed);
-        } catch (e) {
-          console.warn('[ClientConfigProvider] Failed to parse cached config from Capacitor Storage');
+          const res = await Preferences.get({ key: STORAGE_CONFIG_KEY });
+          cachedConfig = res?.value ?? null;
+        } catch (capErr) {
+          // Capacitor not available (web) → fall back to localStorage
+          try {
+            cachedConfig = typeof window !== 'undefined' ? window.localStorage.getItem(STORAGE_CONFIG_KEY) : null;
+          } catch (_) {
+            cachedConfig = null;
+          }
         }
+
+        if (cachedConfig) {
+          try {
+            const parsed = JSON.parse(cachedConfig);
+            setConfig(parsed);
+            checkExpiry(parsed.expiry);
+            console.log('[ClientConfigProvider] loaded cached config:', parsed);
+          } catch (e) {
+            console.warn('[ClientConfigProvider] Failed to parse cached config');
+          }
+        }
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     })();
   }, [checkExpiry]);
 
@@ -116,7 +131,17 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     
     if (!clientIdOrAccessCode) {
       // Try to load from Capacitor Storage
-      const { value: cachedConfig } = await Preferences.get({ key: STORAGE_CONFIG_KEY });
+      let cachedConfig: string | null = null;
+      try {
+        const res = await Preferences.get({ key: STORAGE_CONFIG_KEY });
+        cachedConfig = res?.value ?? null;
+      } catch {
+        try {
+          cachedConfig = typeof window !== 'undefined' ? window.localStorage.getItem(STORAGE_CONFIG_KEY) : null;
+        } catch {
+          cachedConfig = null;
+        }
+      }
       if (cachedConfig) {
         try {
           const parsed = JSON.parse(cachedConfig);
@@ -126,7 +151,7 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
           return;
         } catch (error) {
           console.error('Failed to parse cached config:', error);
-          await Preferences.remove({ key: STORAGE_CONFIG_KEY });
+          try { await Preferences.remove({ key: STORAGE_CONFIG_KEY }); } catch {}
           throw new Error('Invalid cached config');
         }
       } else {

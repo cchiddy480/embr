@@ -65,7 +65,8 @@ export default function ClientProviders({ children }: { children: React.ReactNod
   return (
     <ClientConfigProvider>
       <EscapeMechanism />
-      {children}
+      {/* Ensure a valid ReactNode for older type resolution */}
+      <>{children}</>
     </ClientConfigProvider>
   );
 } 
