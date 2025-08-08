@@ -635,15 +635,29 @@ export function ClientApp({ config }: ClientAppProps) {
           ))}
             </div>
             
-            <EmbrKitBadge
-              variant="primary" 
-              style={{ 
-                backgroundColor: `${config.theme.colors.primary}20`,
-                color: config.theme.colors.primary
-              }}
-            >
-              v{config.version}
-            </EmbrKitBadge>
+            <div className="flex items-center gap-3">
+              <EmbrKitBadge
+                variant="primary" 
+                style={{ 
+                  backgroundColor: `${config.theme.colors.primary}20`,
+                  color: config.theme.colors.primary
+                }}
+              >
+                v{config.version}
+              </EmbrKitBadge>
+              <a
+                href="/"
+                aria-label="Back to Embr Hub"
+                className="px-3 py-1 rounded-full text-sm font-medium transition-colors"
+                style={{
+                  color: config.theme.colors.textSecondary,
+                  border: `1px solid ${config.theme.colors.text}1A`,
+                  backgroundColor: 'transparent'
+                }}
+              >
+                Back to Hub
+              </a>
+            </div>
           </div>
         </div>
 
