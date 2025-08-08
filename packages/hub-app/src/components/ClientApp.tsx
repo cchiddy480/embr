@@ -444,7 +444,7 @@ export function ClientApp({ config }: ClientAppProps) {
         );
       
   const renderScheduleContent = () => (
-    <EmbrKitContainer size="lg" className="px-6 py-8">
+    <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
       <div className="text-center mb-12">
         <h1 
           className="text-4xl md:text-5xl mb-4"
@@ -513,7 +513,7 @@ export function ClientApp({ config }: ClientAppProps) {
   );
 
   const renderGenericContent = (title: string, description: string, emoji: string) => (
-    <EmbrKitContainer size="lg" className="px-6 py-8">
+    <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
       <EmbrKitCard className="text-center">
         <h1 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: "'Playfair Display', serif", color: config.theme.colors.text }}>
           {title}
