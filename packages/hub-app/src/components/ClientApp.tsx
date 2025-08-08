@@ -648,7 +648,7 @@ export function ClientApp({ config }: ClientAppProps) {
         </div>
 
         {/* Content */}
-        <div className="pb-8">
+        <div className="pt-12 md:pt-16 pb-8">
           {renderContent()}
         </div>
     </div>
