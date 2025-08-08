@@ -94,7 +94,7 @@ export function AccessCodeEntry({ onSubmit, onClose }: AccessCodeEntryProps) {
             <button
               type="submit"
               disabled={!code.trim() || isSubmitting}
-              className="flex-1 bg-[#0F766E] hover:bg-[#13a89a] disabled:bg-[#0F766E]/50 text-white font-semibold py-3 px-4 rounded-xl shadow transition-colors duration-200 font-sans disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 bg-[#0F766E] hover:bg-[#13a89a] disabled:bg-[#0F766E] disabled:opacity-100 text-white font-semibold py-3 px-4 rounded-xl shadow transition-colors duration-200 font-sans disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
