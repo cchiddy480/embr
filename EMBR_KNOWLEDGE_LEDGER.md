@@ -487,6 +487,44 @@ h3, .embr-text-2xl { font-size: 1.5rem; font-weight: 600; }
 
 ---
 
+## 🔒 HUB APP VISUAL BASELINE (LOCKED)
+
+Authoritative reference for the Embr Hub (shell) visuals to prevent regressions when iterating on EmbrKit or client apps. The Hub deliberately uses fixed Embr-branded colors and does NOT inherit client themes.
+
+- Key files (must stay consistent):
+  - `packages/hub-app/src/app/globals.css`
+  - `packages/hub-app/src/app/layout.tsx`
+  - `packages/hub-app/src/app/page.tsx`
+  - `packages/hub-app/src/components/AccessCodeEntry.tsx`
+  - `packages/hub-app/src/components/LoadingScreen.tsx`
+
+- Color palette (hex exact):
+  - Background: `#101926`
+  - Surface (modal/input): `#22304a`
+  - Border subtle: `#2d3c5a`
+  - Text primary: `#FEFEFE`
+  - Text secondary: `#EDEDED` or `#D1D5DB` based on context
+  - Primary (CTA): `#0F766E`
+  - Primary hover: `#13a89a`
+  - Accent/focus ring: `#38F9E4`
+
+- UI specifics:
+  - Hub body: `bg-[#101926] text-[#FEFEFE]`
+  - Hero teal glow circle: `#0F766E` at ~25% opacity with heavy blur
+  - Buttons: bold Inter, rounded-xl; primary uses `#0F766E` with hover `#13a89a`; outline uses border `#2d3c5a`
+  - Access modal: surface `#101926`, inputs `#22304a`, labels `text-gray-400`, helper text `text-gray-200`, focus ring `#38F9E4`
+  - Loading screen: background `#101926`, spinner border `#38F9E4`
+
+- Guardrails:
+  - Do not replace the hub’s fixed hex colors with theme variables.
+  - Client app theming must be scoped inside the client renderer (`ClientApp`) only.
+  - Changes to the files above require visual check against this baseline.
+
+- Recovery:
+  - Create and maintain a git tag when updated, e.g., `v-hub-ui-baseline-2025-01-27` to restore quickly.
+
+---
+
 ## 📝 DEVELOPMENT NOTES
 
 ### Current Branch Strategy
