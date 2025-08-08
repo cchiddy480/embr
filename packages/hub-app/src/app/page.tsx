@@ -67,6 +67,7 @@ export default function HomePage() {
   }
 
   if (loading) {
+    // Show hub loading screen but allow escape if something wedges
     return <LoadingScreen message="Loading your app..." />;
   }
 
@@ -75,7 +76,7 @@ export default function HomePage() {
     return <ClientApp config={config} />;
   }
 
-  // Show loading screen
+  // Show loading screen during QR/access code fetches, but don't block indefinitely
   if (isLoading) {
     return <LoadingScreen message="Loading your app..." />
   }
