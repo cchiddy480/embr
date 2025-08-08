@@ -81,7 +81,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-between items-center px-4 font-sans pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+    <div className="min-h-screen flex flex-col justify-between items-center px-4 font-sans pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]" style={{ background: 'var(--embr-background)' }}>
       <div className="w-full flex-1 flex flex-col justify-center items-center">
         {/* Embr Logo with larger, soft glow */}
         <div className="flex flex-col items-center mb-8 relative w-full">

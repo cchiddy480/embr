@@ -12,6 +12,11 @@
   /* Minimal base vars; client theme overrides EmbrKit tokens */
   --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  /* Default Embr Hub theme fallbacks (overridden by client apps) */
+  --embr-background: #101926;
+  --embr-surface: #101926;
+  --embr-text: #ffffff;
+  --embr-text-secondary: #cbd5e1;
 }
 
 /* Base styles */
