@@ -66,7 +66,7 @@ export function AccessCodeEntry({ onSubmit, onClose }: AccessCodeEntryProps) {
               value={code}
               onChange={e => setCode(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="w-full bg-[#22304a] border border-[#2d3c5a] rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-transparent font-sans text-lg"
+              className="w-full bg-[#22304a] border border-[#2d3c5a] rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-[#38F9E4]/60 font-sans text-lg"
               placeholder="Enter your access code..."
               autoFocus
               autoComplete="off"
