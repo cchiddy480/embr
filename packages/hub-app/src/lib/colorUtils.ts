@@ -1,5 +1,6 @@
-import type LkColorWithOnToken from "@/lib/types/lk-color";
-import type LkColor from "@/lib/types/lk-color";
+// Local fallback types to avoid missing type import during build
+type LkColor = string;
+type LkColorWithOnToken = string;
 import { LkColors } from "@/lib/debugUtils";
 
 const colorsWithOnTokens = [
