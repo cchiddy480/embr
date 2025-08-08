@@ -9,20 +9,26 @@
 /* EmbrKit styles are imported directly in components that need them */
 
 :root {
-  /* Minimal base vars; client theme overrides EmbrKit tokens */
+  /* Embr branding colors */
+  --color-primary: 15 118 110; /* #0F766E */
+  --color-accent: 31 168 159;  /* #1FA89F */
+  --color-background: 16 25 38; /* #101926 */
+  --color-surface: 248 250 252;
+  --color-text: 254 254 254; /* #FEFEFE */
+  --color-text-secondary: 236 237 237; /* #ededed */
+  --color-gray: 108 117 125; /* #6c757d */
+
   --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+}
 
-  /* Embr Hub defaults (used when no client app is mounted) */
-  --embr-primary-color: #0F766E;
-  --embr-secondary-color: #38F9E4;
-  --embr-background: #101926; /* Hub dark background */
-  --embr-surface: #22304a;
-  --embr-surface-elevated: #22304a;
-  --embr-text: #FFFFFF;
-  --embr-text-secondary: #C8D2E1;
-  --embr-button-outline-color: var(--embr-primary-color);
-  --embr-border: rgba(255, 255, 255, 0.12);
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: 16 25 38; /* #101926 */
+    --color-surface: 6 41 38; /* #062926 */
+    --color-text: 254 254 254; /* #FEFEFE */
+    --color-text-secondary: 236 237 237; /* #ededed */
+  }
 }
 
 /* Base styles */
@@ -37,11 +43,11 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   height: 100%;
-  background: #101926; /* Embr Hub default */
 }
 
 body {
-  color: #ffffff;
+  color: rgb(var(--color-text));
+  background: rgb(var(--color-background));
   font-family: var(--font-body);
 }
 
