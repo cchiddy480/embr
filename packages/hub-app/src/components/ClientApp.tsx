@@ -565,6 +565,7 @@ export function ClientApp({ config }: ClientAppProps) {
                 --embr-secondary-hover: ${config.theme.colors.secondary};
                 --embr-text-hover: ${config.theme.colors.text};
                 /* Map EmbrKit dark tokens to client light theme when applicable */
+                --embr-background: ${config.theme.colors.background};
                 --embr-surface: ${config.theme.colors.surface};
                 --embr-surface-elevated: ${config.theme.colors.surface};
                 --embr-text-on-dark: ${config.theme.colors.text};
