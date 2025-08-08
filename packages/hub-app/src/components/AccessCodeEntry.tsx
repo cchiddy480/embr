@@ -113,7 +113,7 @@ export function AccessCodeEntry({ onSubmit, onClose }: AccessCodeEntryProps) {
 
         {/* Help Text */}
         <div className="mt-6 pt-4 border-t border-[#2d3c5a]">
-          <p className="text-xs text-gray-300 text-center font-sans">
+          <p className="text-xs text-gray-200 text-center font-sans">
             Don't have an access code? Contact your event organizer.
           </p>
         </div>
