@@ -30,9 +30,16 @@ export const applyEmbrKitTheme = (theme: EmbrKitTheme) => {
   if (theme.secondaryColor) root.style.setProperty('--embr-secondary-color', theme.secondaryColor);
   if (theme.backgroundColor) root.style.setProperty('--embr-background', theme.backgroundColor);
   if (theme.surfaceColor) root.style.setProperty('--embr-surface', theme.surfaceColor);
+  // Ensure elevated surface follows client surface unless explicitly themed
+  if (theme.surfaceColor) root.style.setProperty('--embr-surface-elevated', theme.surfaceColor);
   if (theme.textColor) root.style.setProperty('--embr-text', theme.textColor);
   if (theme.textColor) root.style.setProperty('--embr-text-color', theme.textColor);
+  // Map legacy "on-dark" tokens to client text to avoid white text on light cards
+  if (theme.textColor) root.style.setProperty('--embr-text-on-dark', theme.textColor);
   if (theme.textSecondaryColor) root.style.setProperty('--embr-text-secondary', theme.textSecondaryColor);
+  if (theme.textSecondaryColor) root.style.setProperty('--embr-text-secondary-dark-bg', theme.textSecondaryColor);
+  // Neutral border fallback suitable for light themes
+  root.style.setProperty('--embr-border', 'rgba(0, 0, 0, 0.15)');
   if (theme.fontFamily) root.style.setProperty('--embr-font-family', theme.fontFamily);
   if (theme.headingFontFamily) root.style.setProperty('--embr-heading-font', theme.headingFontFamily);
 };

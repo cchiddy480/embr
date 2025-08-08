@@ -563,6 +563,12 @@ export function ClientApp({ config }: ClientAppProps) {
                 --embr-primary-hover: ${config.theme.colors.primary};
                 --embr-secondary-hover: ${config.theme.colors.secondary};
                 --embr-text-hover: ${config.theme.colors.text};
+                /* Map EmbrKit dark tokens to client light theme when applicable */
+                --embr-surface: ${config.theme.colors.surface};
+                --embr-surface-elevated: ${config.theme.colors.surface};
+                --embr-text-on-dark: ${config.theme.colors.text};
+                --embr-text-secondary-dark-bg: ${config.theme.colors.textSecondary};
+                --embr-border: rgba(0,0,0,0.12);
               }
               
               /* Override any remaining teal glows with client colors */
