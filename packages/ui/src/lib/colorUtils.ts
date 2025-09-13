@@ -1,6 +1,18 @@
-import type LkColorWithOnToken from "@/lib/types/lk-color";
-import type LkColor from "@/lib/types/lk-color";
-import { LkColors } from "@/lib/debugUtils";
+// Local fallback types + list to avoid cross-package type resolution issues during build
+type LkColor = string;
+type LkColorWithOnToken = string;
+const LkColors: LkColor[] = [
+  "primary","onprimary","primarycontainer","onprimarycontainer","secondary","onsecondary",
+  "secondarycontainer","onsecondarycontainer","tertiary","ontertiary","tertiarycontainer",
+  "ontertiarycontainer","error","onerror","errorcontainer","onerrorcontainer","background",
+  "onbackground","surface","onsurface","surfacevariant","onsurfacevariant","shadow","inversesurface",
+  "scrim","inverseonsurface","inverseprimary","success","onsuccess","successcontainer","onsuccesscontainer",
+  "warning","onwarning","warningcontainer","onwarningcontainer","info","oninfo","infocontainer",
+  "oninfocontainer","primaryfixed","onprimaryfixed","primaryfixeddim","onprimaryfixedvariant","secondaryfixed",
+  "onsecondaryfixed","secondaryfixeddim","onsecondaryfixedvariant","tertiaryfixed","ontertiaryfixed",
+  "tertiaryfixeddim","ontertiaryfixedvariant","surfacedim","surfacebright","surfacecontainerlowest",
+  "surfacecontainerlow","surfacecontainer","surfacecontainerhigh","surfacecontainerhighest","outline","outlinevariant"
+];
 
 const colorsWithOnTokens = [
   "primary",

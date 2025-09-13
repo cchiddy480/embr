@@ -1,0 +1,101 @@
+{
+  "clientId": "wildroots-festival-2025",
+  "accessCode": "WILDROOTS2025",
+  "name": "WildRoots Festival 2025",
+  "description": "Your digital companion for the Sustainable Living & Wellness Festival experience",
+  "version": "1.0",
+  "theme": {
+    "colors": {
+      "primary": "#3B6A4C",
+      "secondary": "#D98C65", 
+      "background": "#FDF9F0",
+      "surface": "#F8F4E9",
+      "text": "#2D3748",
+      "textSecondary": "#4A5568"
+    },
+    "fonts": {
+      "heading": "Playfair Display",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "title": "Home",
+      "icon": "home",
+      "enabled": true
+    },
+    {
+      "id": "schedule", 
+      "title": "Schedule",
+      "icon": "calendar",
+      "enabled": true
+    },
+    {
+      "id": "map",
+      "title": "Map",
+      "icon": "map",
+      "enabled": true
+    },
+    {
+      "id": "vendors",
+      "title": "Vendors",
+      "icon": "store",
+      "enabled": true
+    },
+    {
+      "id": "about",
+      "title": "About",
+      "icon": "info",
+      "enabled": true
+    }
+  ],
+  "features": {
+    "offline": true,
+    "pushNotifications": true,
+    "qrCode": true,
+    "analytics": false,
+    "geolocation": true,
+    "socialSharing": true,
+    "bookmarking": true
+  },
+  "content": {
+    "schedule": {
+      "events": [
+        {
+          "id": "morning-yoga",
+          "title": "Morning Yoga & Meditation",
+          "description": "Start your festival day with mindful movement and meditation in nature. Open to all levels.",
+          "startTime": "2025-06-14T07:00:00Z",
+          "endTime": "2025-06-14T08:30:00Z",
+          "location": "Zen Garden Stage",
+          "speaker": "Maya Thompson",
+          "category": "Wellness",
+          "bookmarkable": true
+        },
+        {
+          "id": "sustainable-living",
+          "title": "Building Your Sustainable Home",
+          "description": "Learn practical tips for creating an eco-friendly living space that reduces your environmental footprint.",
+          "startTime": "2025-06-14T10:00:00Z", 
+          "endTime": "2025-06-14T11:30:00Z",
+          "location": "Knowledge Hub",
+          "speaker": "Dr. Green Thompson",
+          "category": "Education",
+          "bookmarkable": true
+        },
+        {
+          "id": "plant-based-cooking",
+          "title": "Plant-Based Cooking Workshop",
+          "description": "Discover delicious plant-based recipes using local, seasonal ingredients. Tasting included!",
+          "startTime": "2025-06-14T14:00:00Z",
+          "endTime": "2025-06-14T15:30:00Z", 
+          "location": "Community Kitchen",
+          "speaker": "Chef Maria Santos",
+          "category": "Food",
+          "bookmarkable": true
+        }
+      ]
+    }
+  }
+} 

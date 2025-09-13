@@ -44,15 +44,44 @@ function EscapeMechanism() {
     }
   };
 
+  // Keyboard fallback: double-press Escape within 1.5s
+  useEffect(() => {
+    let escCount = 0;
+    let escTimer: NodeJS.Timeout | null = null;
+    const onKeyDown = async (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        escCount += 1;
+        if (escTimer) clearTimeout(escTimer);
+        escTimer = setTimeout(() => { escCount = 0; }, 1500);
+        if (escCount >= 2) {
+          await clearConfig();
+          escCount = 0;
+          if (escTimer) clearTimeout(escTimer);
+          window.location.reload();
+        }
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      if (escTimer) clearTimeout(escTimer);
+    };
+  }, [clearConfig]);
+
   // Only show escape mechanism when a client config is loaded
   if (!config) return null;
 
   return (
     <div
       onClick={handleEscapeClick}
-      className="fixed top-0 left-0 w-10 h-10 z-50 cursor-pointer"
+      onDoubleClick={async () => { await clearConfig(); window.location.reload(); }}
+      onContextMenu={async (e) => { e.preventDefault(); await clearConfig(); window.location.reload(); }}
+      className="fixed top-0 left-0 cursor-pointer"
       style={{ 
+        width: '48px',
+        height: '48px',
         background: 'transparent',
+        zIndex: 2147483647,
         // Debug: uncomment to see the clickable area
         // background: 'rgba(255, 0, 0, 0.1)' 
       }}

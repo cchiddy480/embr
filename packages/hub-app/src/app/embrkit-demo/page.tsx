@@ -5,12 +5,39 @@ import React from 'react';
 import '@embr/ui';
 
 export default function EmbrKitDemo() {
+  // Demo-specific CSS variables to ensure independence
+  const demoStyles = `
+    :root {
+      --embr-primary-color: #0F766E;
+      --embr-primary-hover: #13a89a;
+      --embr-secondary-color: #6B7280;
+      --embr-background: #101926;
+      --embr-surface: rgba(16, 25, 38, 0.8);
+      --embr-surface-elevated: rgba(16, 25, 38, 0.95);
+      --embr-text: #ffffff;
+      --embr-text-on-dark: #ffffff;
+      --embr-text-secondary: #e5e7eb;
+      --embr-text-secondary-dark-bg: rgba(254,254,254,0.7);
+      --embr-text-muted: rgba(254, 254, 254, 0.7);
+      --embr-border: rgba(107, 114, 128, 0.2);
+      --embr-button-outline-color: #38F9E4;
+      --embr-teal: #0F766E;
+      --embr-cream-white: #FEFEFE;
+      --embr-deep-charcoal: #1F2937;
+      --embr-space-8: 2rem;
+      --embr-radius-xl: 0.75rem;
+      --embr-radius-md: 0.375rem;
+    }
+  `;
+
   return (
-    <div className="min-h-screen p-8" style={{
-      backgroundColor: 'var(--embr-background)',
-      fontFamily: 'Inter, system-ui, sans-serif',
-      color: 'var(--embr-text)'
-    }}>
+    <div>
+      <style dangerouslySetInnerHTML={{ __html: demoStyles }} />
+      <div className="min-h-screen p-8" style={{
+        backgroundColor: '#101926',
+        fontFamily: 'Inter, system-ui, sans-serif',
+        color: '#ffffff'
+      }}>
       <div className="max-w-4xl mx-auto space-y-12">
         
         {/* Header */}
@@ -219,6 +246,7 @@ export default function EmbrKitDemo() {
           </div>
         </section>
 
+      </div>
       </div>
     </div>
   );

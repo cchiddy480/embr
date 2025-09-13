@@ -1,3 +1,6 @@
+/* Import fonts for WildRoots Festival experience */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,7 +17,7 @@
   --color-text: 254 254 254; /* #FEFEFE */
   --color-text-secondary: 236 237 237; /* #ededed */
   --color-gray: 108 117 125; /* #6c757d */
-  /* Font variables */
+
   --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 }
