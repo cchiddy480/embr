@@ -1,0 +1,15 @@
+warning: in the working copy of 'docs/dev-log/2025-09-13.md', LF will be replaced by CRLF the next time Git touches it
+.cursorrules
+BACKUP_RESTORE_GUIDE.md
+CROSS_PLATFORM_DEVELOPMENT_GUIDE.md
+DEVELOPMENT_ISOLATION_GUIDE.md
+DUAL_DEVELOPMENT_STRATEGY.md
+EMBR_FRAMEWORK.md
+ENVIRONMENT_SYNC_STRATEGY.md
+GIT_DUAL_DEVELOPMENT_WORKFLOW.md
+MAC_IOS_SETUP_GUIDE.md
+SESSION_INITIALIZATION_GUIDE.md
+WILDROOTS_TESTING_GUIDE.md
+docs/dev-log/2025-09-13.md
+package.json
+scripts/session-init.js
