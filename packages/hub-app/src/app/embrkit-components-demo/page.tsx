@@ -13,13 +13,33 @@ export default function EmbrKitComponentsDemo() {
     message: ''
   });
 
+  // Demo-specific CSS variables to ensure independence
+  const demoStyles = `
+    :root {
+      --embr-primary-color: #0F766E;
+      --embr-primary-hover: #13a89a;
+      --embr-secondary-color: #6B7280;
+      --embr-background: #101926;
+      --embr-surface: rgba(16, 25, 38, 0.8);
+      --embr-surface-elevated: rgba(16, 25, 38, 0.95);
+      --embr-text: #ffffff;
+      --embr-text-on-dark: #ffffff;
+      --embr-text-secondary: #e5e7eb;
+      --embr-text-secondary-dark-bg: rgba(254,254,254,0.7);
+      --embr-border: rgba(107, 114, 128, 0.2);
+      --embr-button-outline-color: #38F9E4;
+    }
+  `;
+
   return (
-    <div className="min-h-screen p-8" style={{
-      backgroundColor: 'var(--embr-background)',
-      fontFamily: 'Inter, system-ui, sans-serif',
-      color: 'var(--embr-text)'
-    }}>
-      <div className="embr-container embr-container-lg">
+    <div>
+      <style dangerouslySetInnerHTML={{ __html: demoStyles }} />
+      <div className="min-h-screen p-8" style={{
+        backgroundColor: '#101926',
+        fontFamily: 'Inter, system-ui, sans-serif',
+        color: '#ffffff'
+      }}>
+        <div className="embr-container embr-container-lg">
         <div className="embr-stack embr-stack-gap-8">
           
           {/* Header */}
@@ -527,7 +547,7 @@ export default function EmbrKitComponentsDemo() {
                         <div className="embr-stat-card-header">
                           <h3 className="embr-stat-card-title">Search Results</h3>
                         </div>
-                        <div className="embr-stat-card-value">24</div>
+                        <div className="embr-stat-card-value" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>24</div>
                         <div className="embr-stat-card-change neutral">
                           <span className="embr-stat-card-change-icon">→</span>
                           locations found
@@ -559,7 +579,7 @@ export default function EmbrKitComponentsDemo() {
                         <h3 className="embr-stat-card-title">Total Revenue</h3>
                         <div className="embr-stat-card-icon">💰</div>
                       </div>
-                      <div className="embr-stat-card-value">$127,500</div>
+                      <div className="embr-stat-card-value" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>$127,500</div>
                       <div className="embr-stat-card-change positive">
                         <span className="embr-stat-card-change-icon">↗</span>
                         +12.5%
@@ -571,7 +591,7 @@ export default function EmbrKitComponentsDemo() {
                         <h3 className="embr-stat-card-title">Active Users</h3>
                         <div className="embr-stat-card-icon">👥</div>
                       </div>
-                      <div className="embr-stat-card-value">8,429</div>
+                      <div className="embr-stat-card-value" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>8,429</div>
                       <div className="embr-stat-card-change positive">
                         <span className="embr-stat-card-change-icon">↗</span>
                         +8.2%
@@ -583,7 +603,7 @@ export default function EmbrKitComponentsDemo() {
                         <h3 className="embr-stat-card-title">Conversion Rate</h3>
                         <div className="embr-stat-card-icon">📊</div>
                       </div>
-                      <div className="embr-stat-card-value">3.24%</div>
+                      <div className="embr-stat-card-value" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>3.24%</div>
                       <div className="embr-stat-card-change negative">
                         <span className="embr-stat-card-change-icon">↘</span>
                         -2.1%
@@ -595,7 +615,7 @@ export default function EmbrKitComponentsDemo() {
                         <h3 className="embr-stat-card-title">Support Tickets</h3>
                         <div className="embr-stat-card-icon">🎫</div>
                       </div>
-                      <div className="embr-stat-card-value">142</div>
+                      <div className="embr-stat-card-value" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>142</div>
                       <div className="embr-stat-card-change neutral">
                         <span className="embr-stat-card-change-icon">→</span>
                         0%
@@ -623,7 +643,7 @@ export default function EmbrKitComponentsDemo() {
                           <td className="primary">Sarah Johnson</td>
                           <td>sarah.j@example.com</td>
                           <td><div className="embr-badge embr-badge-success">Active</div></td>
-                          <td className="numeric">$12,450</td>
+                          <td className="numeric" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>$12,450</td>
                           <td>
                             <button className="embr-btn embr-btn-sm embr-btn-secondary">View</button>
                           </td>
@@ -632,7 +652,7 @@ export default function EmbrKitComponentsDemo() {
                           <td className="primary">Michael Chen</td>
                           <td>m.chen@example.com</td>
                           <td><div className="embr-badge embr-badge-warning">Pending</div></td>
-                          <td className="numeric">$8,320</td>
+                          <td className="numeric" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>$8,320</td>
                           <td>
                             <button className="embr-btn embr-btn-sm embr-btn-secondary">View</button>
                           </td>
@@ -641,7 +661,7 @@ export default function EmbrKitComponentsDemo() {
                           <td className="primary">Emma Wilson</td>
                           <td>emma.w@example.com</td>
                           <td><div className="embr-badge embr-badge-success">Active</div></td>
-                          <td className="numeric">$15,680</td>
+                          <td className="numeric" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>$15,680</td>
                           <td>
                             <button className="embr-btn embr-btn-sm embr-btn-secondary">View</button>
                           </td>
@@ -650,7 +670,7 @@ export default function EmbrKitComponentsDemo() {
                           <td className="primary">David Rodriguez</td>
                           <td>d.rodriguez@example.com</td>
                           <td><div className="embr-badge embr-badge-error">Inactive</div></td>
-                          <td className="numeric">$2,150</td>
+                          <td className="numeric" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>$2,150</td>
                           <td>
                             <button className="embr-btn embr-btn-sm embr-btn-secondary">View</button>
                           </td>
@@ -675,15 +695,15 @@ export default function EmbrKitComponentsDemo() {
                       </div>
                       <div className="embr-datalist-item">
                         <span className="embr-datalist-label">Progress</span>
-                        <span className="embr-datalist-value numeric">75%</span>
+                        <span className="embr-datalist-value numeric" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>75%</span>
                       </div>
                       <div className="embr-datalist-item">
                         <span className="embr-datalist-label">Team Size</span>
-                        <span className="embr-datalist-value numeric">4 members</span>
+                        <span className="embr-datalist-value numeric" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>4 members</span>
                       </div>
                       <div className="embr-datalist-item">
                         <span className="embr-datalist-label">Budget</span>
-                        <span className="embr-datalist-value numeric">$45,000</span>
+                        <span className="embr-datalist-value numeric" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>$45,000</span>
                       </div>
                       <div className="embr-datalist-item">
                         <span className="embr-datalist-label">Due Date</span>
@@ -702,23 +722,23 @@ export default function EmbrKitComponentsDemo() {
                       <div className="embr-data-card-content">
                         <div className="embr-data-card-metric">
                           <span className="embr-data-card-metric-label">CPU Usage</span>
-                          <span className="embr-data-card-metric-value success">23%</span>
+                          <span className="embr-data-card-metric-value success" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>23%</span>
                         </div>
                         <div className="embr-data-card-metric">
                           <span className="embr-data-card-metric-label">Memory Usage</span>
-                          <span className="embr-data-card-metric-value warning">78%</span>
+                          <span className="embr-data-card-metric-value warning" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>78%</span>
                         </div>
                         <div className="embr-data-card-metric">
                           <span className="embr-data-card-metric-label">Disk Space</span>
-                          <span className="embr-data-card-metric-value error">94%</span>
+                          <span className="embr-data-card-metric-value error" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>94%</span>
                         </div>
                         <div className="embr-data-card-metric">
                           <span className="embr-data-card-metric-label">Network I/O</span>
-                          <span className="embr-data-card-metric-value primary">1.2 GB/s</span>
+                          <span className="embr-data-card-metric-value primary" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>1.2 GB/s</span>
                         </div>
                         <div className="embr-data-card-metric">
                           <span className="embr-data-card-metric-label">Uptime</span>
-                          <span className="embr-data-card-metric-value">99.9%</span>
+                          <span className="embr-data-card-metric-value" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '600' }}>99.9%</span>
                         </div>
                       </div>
                     </div>
@@ -1467,6 +1487,7 @@ export default function EmbrKitComponentsDemo() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 } 

@@ -436,7 +436,7 @@ h3, .embr-text-2xl { font-size: 1.5rem; font-weight: 600; }
 - [ ] Storybook integration for component docs
 - [ ] Testing framework (Jest + Testing Library)
 - [ ] Bundle analysis and optimization
-- [ ] CI/CD pipeline setup
+- [x] CI theming audit (`npm run audit:theme`) and Theme Sandbox (`/embrkit-themes-demo`)
 - [ ] Hybrid development templates and examples
 
 #### Phase 6: Client Onboarding
@@ -547,12 +547,62 @@ npm run build
 npm run dev:hub
 ```
 
+### Dev Log Workflow
+- Reuse same-day daily entry for multiple sessions; create a new daily file only for later dates.
+- Use `npm run devlog:update` to ensure today’s file exists and `DEV_LOG.md` Latest Summary/Index are correct.
+- Use `npm run devlog:append -- "message"` to add a timestamped bullet under today’s Changes section.
+
+### Config Deployment to Firebase
+Prerequisites
+- Service account available via one of:
+  - `GOOGLE_APPLICATION_CREDENTIALS` (file path)
+  - `FIREBASE_SERVICE_ACCOUNT` (file path or JSON string)
+  - `./firebase-service-account.json` at repo root
+
+Security & Secrets Management
+- Local development: prefer setting `GOOGLE_APPLICATION_CREDENTIALS` to a file path outside the repo.
+- Repo policy: do NOT commit raw service account files.
+- Consider encrypted storage for repo (optional for teams): Mozilla SOPS (YAML/JSON) with age/GPG keys; or Git-crypt.
+- CI/CD: use OIDC Workload Identity Federation or store secrets in the CI secret manager (GitHub Actions Secrets, etc.). Inject as env vars during the job.
+Commands
+- Push all configs (merge writes):
+  - `npm run configs:push`
+- Push a single config by slug (e.g., `wildroots-festival-2025`):
+  - `npm run configs:push:one -- wildroots-festival-2025`
+- Dry run (preview writes):
+  - `node scripts/configs-push.js --dry`
+- Options:
+  - Custom directory: `--dir ./path`
+  - Target collection: `--collection client-configs-staging`
+
+Notes
+- After pushing, add a dev log entry:
+  - `npm run devlog:append -- "Pushed <slug> config to Firestore"`
+- Scripts live in `scripts/configs-push.js` and are wired in `package.json`.
+
+CI/CD: OIDC (No Static Keys)
+- Preferred: Configure a GitHub OIDC provider in GCP, and allow it to impersonate a minimal-permission service account (Firestore write to `client-configs`).
+- Our push script supports Application Default Credentials (ADC) fallback, so no JSON key is required in CI.
+- Example workflow stages:
+  1) actions/checkout
+  2) actions/setup-node
+  3) google-github-actions/auth with your Workload Identity Provider + Service Account
+  4) npm ci
+  5) node scripts/configs-push.js [--only <slug>]
+
 ### Session 2025-01-27 Highlights
 - Restored Embr Hub visual baseline (pre-LiftKit) and documented a locked baseline section.
 - Fixed dev export 404s; export options only enabled for production export builds.
 - Prevented indefinite Hub loading; improved escape hatch.
 - Client app (WildRoots) now owns page canvas while active (sets `html/body` background; uses `min-h-[100dvh]`).
 - Rules updated to enforce hybrid model, focus policy (outlines allowed on filled/ghost using `--embr-button-outline-color` on `:focus-visible`), and Hub baseline guardrails.
+
+### Session 2025-01-28 Guardrails & Playbook
+- Added Theme Audit (`scripts/theming-audit.js`) and NPM script `audit:theme` to prevent hardcoded colors, Tailwind `ring-*`, and legacy teal in client code.
+- Added Theme Sandbox route `packages/hub-app/src/app/embrkit-themes-demo/page.tsx` for quick visual verification across presets.
+- Added PR checklist enforcing ledger read, hub baseline unchanged, audit pass, and 30s keyboard focus check.
+- Codified Cursor Playbook in `.cursorrules` for brief → config → hybrid → validation → ship.
+
 
 ### Important File Locations
 - **Design Tokens**: `packages/ui/src/lib/embrkit-core.css`
@@ -579,8 +629,8 @@ npm run dev:hub
 
 ---
 
-*Last Updated: January 27, 2025*
-*Version: 1.1.0 - Hybrid System Complete*
+*Last Updated: August 8, 2025*
+*Version: 1.1.1 - Dev Log Workflow & Scripts Added*
 
 ---
 

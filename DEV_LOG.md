@@ -8,8 +8,19 @@ How this log is organized
 
 ### Index
 - 2025-01-27 → docs/dev-log/2025-01-27.md
+- 2025-01-28 → docs/dev-log/2025-01-28.md
+- 2025-08-08 → docs/dev-log/2025-08-08.md
 
-### Latest Summary (2025-01-27)
+- 2025-09-13 → docs/dev-log/2025-09-13.md
+### Latest Summary (2025-09-13)
+- Fixed embrkit-components-demo button styling issues (white buttons until hover)
+- Fixed font styling for monetary amounts in data display components
+- Made all demo pages completely independent with inline CSS variables
+- Created comprehensive isolation strategy between demo pages and client configs
+- Added automated isolation checker script (npm run check:isolation)
+- Created DEVELOPMENT_ISOLATION_GUIDE.md with complete workflow and emergency recovery procedures
+
+### Previous Summary (2025-01-27)
 - Restored Hub app to pre-LiftKit visual baseline and documented it in the ledger.
 - Fixed dev asset 404s by disabling static export in dev.
 - Prevented Hub loading hang with safety timeout and improved escape hatch.

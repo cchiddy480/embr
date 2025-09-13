@@ -1,8 +1,24 @@
 # Cursor Session Rules — Embr
 
 Always begin each session by:
-1) Reading `EMBR_KNOWLEDGE_LEDGER.md` (full context, decisions, standards)
-2) Reading `DEV_LOG.md` and the latest daily entry in `docs/dev-log/`
+1) **PLATFORM DETECTION & SYNC**: Ask user if development is being done on Mac or Windows, then run `npm run session:init` to automatically:
+   - Detect platform (Windows/Mac)
+   - Check Git synchronization status
+   - Pull latest changes from remote
+   - Verify Node.js and npm versions
+   - Install/update dependencies
+   - Run quality checks (isolation, theme audit)
+   - Check platform-specific tools (Xcode on Mac, etc.)
+   - Update development log
+2) Reading `EMBR_KNOWLEDGE_LEDGER.md` (full context, decisions, standards)
+3) Reading `DEV_LOG.md` and the latest daily entry in `docs/dev-log/`
+
+Dev Log policy (required):
+- Reuse the same daily file for multiple sessions on the same local date.
+- Create a new daily file only when the session occurs on a later date.
+- Commands:
+  - Ensure/update today’s entry and `DEV_LOG.md`: `npm run devlog:update`
+  - Append a bullet to today’s entry: `npm run devlog:append -- "message"`
 
 When modifying the Hub (packages/hub-app):
 - Validate against HUB APP VISUAL BASELINE in the ledger
@@ -28,6 +44,77 @@ Quality gates for PRs:
 - No hardcoded colors in client code except documented brand constants
 - Hub baseline visuals unchanged unless explicitly approved
 - Run a manual 30s keyboard-focus check
+
+## 🚀 Session Initialization Protocol
+
+### **MANDATORY FIRST STEP - Every Session**
+Before any development work, **ALWAYS**:
+
+1. **Ask User**: "Are you developing on Mac or Windows today?"
+2. **Run Session Init**: Execute `npm run session:init` to automatically:
+   - Detect platform and display current status
+   - Check Git synchronization and pull latest changes
+   - Verify Node.js/npm versions match across platforms
+   - Install/update dependencies to ensure consistency
+   - Run quality checks (isolation, theme audit)
+   - Check platform-specific tools (Xcode on Mac, Capacitor, etc.)
+   - Update development log with session start
+3. **Verify Sync**: Ensure all checks pass before proceeding
+4. **Platform-Specific Guidance**: Adjust workflow based on detected platform
+
+### **Platform-Specific Development Workflows**
+- **Windows**: Focus on web development, Chrome/Edge testing, Windows PWA features
+- **Mac**: Focus on iOS testing, Safari compatibility, native builds, cross-platform validation
+
+### **Quality Assurance**
+- **Isolation Check**: Ensure demo pages and client configs remain separate
+- **Theme Audit**: Prevent hardcoded colors and maintain theme compliance
+- **Platform Testing**: Test features on the current platform before switching
+
+## 🔧 Cursor Playbook — Build Client App Config From Brief
+
+Follow this exact sequence for any new client config (Hub or Standalone):
+
+1) Intake & Slug
+- Extract `clientName`, `brand.colors` (primary, secondary, background, surface, text, textSecondary), `typography` (heading + body), `navigation`, and `features` from the brief
+- Choose slug: `{kebab-client-name}-{year}`
+
+2) Create Config File
+- Path: `packages/hub-app/public/client-configs/{slug}.json`
+- Include keys: `theme.colors`, `typography`, `navigation`, `features`, `content`
+- Do not add hardcoded hex to code; all brand colors live in config
+
+3) Wire Theme
+- Ensure `ClientApp` injects theme via `EmbrKitProvider` mapping to tokens:
+  - `--embr-primary-color`, `--embr-secondary-color`
+  - `--embr-background`, `--embr-surface`, `--embr-surface-elevated`
+  - `--embr-text`, `--embr-text-secondary`, `--embr-border`
+  - Optional: `--embr-primary-hover`, `--embr-secondary-hover`, `--embr-button-outline-color`
+- Set `html, body` background to `--embr-background` while client app is active
+
+4) Compose UI (Hybrid)
+- Use EmbrKit for layout/structure; custom blocks for unique visuals
+- Enforce focus policy: only `:focus-visible` outlines using `--embr-button-outline-color`
+- No Tailwind `ring-*` or color literals in client code
+
+5) Validate
+- Run: `npm run audit:theme`
+- Navigate: `/embrkit-themes-demo` to sanity check tokens render across themes
+- Manual 30s keyboard focus pass
+
+6) Ship
+- Update `DEV_LOG.md` and add a short entry under `docs/dev-log/{yyyy-mm-dd}.md`
+- Open PR using checklist; confirm Hub baseline unchanged
+  - Use `npm run devlog:update` to ensure the Latest Summary and daily file are correct, and `npm run devlog:append -- "message"` to record notable changes
+
+Config deployment (Firebase)
+- Ensure service account is available via `GOOGLE_APPLICATION_CREDENTIALS`, `FIREBASE_SERVICE_ACCOUNT`, or `./firebase-service-account.json`.
+- Security guidance:
+- Do not commit raw service account keys to the repo.
+- Prefer local file path via env var; in CI, inject via secret store or OIDC.
+- Push all configs: `npm run configs:push`
+- Push one config (by slug): `npm run configs:push:one -- <slug>`
+- Dry run preview: `node scripts/configs-push.js --dry`
 # EMBR UNIVERSAL MICRO-APP FRAMEWORK - CURSOR RULES
 # This file ensures every AI conversation has complete project context and maintains consistency
 

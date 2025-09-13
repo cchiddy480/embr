@@ -134,7 +134,7 @@ export function ClientApp({ config }: ClientAppProps) {
                     style={{
                       backgroundColor: config.theme.colors.surface,
                       borderRadius: '1rem',
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
                     }}
                   />
                 )}
@@ -147,7 +147,7 @@ export function ClientApp({ config }: ClientAppProps) {
                   style={{
                     backgroundColor: config.theme.colors.surface,
                     borderRadius: '1rem',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
                   }}
                 />
                 <EmbrKitStatCard 
@@ -159,7 +159,7 @@ export function ClientApp({ config }: ClientAppProps) {
                   style={{
                     backgroundColor: config.theme.colors.surface,
                     borderRadius: '1rem',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
                   }}
                 />
                 <EmbrKitStatCard 
@@ -171,7 +171,7 @@ export function ClientApp({ config }: ClientAppProps) {
                   style={{
                     backgroundColor: config.theme.colors.surface,
                     borderRadius: '1rem',
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
                   }}
                 />
               </EmbrKitGrid>
@@ -584,7 +584,7 @@ export function ClientApp({ config }: ClientAppProps) {
                 --embr-surface-elevated: ${config.theme.colors.surface};
                 --embr-text-on-dark: ${config.theme.colors.text};
                 --embr-text-secondary-dark-bg: ${config.theme.colors.textSecondary};
-                --embr-border: rgba(0,0,0,0.12);
+                --embr-border: hsl(0 0% 0% / 0.12);
               }
               
               /* Override any remaining teal glows with client colors */
