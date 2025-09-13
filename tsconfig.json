@@ -58,7 +58,7 @@
       "path": "./packages/hub-app"
     },
     {
-      "path": "./packages/standalone-app"
+      "path": "./packages/ui"
     }
   ]
 }
