@@ -35,8 +35,25 @@ try {
   if (gitStatus.trim()) {
     console.log('⚠️  Uncommitted changes detected:');
     console.log(gitStatus);
+    console.log('');
+    console.log('💡 Tip: Use `npm run git:commit "message"` to commit changes');
+    console.log('💡 Tip: Use `npm run git:finish` to merge feature branch and cleanup');
   } else {
     console.log('✅ No uncommitted changes');
+  }
+  
+  // Check if we're on a feature branch
+  if (gitBranch.startsWith('feature/') || gitBranch.startsWith('hotfix/')) {
+    console.log('');
+    console.log('🔧 Feature Branch Detected:');
+    console.log('   - Use `npm run git:commit "message"` to save progress');
+    console.log('   - Use `npm run git:finish` to merge to main and cleanup');
+    console.log('   - Use `npm run git:status` to check current status');
+  } else if (gitBranch === 'main') {
+    console.log('');
+    console.log('🌿 Main Branch Detected:');
+    console.log('   - Use `npm run git:start <feature-name>` to create new feature branch');
+    console.log('   - Use `npm run git:status` to check current status');
   }
 } catch (error) {
   console.log('❌ Git check failed:', error.message);
@@ -171,3 +188,10 @@ console.log('- `npm run check:isolation` - Check demo/client isolation');
 console.log('- `npm run audit:theme` - Audit theme compliance');
 console.log('- `npm run devlog:update` - Update development log');
 console.log('- `npm run devlog:append -- "message"` - Add log entry');
+console.log('');
+console.log('🌿 Git Workflow Commands:');
+console.log('- `npm run git:start <feature-name>` - Create new feature branch');
+console.log('- `npm run git:commit "message"` - Commit and push changes');
+console.log('- `npm run git:finish` - Merge to main and cleanup');
+console.log('- `npm run git:status` - Show current branch status');
+console.log('- `npm run git:cleanup <branch-name>` - Cleanup specific branch');

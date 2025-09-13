@@ -60,7 +60,8 @@ Before any development work, **ALWAYS**:
    - Check platform-specific tools (Xcode on Mac, Capacitor, etc.)
    - Update development log with session start
 3. **Verify Sync**: Ensure all checks pass before proceeding
-4. **Platform-Specific Guidance**: Adjust workflow based on detected platform
+4. **Check Branch Status**: Review current branch and uncommitted changes
+5. **Platform-Specific Guidance**: Adjust workflow based on detected platform
 
 ### **Platform-Specific Development Workflows**
 - **Windows**: Focus on web development, Chrome/Edge testing, Windows PWA features
@@ -70,6 +71,37 @@ Before any development work, **ALWAYS**:
 - **Isolation Check**: Ensure demo pages and client configs remain separate
 - **Theme Audit**: Prevent hardcoded colors and maintain theme compliance
 - **Platform Testing**: Test features on the current platform before switching
+
+### **Git Workflow Requirements**
+- **Branch Management**: Always work on feature branches, never directly on main
+- **Automatic Cleanup**: Use `npm run git:finish` to merge and cleanup branches
+- **Commit Frequently**: Use `npm run git:commit "message"` to save progress
+- **Branch Creation**: Use `npm run git:start <feature-name>` for new features
+- **Status Checking**: Use `npm run git:status` to check current state
+
+### **Git Workflow Commands**
+```bash
+# Start new feature
+npm run git:start <feature-name>
+
+# Commit progress
+npm run git:commit "descriptive message"
+
+# Finish and cleanup
+npm run git:finish
+
+# Check status
+npm run git:status
+```
+
+### **Session Management Commands**
+```bash
+# Start session
+npm run session:init
+
+# End session (automated cleanup)
+npm run session:end
+```
 
 ## 🔧 Cursor Playbook — Build Client App Config From Brief
 
