@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ClientConfig } from '../../types/client';
+import { ClientConfig, ScheduleEvent, NavigationItem } from '../../../../types/client';
 import { 
   EmbrKitProvider, 
   EmbrKitContainer, 
@@ -229,7 +229,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             </h2>
             
             <div className="space-y-8">
-              {config.content.schedule.events.slice(0, 3).map((event) => (
+              {config.content.schedule.events.slice(0, 3).map((event: ScheduleEvent) => (
                 <EmbrKitCard 
                   key={event.id} 
                   variant="elevated"
@@ -477,7 +477,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
 
       {config.content?.schedule?.events && config.content.schedule.events.length > 0 ? (
         <div className="space-y-8">
-          {config.content.schedule.events.map((event) => (
+          {config.content.schedule.events.map((event: ScheduleEvent) => (
             <EmbrKitCard 
               key={event.id} 
               variant="elevated"
@@ -560,7 +560,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
   );
 
   const renderContent = () => {
-    const getNavItem = (id: string) => config.navigation.find(nav => nav.id === id);
+    const getNavItem = (id: string) => config.navigation.find((nav: NavigationItem) => nav.id === id);
     
     switch (activeTab) {
       case 'home':
@@ -627,7 +627,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
           }
         `
       }} />
-      <div className="min-h-screen min-h-[100dvh]" style={{ backgroundColor: config.theme.colors.background }}>
+      <div className="min-h-[100dvh]" style={{ backgroundColor: config.theme.colors.background }}>
         {/* WILDROOTS-SPECIFIC: Festival-focused navigation */}
         <div 
           className="sticky top-0 z-50 backdrop-blur-md border-b"
@@ -651,7 +651,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             
             {/* WILDROOTS-SPECIFIC: Festival navigation */}
             <div className="flex items-center gap-2">
-              {config.navigation.slice(0, 3).map((item) => (
+              {config.navigation.slice(0, 3).map((item: NavigationItem) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}

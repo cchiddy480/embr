@@ -56,9 +56,16 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "out/types/**/*.ts"
+    "out/types/**/*.ts",
+    "../ui/src/**/*.ts",
+    "../ui/src/**/*.tsx"
   ],
   "exclude": [
     "node_modules"
+  ],
+  "references": [
+    {
+      "path": "../ui"
+    }
   ]
 }
