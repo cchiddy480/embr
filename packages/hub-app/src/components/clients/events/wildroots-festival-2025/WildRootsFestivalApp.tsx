@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { ClientConfig } from '../../types/client';
+import { ClientConfig } from '../../../../types/client';
 import { 
   EmbrKitProvider, 
   EmbrKitContainer, 
@@ -44,8 +44,8 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
     surfaceColor: config.theme.colors.surface,
     textColor: config.theme.colors.text,
     textSecondaryColor: config.theme.colors.textSecondary,
-    headingFontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
-    fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+    headingFontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
+    fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
   };
 
   // Utility functions
@@ -171,7 +171,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                 className="text-sm font-medium uppercase tracking-wider"
                 style={{ 
                   color: config.theme.colors.primary,
-                  fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                  fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                 }}
               >
                 Sustainable Living & Wellness Festival
@@ -182,7 +182,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             <h1 
               className="text-6xl md:text-8xl lg:text-9xl leading-none mb-8 animate-slide-up"
               style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                 color: config.theme.colors.text,
                 fontWeight: 300,
                 letterSpacing: '-0.02em'
@@ -195,7 +195,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             <p 
               className="text-xl md:text-2xl lg:text-3xl mb-16 leading-relaxed max-w-4xl mx-auto animate-slide-up"
               style={{ 
-                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif",
+                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif",
                 color: config.theme.colors.textSecondary,
                 fontWeight: 300,
                 animationDelay: '0.2s'
@@ -223,7 +223,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                       className="text-sm font-medium uppercase tracking-wider"
                       style={{ 
                         color: config.theme.colors.textSecondary,
-                        fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                        fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                       }}
                     >
                       Events
@@ -244,7 +244,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                     className="text-sm font-medium uppercase tracking-wider"
                     style={{ 
                       color: config.theme.colors.textSecondary,
-                      fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                      fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                     }}
                   >
                     Vendors
@@ -264,7 +264,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                     className="text-sm font-medium uppercase tracking-wider"
                     style={{ 
                       color: config.theme.colors.textSecondary,
-                      fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                      fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                     }}
                   >
                     Locations
@@ -284,7 +284,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                     className="text-sm font-medium uppercase tracking-wider"
                     style={{ 
                       color: config.theme.colors.textSecondary,
-                      fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                      fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                     }}
                   >
                     Days
@@ -370,7 +370,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                 className="text-xl text-center max-w-2xl mx-auto"
                 style={{ 
                   color: config.theme.colors.textSecondary,
-                  fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                  fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                 }}
               >
                 Discover workshops, talks, and experiences that inspire sustainable living
@@ -429,7 +429,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         className="text-sm mb-6 leading-relaxed line-clamp-3"
                         style={{ 
                           color: config.theme.colors.textSecondary,
-                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                         }}
                       >
                         {event.description}
@@ -446,7 +446,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                               className="font-medium"
                               style={{ 
                                 color: config.theme.colors.text,
-                                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                               }}
                             >
                               {new Date(event.startTime).toLocaleDateString('en-US', { 
@@ -459,7 +459,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                               className="text-xs"
                               style={{ 
                                 color: config.theme.colors.textSecondary,
-                                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                               }}
                             >
                               {new Date(event.startTime).toLocaleTimeString('en-US', { 
@@ -479,7 +479,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                             className="font-medium"
                             style={{ 
                               color: config.theme.colors.text,
-                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                              fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                             }}
                           >
                             {event.location}
@@ -496,7 +496,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                               className="font-medium"
                               style={{ 
                                 color: config.theme.colors.text,
-                                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                               }}
                             >
                               {event.speaker}
@@ -523,10 +523,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           <EmbrKitButton 
                             variant="secondary"
                             size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleBookmark(event.id);
-                            }}
+                            onClick={() => toggleBookmark(event.id)}
                             className="transition-all hover:scale-105"
                             style={{ 
                               backgroundColor: bookmarkedEvents.has(event.id) ? config.theme.colors.primary : 'transparent',
@@ -586,7 +583,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                 className="text-xl leading-relaxed mb-10"
                 style={{ 
                   color: config.theme.colors.textSecondary,
-                  fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif",
+                  fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif",
                   fontWeight: 300
                 }}
               >
@@ -632,7 +629,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             className="text-xl max-w-2xl mx-auto"
             style={{ 
               color: config.theme.colors.textSecondary,
-              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+              fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
             }}
           >
             Discover and bookmark your favorite workshops, talks, and experiences
@@ -648,19 +645,13 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   {getIcon('search')}
                 </div>
-                <EmbrKitInput
-                  type="text"
-                  placeholder="Search events, speakers, locations..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-3 w-full"
-                  style={{
-                    backgroundColor: config.theme.colors.surface,
-                    border: `1px solid ${config.theme.colors.primary}30`,
-                    borderRadius: '1rem',
-                    color: config.theme.colors.text
-                  }}
-                />
+                 <EmbrKitInput
+                   type="text"
+                   placeholder="Search events, speakers, locations..."
+                   value={searchQuery}
+                   onChange={(e) => setSearchQuery(e.target.value)}
+                   className="pl-10 pr-4 py-3 w-full"
+                 />
               </div>
             </div>
 
@@ -675,28 +666,28 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                   backgroundColor: selectedCategory === 'all' ? config.theme.colors.primary : 'transparent',
                   color: selectedCategory === 'all' ? '#ffffff' : config.theme.colors.textSecondary,
                   border: `1px solid ${selectedCategory === 'all' ? config.theme.colors.primary : config.theme.colors.primary}30`,
-                  fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                  fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                 }}
               >
                 All Events
               </button>
-              {getEventCategories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedCategory === category ? 'scale-105' : 'hover:scale-105'
-                  }`}
-                  style={{ 
-                    backgroundColor: selectedCategory === category ? config.theme.colors.primary : 'transparent',
-                    color: selectedCategory === category ? '#ffffff' : config.theme.colors.textSecondary,
-                    border: `1px solid ${selectedCategory === category ? config.theme.colors.primary : config.theme.colors.primary}30`,
-                    fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-                  }}
-                >
-                  {category}
-                </button>
-              ))}
+                {getEventCategories.map((category: string) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      selectedCategory === category ? 'scale-105' : 'hover:scale-105'
+                    }`}
+                    style={{
+                      backgroundColor: selectedCategory === category ? config.theme.colors.primary : 'transparent',
+                      color: selectedCategory === category ? '#ffffff' : config.theme.colors.textSecondary,
+                      border: `1px solid ${selectedCategory === category ? config.theme.colors.primary : config.theme.colors.primary}30`,
+                      fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    {category}
+                  </button>
+                ))}
             </div>
           </div>
         </div>
@@ -707,7 +698,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             className="text-sm"
             style={{ 
               color: config.theme.colors.textSecondary,
-              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+              fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
             }}
           >
             Showing {filteredEvents.length} of {config.content?.schedule?.events?.length || 0} events
@@ -717,7 +708,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
         {/* Events Grid */}
         {filteredEvents.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {filteredEvents.map((event, index) => (
+            {filteredEvents.map((event: any, index: number) => (
               <div 
                 key={event.id}
                 className="group"
@@ -769,7 +760,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         className="text-xs"
                         style={{ 
                           color: config.theme.colors.textSecondary,
-                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                         }}
                       >
                         {new Date(event.startTime).toLocaleTimeString('en-US', { 
@@ -795,7 +786,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                       className="text-sm mb-6 leading-relaxed line-clamp-3"
                       style={{ 
                         color: config.theme.colors.textSecondary,
-                        fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                        fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                       }}
                     >
                       {event.description}
@@ -811,7 +802,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           className="font-medium"
                           style={{ 
                             color: config.theme.colors.text,
-                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                           }}
                         >
                           {event.location}
@@ -828,7 +819,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                             className="font-medium"
                             style={{ 
                               color: config.theme.colors.text,
-                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                              fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                             }}
                           >
                             {event.speaker}
@@ -886,7 +877,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             <h3 
               className="text-2xl mb-4"
               style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                 color: config.theme.colors.text 
               }}
             >
@@ -896,7 +887,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
               className="text-lg max-w-md mx-auto"
               style={{ 
                 color: config.theme.colors.textSecondary,
-                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
               }}
             >
               Try adjusting your search terms or category filter to find more events.
@@ -913,6 +904,29 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
       return renderGenericContent('Festival Map', 'Interactive map coming soon');
     }
 
+    const getLocationColor = (type: string) => {
+      const colors: Record<string, string> = {
+        stage: config.theme.colors.primary,
+        workshop: config.theme.colors.secondary,
+        food: '#E67E22',
+        wellness: '#9B59B6',
+        marketplace: '#F39C12',
+        entrance: '#2ECC71',
+        parking: '#95A5A6'
+      };
+      return colors[type] || config.theme.colors.primary;
+    };
+
+    const getLocationTypes = () => [
+      { id: 'stage', name: 'Stages' },
+      { id: 'workshop', name: 'Workshops' },
+      { id: 'food', name: 'Food & Dining' },
+      { id: 'wellness', name: 'Wellness' },
+      { id: 'marketplace', name: 'Vendors' },
+      { id: 'entrance', name: 'Entrance' },
+      { id: 'parking', name: 'Parking' }
+    ];
+
     return (
       <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
         <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
@@ -920,7 +934,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             <h1 
               className="text-5xl md:text-6xl font-light mb-6"
               style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                 color: config.theme.colors.text 
               }}
             >
@@ -930,7 +944,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
               className="text-xl max-w-2xl mx-auto"
               style={{ 
                 color: config.theme.colors.textSecondary,
-                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
               }}
             >
               {mapData.description}
@@ -1011,7 +1025,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         className="text-sm font-medium mb-3"
                         style={{ 
                           color: config.theme.colors.text,
-                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                         }}
                       >
                         Legend
@@ -1027,7 +1041,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                               className="text-xs"
                               style={{ 
                                 color: config.theme.colors.textSecondary,
-                                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                               }}
                             >
                               {type.name}
@@ -1066,7 +1080,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                       <h3 
                         className="text-lg font-medium"
                         style={{ 
-                          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                          fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                           color: config.theme.colors.text 
                         }}
                       >
@@ -1078,7 +1092,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                       className="text-sm mb-4"
                       style={{ 
                         color: config.theme.colors.textSecondary,
-                        fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                        fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                       }}
                     >
                       {location.description}
@@ -1114,29 +1128,6 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
     );
   };
 
-  const getLocationColor = (type: string) => {
-    const colors: Record<string, string> = {
-      stage: config.theme.colors.primary,
-      workshop: config.theme.colors.secondary,
-      food: '#E67E22',
-      wellness: '#9B59B6',
-      marketplace: '#F39C12',
-      entrance: '#2ECC71',
-      parking: '#95A5A6'
-    };
-    return colors[type] || config.theme.colors.primary;
-  };
-
-  const getLocationTypes = () => [
-    { id: 'stage', name: 'Stages' },
-    { id: 'workshop', name: 'Workshops' },
-    { id: 'food', name: 'Food & Dining' },
-    { id: 'wellness', name: 'Wellness' },
-    { id: 'marketplace', name: 'Vendors' },
-    { id: 'entrance', name: 'Entrance' },
-    { id: 'parking', name: 'Parking' }
-  ];
-
   const renderVendorsContent = () => {
     const vendorsData = (config.content as any)?.vendors;
     if (!vendorsData?.featured) {
@@ -1150,7 +1141,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             <h1 
               className="text-5xl md:text-6xl font-light mb-6"
               style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                 color: config.theme.colors.text 
               }}
             >
@@ -1160,7 +1151,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
               className="text-xl max-w-2xl mx-auto"
               style={{ 
                 color: config.theme.colors.textSecondary,
-                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
               }}
             >
               {vendorsData.description}
@@ -1180,7 +1171,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                     className="text-3xl font-light mb-2 transition-transform group-hover:scale-110"
                     style={{ 
                       color: config.theme.colors.primary,
-                      fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif"
+                      fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif"
                     }}
                   >
                     {category.count}
@@ -1189,7 +1180,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                     className="text-sm font-medium"
                     style={{ 
                       color: config.theme.colors.textSecondary,
-                      fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                      fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                     }}
                   >
                     {category.name}
@@ -1204,7 +1195,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             <h2 
               className="text-3xl font-light mb-8 text-center"
               style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                 color: config.theme.colors.text 
               }}
             >
@@ -1262,7 +1253,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         <h3 
                           className="text-xl font-medium group-hover:text-opacity-80 transition-colors"
                           style={{ 
-                            fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                            fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                             color: config.theme.colors.text 
                           }}
                         >
@@ -1276,7 +1267,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                             className="text-sm font-medium"
                             style={{ 
                               color: config.theme.colors.text,
-                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                              fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                             }}
                           >
                             {vendor.rating}
@@ -1288,7 +1279,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         className="text-sm mb-4 leading-relaxed"
                         style={{ 
                           color: config.theme.colors.textSecondary,
-                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                         }}
                       >
                         {vendor.description}
@@ -1304,7 +1295,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                             className="font-medium"
                             style={{ 
                               color: config.theme.colors.text,
-                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                              fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                             }}
                           >
                             {vendor.location}
@@ -1320,7 +1311,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                             className="font-medium"
                             style={{ 
                               color: config.theme.colors.text,
-                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                              fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                             }}
                           >
                             {vendor.sustainability}
@@ -1380,7 +1371,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             <h1 
               className="text-5xl md:text-6xl font-light mb-6"
               style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                 color: config.theme.colors.text 
               }}
             >
@@ -1390,7 +1381,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
               className="text-xl max-w-3xl mx-auto mb-8"
               style={{ 
                 color: config.theme.colors.textSecondary,
-                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
               }}
             >
               {aboutData.mission}
@@ -1399,7 +1390,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
               className="text-lg max-w-4xl mx-auto"
               style={{ 
                 color: config.theme.colors.textSecondary,
-                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
               }}
             >
               {aboutData.description}
@@ -1411,7 +1402,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             <h2 
               className="text-3xl font-light mb-12 text-center"
               style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                 color: config.theme.colors.text 
               }}
             >
@@ -1436,7 +1427,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                       <h3 
                         className="text-xl font-medium mb-4"
                         style={{ 
-                          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                          fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                           color: config.theme.colors.text 
                         }}
                       >
@@ -1446,7 +1437,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         className="leading-relaxed"
                         style={{ 
                           color: config.theme.colors.textSecondary,
-                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                         }}
                       >
                         {value.description}
@@ -1465,7 +1456,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
               <h2 
                 className="text-3xl font-light mb-8"
                 style={{ 
-                  fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                  fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                   color: config.theme.colors.text 
                 }}
               >
@@ -1494,7 +1485,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           className="font-medium mb-1"
                           style={{ 
                             color: config.theme.colors.text,
-                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                           }}
                         >
                           Email
@@ -1503,7 +1494,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           className="text-sm"
                           style={{ 
                             color: config.theme.colors.textSecondary,
-                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                           }}
                         >
                           {aboutData.contact.email}
@@ -1525,7 +1516,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           className="font-medium mb-1"
                           style={{ 
                             color: config.theme.colors.text,
-                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                           }}
                         >
                           Phone
@@ -1534,7 +1525,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           className="text-sm"
                           style={{ 
                             color: config.theme.colors.textSecondary,
-                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                           }}
                         >
                           {aboutData.contact.phone}
@@ -1557,7 +1548,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           className="font-medium mb-1"
                           style={{ 
                             color: config.theme.colors.text,
-                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                           }}
                         >
                           Address
@@ -1566,7 +1557,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           className="text-sm"
                           style={{ 
                             color: config.theme.colors.textSecondary,
-                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                           }}
                         >
                           {aboutData.contact.address}
@@ -1583,7 +1574,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
               <h2 
                 className="text-3xl font-light mb-8"
                 style={{ 
-                  fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                  fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                   color: config.theme.colors.text 
                 }}
               >
@@ -1608,7 +1599,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         <h3 
                           className="text-lg font-medium mb-3"
                           style={{ 
-                            fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                            fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif",
                             color: config.theme.colors.text 
                           }}
                         >
@@ -1618,7 +1609,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           className="leading-relaxed"
                           style={{ 
                             color: config.theme.colors.textSecondary,
-                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                           }}
                         >
                           {faq.answer}
@@ -1639,14 +1630,14 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
     <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
       <EmbrKitCard className="text-center">
         <h1 className="text-4xl md:text-5xl mb-4" style={{ 
-          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif", 
+          fontFamily: config.theme.fonts?.heading ? `"${config.theme.fonts.heading}", serif` : "'Inter', sans-serif", 
           color: config.theme.colors.text 
         }}>
           {title}
         </h1>
         <p className="text-xl mb-12" style={{ 
           color: config.theme.colors.textSecondary,
-          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+          fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
         }}>
           {description}
         </p>
@@ -1668,7 +1659,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
           </h3>
           <p className="text-lg max-w-2xl mx-auto" style={{ 
             color: config.theme.colors.textSecondary,
-            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+            fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
           }}>
             This feature is being carefully crafted to showcase your festival content.
             </p>
@@ -1678,7 +1669,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
   );
 
   const renderContent = () => {
-    const getNavItem = (id: string) => config.navigation.find(nav => nav.id === id);
+    const getNavItem = (id: string) => config.navigation.find((nav: any) => nav.id === id);
     
     switch (activeTab) {
       case 'home':
@@ -1817,7 +1808,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                   style={{ 
                     backgroundColor: activeTab === item.id ? config.theme.colors.primary : 'transparent',
                     color: activeTab === item.id ? '#ffffff' : config.theme.colors.textSecondary,
-                    fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                    fontFamily: config.theme.fonts?.body ? `"${config.theme.fonts.body}", sans-serif` : "'Inter', sans-serif"
                   }}
                 >
                   {getIcon(item.icon)}
