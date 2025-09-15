@@ -26,6 +26,7 @@
     "depcheck:ui": "npx depcheck packages/ui",
     "audit:theme": "node scripts/theming-audit.js",
     "check:isolation": "node scripts/check-demo-isolation.js",
+    "validate:files": "node scripts/validate-files.js",
     "session:init": "node scripts/session-init.js",
     "session:end": "node scripts/session-end.js",
     "git:start": "node scripts/git-workflow.js start",
