@@ -50,7 +50,9 @@
     "node_modules",
     "packages/*/node_modules",
     "packages/*/.next",
-    "packages/*/out"
+    "packages/*/out",
+    "packages/*/postcss.config.js",
+    "packages/*/tailwind.config.ts"
   ],
   "references": [
     {
