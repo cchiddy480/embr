@@ -48,7 +48,8 @@
       "@embr/ui/*": [
         "../ui/src/*"
       ]
-    }
+    },
+    "noEmit": true
   },
   "include": [
     "next-env.d.ts",

@@ -12,7 +12,8 @@ How this log is organized
 - 2025-08-08 → docs/dev-log/2025-08-08.md
 
 - 2025-09-13 → docs/dev-log/2025-09-13.md
-### Latest Summary (2025-09-13)
+- 2025-09-15 → docs/dev-log/2025-09-15.md
+### Latest Summary (2025-09-15)
 - Fixed embrkit-components-demo button styling issues (white buttons until hover)
 - Fixed font styling for monetary amounts in data display components
 - Made all demo pages completely independent with inline CSS variables
