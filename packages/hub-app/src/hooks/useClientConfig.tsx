@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useCallback, ReactNode, use
 import { ClientConfig } from '../types/client';
 import { db } from '../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { Preferences } from '@capacitor/preferences';
+// import { Preferences } from '@capacitor/preferences';
 
 const STORAGE_CLIENT_ID_KEY = 'embr-last-client-id';
 const STORAGE_CONFIG_KEY = 'embr-client-config';
@@ -53,19 +53,19 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
         setLoading(false);
       }, 3000);
       try {
-        const { value: cachedConfig } = await Preferences.get({ key: STORAGE_CONFIG_KEY });
+        const cachedConfig = localStorage.getItem(STORAGE_CONFIG_KEY);
         if (cachedConfig) {
           try {
             const parsed = JSON.parse(cachedConfig);
             setConfig(parsed);
             checkExpiry(parsed.expiry);
-            console.log('[ClientConfigProvider] loaded cached config from Capacitor Storage:', parsed);
+            console.log('[ClientConfigProvider] loaded cached config from localStorage:', parsed);
           } catch (e) {
-            console.warn('[ClientConfigProvider] Failed to parse cached config from Capacitor Storage');
+            console.warn('[ClientConfigProvider] Failed to parse cached config from localStorage');
           }
         }
       } catch (err) {
-        console.warn('[ClientConfigProvider] Preferences.get failed; continuing without cached config');
+        console.warn('[ClientConfigProvider] localStorage.get failed; continuing without cached config');
       } finally {
         clearTimeout(loadingTimeout);
         setLoading(false);
@@ -128,18 +128,18 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     console.log('[loadConfig] window:', typeof window);
     
     if (!clientIdOrAccessCode) {
-      // Try to load from Capacitor Storage
-      const { value: cachedConfig } = await Preferences.get({ key: STORAGE_CONFIG_KEY });
+      // Try to load from localStorage
+      const cachedConfig = localStorage.getItem(STORAGE_CONFIG_KEY);
       if (cachedConfig) {
         try {
           const parsed = JSON.parse(cachedConfig);
           setConfig(parsed);
           checkExpiry(parsed.expiry);
-          console.log('[loadConfig] loaded from Capacitor Storage:', parsed);
+          console.log('[loadConfig] loaded from localStorage:', parsed);
           return;
         } catch (error) {
           console.error('Failed to parse cached config:', error);
-          await Preferences.remove({ key: STORAGE_CONFIG_KEY });
+          localStorage.removeItem(STORAGE_CONFIG_KEY);
           throw new Error('Invalid cached config');
         }
       } else {
@@ -158,8 +158,8 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
         const fetchedConfig = docSnap.data() as ClientConfig;
         setConfig(fetchedConfig);
         checkExpiry(fetchedConfig.expiry);
-        await Preferences.set({ key: STORAGE_CLIENT_ID_KEY, value: clientId });
-        await Preferences.set({ key: STORAGE_CONFIG_KEY, value: JSON.stringify(fetchedConfig) });
+        localStorage.setItem(STORAGE_CLIENT_ID_KEY, clientId);
+        localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(fetchedConfig));
         console.log('[loadConfig] loaded from Firestore:', fetchedConfig);
         return;
       } else {
@@ -176,8 +176,8 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
       const fetchedConfig = await res.json();
       setConfig(fetchedConfig);
       checkExpiry(fetchedConfig.expiry);
-      await Preferences.set({ key: STORAGE_CLIENT_ID_KEY, value: clientId });
-      await Preferences.set({ key: STORAGE_CONFIG_KEY, value: JSON.stringify(fetchedConfig) });
+      localStorage.setItem(STORAGE_CLIENT_ID_KEY, clientId);
+      localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(fetchedConfig));
       console.log('[loadConfig] loaded from static JSON:', fetchedConfig);
       return;
     } catch (err) {
@@ -238,8 +238,8 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
 
     setConfig(genericConfig);
     checkExpiry(genericConfig.expiry);
-    await Preferences.set({ key: STORAGE_CLIENT_ID_KEY, value: clientId });
-    await Preferences.set({ key: STORAGE_CONFIG_KEY, value: JSON.stringify(genericConfig) });
+    localStorage.setItem(STORAGE_CLIENT_ID_KEY, clientId);
+    localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(genericConfig));
     console.log('[loadConfig] loaded generic config:', genericConfig);
   }, [checkExpiry]);
 
@@ -248,8 +248,8 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     setConfig(null);
     setIsExpired(false);
     setLoading(false);
-    await Preferences.remove({ key: STORAGE_CLIENT_ID_KEY });
-    await Preferences.remove({ key: STORAGE_CONFIG_KEY });
+    localStorage.removeItem(STORAGE_CLIENT_ID_KEY);
+    localStorage.removeItem(STORAGE_CONFIG_KEY);
   }, []);
 
   return (
