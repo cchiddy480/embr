@@ -82,17 +82,26 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
             }
           }
         } else {
-          // Try Capacitor Preferences
-          const { value: cachedConfig } = await Preferences.get({ key: STORAGE_CONFIG_KEY });
-          if (cachedConfig) {
-            try {
-              const parsed = JSON.parse(cachedConfig);
-              setConfig(parsed);
-              checkExpiry(parsed.expiry);
-              console.log('[ClientConfigProvider] loaded cached config from Capacitor Storage:', parsed);
-            } catch (e) {
-              console.warn('[ClientConfigProvider] Failed to parse cached config from Capacitor Storage');
+          // Try Capacitor Preferences with timeout
+          try {
+            const preferencesPromise = Preferences.get({ key: STORAGE_CONFIG_KEY });
+            const timeoutPromise = new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Preferences timeout')), 1000)
+            );
+            
+            const { value: cachedConfig } = await Promise.race([preferencesPromise, timeoutPromise]) as any;
+            if (cachedConfig) {
+              try {
+                const parsed = JSON.parse(cachedConfig);
+                setConfig(parsed);
+                checkExpiry(parsed.expiry);
+                console.log('[ClientConfigProvider] loaded cached config from Capacitor Storage:', parsed);
+              } catch (e) {
+                console.warn('[ClientConfigProvider] Failed to parse cached config from Capacitor Storage');
+              }
             }
+          } catch (prefError) {
+            console.warn('[ClientConfigProvider] Capacitor Preferences failed or timed out:', prefError);
           }
         }
       } catch (err) {
