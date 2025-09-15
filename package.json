@@ -15,6 +15,8 @@
     "devlog:append": "node scripts/update-dev-log.js --append",
     "configs:push": "node scripts/configs-push.js",
     "configs:push:one": "node scripts/configs-push.js --only",
+    "client:create": "node scripts/create-client.js",
+    "client:validate": "node scripts/validate-client-config.js --all",
     "setup": "npm install && npm run setup:firebase",
     "setup:firebase": "node scripts/setup-firebase.js",
     "lint": "npm run lint --workspaces",

@@ -1,0 +1,345 @@
+{
+  "clientId": "peakform-physio-2025",
+  "accessCode": "PEAKFORM2025",
+  "name": "PeakForm Physio",
+  "description": "Your digital companion for physiotherapy care, exercise plans, and clinic updates",
+  "version": "1.0",
+  "theme": {
+    "colors": {
+      "primary": "#1A476F",
+      "secondary": "#80C1D8",
+      "background": "#F8F8F8",
+      "surface": "#FFFFFF",
+      "surfaceElevated": "#F0F7FA",
+      "text": "#1A476F",
+      "textSecondary": "#4A5568",
+      "border": "#E2E8F0",
+      "primaryHover": "#0F3A5C",
+      "secondaryHover": "#6BB3D1"
+    },
+    "fonts": {
+      "heading": "Satoshi",
+      "body": "Plus Jakarta Sans"
+    }
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "title": "Home",
+      "icon": "home",
+      "enabled": true
+    },
+    {
+      "id": "appointments",
+      "title": "My Appointments",
+      "icon": "calendar",
+      "enabled": true
+    },
+    {
+      "id": "exercises",
+      "title": "Exercise Library",
+      "icon": "activity",
+      "enabled": true
+    },
+    {
+      "id": "clinic",
+      "title": "Clinic Info",
+      "icon": "map-pin",
+      "enabled": true
+    },
+    {
+      "id": "wellness",
+      "title": "Wellness Tips",
+      "icon": "heart",
+      "enabled": true
+    }
+  ],
+  "features": {
+    "offline": true,
+    "pushNotifications": true,
+    "qrCode": true,
+    "analytics": false,
+    "geolocation": true,
+    "socialSharing": false,
+    "bookmarking": true,
+    "videoPlayback": true,
+    "appointmentManagement": true,
+    "exerciseLibrary": true,
+    "wellnessFeed": true
+  },
+  "content": {
+    "clinic": {
+      "name": "PeakForm Physio",
+      "tagline": "Your Path to Peak Performance",
+      "description": "Independent Physiotherapy & Sports Rehab Clinic serving the local community with personalized care and evidence-based treatment.",
+      "address": {
+        "street": "123 Wellness Way",
+        "city": "Healthville",
+        "state": "BC",
+        "postalCode": "V1A 2B3",
+        "country": "Canada"
+      },
+      "contact": {
+        "phone": "(555) 123-4567",
+        "email": "info@peakformphysio.ca",
+        "website": "www.peakformphysio.ca"
+      },
+      "hours": {
+        "monday": "7:00 AM - 7:00 PM",
+        "tuesday": "7:00 AM - 7:00 PM",
+        "wednesday": "7:00 AM - 7:00 PM",
+        "thursday": "7:00 AM - 7:00 PM",
+        "friday": "7:00 AM - 6:00 PM",
+        "saturday": "8:00 AM - 4:00 PM",
+        "sunday": "Closed"
+      },
+      "parking": "Free parking available in front of the clinic and in the adjacent lot.",
+      "accessibility": "Wheelchair accessible with ramp entrance and accessible washrooms."
+    },
+    "staff": [
+      {
+        "id": "dr-sarah-chen",
+        "name": "Dr. Sarah Chen",
+        "title": "Lead Physiotherapist & Clinic Director",
+        "specialties": ["Sports Rehabilitation", "Post-Surgical Recovery", "Chronic Pain Management"],
+        "bio": "With over 12 years of experience, Dr. Chen specializes in helping athletes and active individuals return to peak performance. She holds advanced certifications in manual therapy and sports rehabilitation.",
+        "photo": "/assets/staff/sarah-chen.jpg",
+        "education": "MSc Physiotherapy, University of British Columbia",
+        "certifications": ["FCAMPT", "Certified Strength & Conditioning Specialist"]
+      },
+      {
+        "id": "mike-rodriguez",
+        "name": "Mike Rodriguez",
+        "title": "Senior Physiotherapist",
+        "specialties": ["Lower Back Pain", "Workplace Injuries", "ACL Rehabilitation"],
+        "bio": "Mike brings 8 years of clinical experience with a focus on evidence-based treatment approaches. He's passionate about helping patients understand their conditions and take an active role in their recovery.",
+        "photo": "/assets/staff/mike-rodriguez.jpg",
+        "education": "BSc Physiotherapy, University of Toronto",
+        "certifications": ["Manual Therapy Level 3", "Dry Needling Certified"]
+      },
+      {
+        "id": "lisa-patel",
+        "name": "Lisa Patel",
+        "title": "Physiotherapist & Wellness Coordinator",
+        "specialties": ["Women's Health", "Prenatal/Postnatal Care", "Pelvic Health"],
+        "bio": "Lisa specializes in women's health physiotherapy and has extensive training in pelvic floor rehabilitation. She's dedicated to providing compassionate, personalized care for women at all stages of life.",
+        "photo": "/assets/staff/lisa-patel.jpg",
+        "education": "MSc Physiotherapy, McGill University",
+        "certifications": ["Pelvic Health Physiotherapy", "Prenatal/Postnatal Specialist"]
+      }
+    ],
+    "appointments": {
+      "upcoming": [
+        {
+          "id": "apt-001",
+          "date": "2025-09-20",
+          "time": "10:00 AM",
+          "duration": "45 minutes",
+          "therapist": "Dr. Sarah Chen",
+          "type": "Follow-up Assessment",
+          "location": "Treatment Room 1",
+          "notes": "Post-ACL surgery rehabilitation - 6 weeks post-op",
+          "canReschedule": true,
+          "canCancel": true
+        },
+        {
+          "id": "apt-002",
+          "date": "2025-09-25",
+          "time": "2:30 PM",
+          "duration": "30 minutes",
+          "therapist": "Mike Rodriguez",
+          "type": "Exercise Review",
+          "location": "Gym Area",
+          "notes": "Lower back strengthening program review",
+          "canReschedule": true,
+          "canCancel": true
+        }
+      ],
+      "bookingUrl": "https://peakformphysio.janeapp.com/",
+      "phoneBooking": "(555) 123-4567"
+    },
+    "exerciseLibrary": {
+      "categories": [
+        {
+          "id": "lower-back",
+          "name": "Lower Back",
+          "description": "Exercises for lower back pain relief and strengthening",
+          "icon": "activity",
+          "color": "#1A476F"
+        },
+        {
+          "id": "acl-rehab",
+          "name": "ACL Rehabilitation",
+          "description": "Post-ACL surgery recovery exercises",
+          "icon": "zap",
+          "color": "#80C1D8"
+        },
+        {
+          "id": "shoulder",
+          "name": "Shoulder",
+          "description": "Shoulder mobility and strengthening exercises",
+          "icon": "target",
+          "color": "#1A476F"
+        },
+        {
+          "id": "core",
+          "name": "Core Strengthening",
+          "description": "Core stability and strength exercises",
+          "icon": "shield",
+          "color": "#80C1D8"
+        },
+        {
+          "id": "flexibility",
+          "name": "Flexibility & Stretching",
+          "description": "Improve range of motion and flexibility",
+          "icon": "wind",
+          "color": "#1A476F"
+        }
+      ],
+      "exercises": [
+        {
+          "id": "cat-cow-stretch",
+          "title": "Cat-Cow Stretch",
+          "description": "Gentle spinal mobility exercise to warm up the back and improve flexibility.",
+          "category": "lower-back",
+          "difficulty": "Beginner",
+          "duration": "2-3 minutes",
+          "equipment": "None",
+          "videoUrl": "/videos/exercises/cat-cow-stretch.mp4",
+          "thumbnail": "/images/exercises/cat-cow-thumb.jpg",
+          "instructions": [
+            "Start on hands and knees in tabletop position",
+            "Arch your back and look up (Cow pose)",
+            "Round your spine and tuck your chin (Cat pose)",
+            "Move slowly between positions",
+            "Repeat for 10-15 cycles"
+          ],
+          "tips": "Keep movements slow and controlled. Focus on feeling the stretch along your entire spine.",
+          "bookmarkable": true,
+          "favorite": false
+        },
+        {
+          "id": "wall-sit",
+          "title": "Wall Sit",
+          "description": "Isometric exercise to strengthen quadriceps and glutes, commonly used in ACL rehabilitation.",
+          "category": "acl-rehab",
+          "difficulty": "Beginner",
+          "duration": "30-60 seconds",
+          "equipment": "Wall",
+          "videoUrl": "/videos/exercises/wall-sit.mp4",
+          "thumbnail": "/images/exercises/wall-sit-thumb.jpg",
+          "instructions": [
+            "Stand with your back against a wall",
+            "Slide down until your knees are at 90 degrees",
+            "Keep your back flat against the wall",
+            "Hold the position for 30-60 seconds",
+            "Slowly slide back up to standing"
+          ],
+          "tips": "Start with shorter holds and gradually increase duration. Keep your knees aligned over your ankles.",
+          "bookmarkable": true,
+          "favorite": true
+        },
+        {
+          "id": "shoulder-blade-squeeze",
+          "title": "Shoulder Blade Squeeze",
+          "description": "Strengthens the muscles between your shoulder blades to improve posture and reduce shoulder pain.",
+          "category": "shoulder",
+          "difficulty": "Beginner",
+          "duration": "1-2 minutes",
+          "equipment": "None",
+          "videoUrl": "/videos/exercises/shoulder-blade-squeeze.mp4",
+          "thumbnail": "/images/exercises/shoulder-blade-thumb.jpg",
+          "instructions": [
+            "Sit or stand with good posture",
+            "Squeeze your shoulder blades together",
+            "Hold for 5 seconds",
+            "Release slowly",
+            "Repeat 10-15 times"
+          ],
+          "tips": "Imagine you're trying to hold a pencil between your shoulder blades. Keep your shoulders relaxed.",
+          "bookmarkable": true,
+          "favorite": false
+        }
+      ],
+      "rehabPlans": [
+        {
+          "id": "acl-phase-1",
+          "title": "ACL Recovery - Phase 1 (Weeks 1-4)",
+          "description": "Early rehabilitation exercises for post-ACL surgery recovery",
+          "therapist": "Dr. Sarah Chen",
+          "createdDate": "2025-09-15",
+          "exercises": ["wall-sit", "quad-sets", "heel-slides"],
+          "instructions": "Perform these exercises 2-3 times daily. Stop if you experience sharp pain.",
+          "bookmarkable": true,
+          "favorite": true
+        }
+      ]
+    },
+    "wellnessTips": [
+      {
+        "id": "winter-posture",
+        "title": "Winter Posture Tips",
+        "excerpt": "Maintain good posture during winter months to prevent back and neck pain.",
+        "content": "Winter weather can lead to poor posture habits. Here are some tips to maintain spinal health during the colder months...",
+        "category": "Posture",
+        "author": "Dr. Sarah Chen",
+        "publishedDate": "2025-09-10",
+        "readTime": "3 minutes",
+        "image": "/images/wellness/winter-posture.jpg",
+        "bookmarkable": true
+      },
+      {
+        "id": "marathon-prep",
+        "title": "Marathon Training Recovery",
+        "excerpt": "Essential recovery strategies for marathon runners to prevent injury and optimize performance.",
+        "content": "Training for a marathon requires careful attention to recovery. Here's how to keep your body strong and injury-free...",
+        "category": "Sports Recovery",
+        "author": "Mike Rodriguez",
+        "publishedDate": "2025-09-08",
+        "readTime": "5 minutes",
+        "image": "/images/wellness/marathon-recovery.jpg",
+        "bookmarkable": true
+      },
+      {
+        "id": "hydration-tips",
+        "title": "Hydration for Recovery",
+        "excerpt": "Proper hydration plays a crucial role in tissue healing and recovery from injury.",
+        "content": "Water is essential for every bodily function, including tissue repair and recovery. Learn how to optimize your hydration...",
+        "category": "Recovery",
+        "author": "Lisa Patel",
+        "publishedDate": "2025-09-05",
+        "readTime": "4 minutes",
+        "image": "/images/wellness/hydration.jpg",
+        "bookmarkable": true
+      }
+    ],
+    "notifications": {
+      "types": [
+        {
+          "id": "appointment-reminder",
+          "title": "Appointment Reminders",
+          "description": "Get notified 24 hours and 2 hours before your appointments",
+          "enabled": true
+        },
+        {
+          "id": "follow-up-care",
+          "title": "Follow-up Care",
+          "description": "Reminders for home exercises and recovery milestones",
+          "enabled": true
+        },
+        {
+          "id": "seasonal-tips",
+          "title": "Seasonal Wellness Tips",
+          "description": "Receive seasonal advice and injury prevention tips",
+          "enabled": true
+        },
+        {
+          "id": "appointment-availability",
+          "title": "Last-minute Availability",
+          "description": "Notifications when same-day appointments become available",
+          "enabled": false
+        }
+      ]
+    }
+  }
+}

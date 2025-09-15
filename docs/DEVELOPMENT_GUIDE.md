@@ -128,6 +128,77 @@ Based on your current state, the system provides:
 
 ---
 
+## 🎯 **Client App Development (CRITICAL)**
+
+### **Client App Independence Architecture**
+
+When developing a new client micro-app, you MUST create a **completely independent React component**:
+
+#### **1. Create Client-Specific Component**
+```typescript
+// packages/hub-app/src/components/clients/YourClientApp.tsx
+export function YourClientApp({ config }: YourClientAppProps) {
+  // Complete, independent UI implementation
+  // NO sharing of layouts, content, or styling with other clients
+}
+```
+
+#### **2. Register in Client App Registry**
+```typescript
+// packages/hub-app/src/components/clients/index.ts
+export const CLIENT_APP_REGISTRY = {
+  'your-client-2025': YourClientApp,  // Add your client here
+  // ... existing clients
+} as const;
+```
+
+#### **3. Design Principles (MANDATORY)**
+- **Complete Visual Independence**: Each client has unique layouts, content, and styling
+- **Business-Specific Features**: Tailor UI to client's specific use case and workflows
+- **Purpose-Built UI**: No generic templates or carbon copies
+- **Brand Integrity**: Use client's colors, fonts, and visual identity
+
+#### **4. Development Checklist**
+- [ ] Create completely independent component (no shared layouts)
+- [ ] Use EmbrKit components for foundation and common UI
+- [ ] Add custom blocks for unique, branded visuals
+- [ ] Implement business-specific content and features
+- [ ] Apply client's brand colors, fonts, and styling
+- [ ] Register component in CLIENT_APP_REGISTRY
+- [ ] Test with client's access code
+- [ ] Verify complete visual independence from other clients
+
+#### **5. Anti-Patterns to Avoid**
+❌ **DON'T**: Create generic templates that all clients share
+❌ **DON'T**: Make clients look like carbon copies with different colors
+❌ **DON'T**: Share layouts, content structures, or user flows
+❌ **DON'T**: Force clients into the same information architecture
+
+✅ **DO**: Create unique, purpose-built experiences for each client
+✅ **DO**: Use client's brand colors, fonts, and styling
+✅ **DO**: Implement business-specific features and content
+✅ **DO**: Design layouts that match the client's use case
+
+### **Complete Development Guide**
+For detailed client app development instructions, see:
+**📖 [CLIENT_APP_DEVELOPMENT_GUIDE.md](CLIENT_APP_DEVELOPMENT_GUIDE.md)**
+
+### **Quick Start Tools**
+```bash
+# Create a new client app in 3 commands
+npm run client:create -- --name "My Client" --industry healthcare --access-code CLIENT2025
+npm run client:validate  # Validate all configs
+npm run configs:push     # Deploy to Firebase
+```
+
+### **Available Client Tools**
+- `npm run client:create` - Create new client from template
+- `npm run client:validate` - Validate all client configs  
+- `npm run configs:push` - Deploy configs to Firebase
+- `npm run configs:push:one -- <slug>` - Deploy single config
+
+---
+
 ## 🔄 **Development Workflow**
 
 ### **Starting New Feature**

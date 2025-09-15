@@ -76,6 +76,7 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
   // Access code to client ID mapping - static fallback for known codes
   const ACCESS_CODE_MAPPING: Record<string, string> = {
     'WILDROOTS2025': 'wildroots-festival-2025',
+    'PEAKFORM2025': 'peakform-physio-2025',
     // Add more access codes here as needed
   };
 
@@ -93,6 +94,7 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     // Try to find access code by scanning config files
     const configFileNames = [
       'wildroots-festival-2025.json',
+      'peakform-physio-2025.json',
       'smith-jones-wedding-2024.json', 
       'demo-festival.json'
       // Add more as needed, or make this dynamic

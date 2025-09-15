@@ -62,10 +62,56 @@ Embr is a **Universal Micro-App Framework** that enables rapid creation of singl
 Embr/
 ├── packages/
 │   ├── hub-app/           # Next.js + Capacitor Hub
+│   │   ├── src/components/clients/  # Client-specific app components
+│   │   │   ├── healthcare/          # Healthcare industry clients
+│   │   │   │   └── peakform-physio-2025/
+│   │   │   │       ├── PeakFormPhysioApp.tsx
+│   │   │   │       └── index.ts
+│   │   │   ├── events/              # Events industry clients
+│   │   │   │   └── wildroots-festival-2025/
+│   │   │   │       ├── WildRootsFestivalApp.tsx
+│   │   │   │       └── index.ts
+│   │   │   ├── hospitality/         # Hospitality industry clients
+│   │   │   ├── retail/              # Retail industry clients
+│   │   │   ├── services/            # Services industry clients
+│   │   │   ├── other/               # Other industry clients
+│   │   │   └── index.ts             # Main client registry
+│   │   ├── public/client-configs/   # JSON configuration files
+│   │   └── src/components/ClientApp.tsx  # Client app router
 │   ├── ui/                # EmbrKit Design System
 │   └── standalone-app/    # Standalone App Generator
 ├── scripts/               # Build & deployment scripts
 └── docs/                  # Documentation
+```
+
+### Client-Specific Architecture (CRITICAL)
+
+#### **Client App Independence System**
+Each client micro-app is a **completely independent React component** with:
+- **Unique UI layouts** and content structures
+- **Custom styling** and interactions
+- **Business-specific features** and workflows
+- **Complete visual independence** from other clients
+
+#### **Client App Registry**
+```typescript
+// packages/hub-app/src/components/clients/index.ts
+export const CLIENT_APP_REGISTRY = {
+  'peakform-physio-2025': PeakFormPhysioApp,
+  'wildroots-festival-2025': WildRootsFestivalApp,
+  // Add new clients here
+} as const;
+```
+
+#### **Smart Router System**
+```typescript
+// ClientApp.tsx - Simple router that loads appropriate client
+export function ClientApp({ config }: ClientAppProps) {
+  const ClientAppComponent = CLIENT_APP_REGISTRY[config.clientId];
+  return ClientAppComponent ? 
+    <ClientAppComponent config={config} /> : 
+    <GenericClientApp config={config} />;
+}
 ```
 
 ### Technology Stack
@@ -75,6 +121,7 @@ Embr/
 - **TypeScript**: Type safety throughout
 - **CSS Custom Properties**: Dynamic theming system
 - **Inter Font**: Primary typography (Google Fonts)
+- **Client-Specific Components**: Independent React components per client
 
 #### Mobile & Native
 - **Capacitor**: Web-to-native wrapper
@@ -397,6 +444,121 @@ h3, .embr-text-2xl { font-size: 1.5rem; font-weight: 600; }
 - **Component Tests**: Interactive behavior
 - **Visual Regression**: Design system consistency
 - **Accessibility**: Automated a11y testing
+
+---
+
+## 🎯 CLIENT APP DEVELOPMENT GUIDELINES
+
+### **CRITICAL: Client App Independence**
+
+When developing a new client micro-app, you MUST create a **completely independent React component** that:
+
+#### **1. Create Client-Specific Directory Structure**
+```
+packages/hub-app/src/components/clients/
+└── [industry]/
+    └── [client-name-2025]/
+        ├── YourClientApp.tsx
+        ├── components/          # Optional: client-specific components
+        ├── styles/             # Optional: client-specific styles
+        ├── types/              # Optional: client-specific types
+        └── index.ts
+```
+
+#### **2. Create Client-Specific Component**
+```typescript
+// packages/hub-app/src/components/clients/[industry]/[client-name-2025]/YourClientApp.tsx
+export function YourClientApp({ config }: YourClientAppProps) {
+  // Complete, independent UI implementation
+  // NO sharing of layouts, content, or styling with other clients
+}
+```
+
+#### **3. Register in Industry and Main Registries**
+```typescript
+// packages/hub-app/src/components/clients/[industry]/index.ts
+export const [INDUSTRY]_CLIENTS = {
+  'your-client-2025': YourClientApp,  // Add your client here
+} as const;
+
+// packages/hub-app/src/components/clients/index.ts
+export const CLIENT_APP_REGISTRY = {
+  'your-client-2025': YourClientApp,  // Add your client here
+  // ... existing clients
+} as const;
+```
+
+#### **3. Design Principles for Client Apps**
+
+##### **Complete Visual Independence**
+- **Unique layouts**: Each client has their own page structure
+- **Custom content**: Business-specific information and features
+- **Brand-specific styling**: Colors, fonts, spacing, interactions
+- **Purpose-built UI**: Tailored to the client's specific use case
+
+##### **Hybrid Approach (EmbrKit + Custom)**
+- **Foundation**: Use EmbrKit components for structure and common UI
+- **Custom blocks**: Add unique, pixel-perfect visuals for client branding
+- **Theme compliance**: All styling must use client's brand colors and fonts
+- **No hardcoded colors**: Use CSS custom properties from client config
+
+##### **Business-Specific Features**
+- **Content structure**: Match the client's business model
+- **User workflows**: Optimize for the client's specific use cases
+- **Navigation**: Reflect the client's information architecture
+- **Interactions**: Support the client's unique user journeys
+
+#### **4. Client App Development Checklist**
+
+##### **Before Starting**
+- [ ] Read the client brief thoroughly
+- [ ] Understand the business model and user needs
+- [ ] Identify unique features and content requirements
+- [ ] Plan the information architecture and user flows
+
+##### **During Development**
+- [ ] Create completely independent component (no shared layouts)
+- [ ] Use EmbrKit components for foundation and common UI
+- [ ] Add custom blocks for unique, branded visuals
+- [ ] Implement business-specific content and features
+- [ ] Apply client's brand colors, fonts, and styling
+- [ ] Ensure mobile-first responsive design
+- [ ] Test accessibility and performance
+
+##### **Before Completion**
+- [ ] Register component in CLIENT_APP_REGISTRY
+- [ ] Test with client's access code
+- [ ] Verify complete visual independence from other clients
+- [ ] Run theme audit and isolation checks
+- [ ] Update documentation and development log
+
+#### **5. Examples of Client Independence**
+
+##### **PeakForm Physio (Healthcare)**
+- **Layout**: Medical-focused hero, appointment-centric content
+- **Content**: Appointments, exercises, staff, wellness tips
+- **Styling**: Professional medical colors, clean typography
+- **Features**: Appointment management, exercise library, staff profiles
+
+##### **WildRoots Festival (Events)**
+- **Layout**: Festival-focused hero, event-centric content
+- **Content**: Events, vendors, locations, festival info
+- **Styling**: Nature-inspired colors, festival typography
+- **Features**: Event schedule, vendor directory, festival map
+
+#### **6. Anti-Patterns to Avoid**
+
+❌ **DON'T**: Create generic templates that all clients share
+❌ **DON'T**: Use hardcoded content or styling
+❌ **DON'T**: Make clients look like carbon copies with different colors
+❌ **DON'T**: Share layouts, content structures, or user flows
+❌ **DON'T**: Force clients into the same information architecture
+
+✅ **DO**: Create unique, purpose-built experiences for each client
+✅ **DO**: Use client's brand colors, fonts, and styling
+✅ **DO**: Implement business-specific features and content
+✅ **DO**: Design layouts that match the client's use case
+✅ **DO**: Ensure complete visual and functional independence
 
 ---
 
