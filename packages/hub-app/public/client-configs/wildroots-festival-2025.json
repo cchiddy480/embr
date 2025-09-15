@@ -4,6 +4,7 @@
   "name": "WildRoots Festival 2025",
   "description": "Your digital companion for the Sustainable Living & Wellness Festival experience",
   "version": "1.0",
+  "expiry": "2025-06-15T23:59:59Z",
   "theme": {
     "colors": {
       "primary": "#3B6A4C",
