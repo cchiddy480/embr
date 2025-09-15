@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { ClientConfig } from '../../types/client';
 import { 
   EmbrKitProvider, 
@@ -7,7 +7,8 @@ import {
   EmbrKitButton,
   EmbrKitGrid,
   EmbrKitBadge,
-  EmbrKitStatCard
+  EmbrKitStatCard,
+  EmbrKitInput
 } from '@embr/ui';
 
 interface WildRootsFestivalAppProps {
@@ -16,6 +17,9 @@ interface WildRootsFestivalAppProps {
 
 export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
   const [activeTab, setActiveTab] = useState(config.navigation[0]?.id || 'home');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [bookmarkedEvents, setBookmarkedEvents] = useState<Set<string>>(new Set());
 
   // Set page background to client theme
   useEffect(() => {
@@ -44,6 +48,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
     fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
   };
 
+  // Utility functions
   const getIcon = (iconName: string) => {
     const icons: Record<string, JSX.Element> = {
       home: (
@@ -71,199 +76,369 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
+      search: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      ),
+      bookmark: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+        </svg>
+      ),
+      share: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+        </svg>
+      ),
     };
     return icons[iconName] || icons.home;
   };
 
+  const toggleBookmark = (eventId: string) => {
+    setBookmarkedEvents(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(eventId)) {
+        newSet.delete(eventId);
+      } else {
+        newSet.add(eventId);
+      }
+      return newSet;
+    });
+  };
+
+  const getEventCategories = useMemo(() => {
+    if (!config.content?.schedule?.events) return [];
+    const categories = new Set(config.content.schedule.events.map(event => (event as any).category || 'General'));
+    return Array.from(categories);
+  }, [config.content?.schedule?.events]);
+
+  const filteredEvents = useMemo(() => {
+    if (!config.content?.schedule?.events) return [];
+    
+    return config.content.schedule.events.filter(event => {
+      const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           event.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           event.location.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      const matchesCategory = selectedCategory === 'all' || (event as any).category === selectedCategory;
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [config.content?.schedule?.events, searchQuery, selectedCategory]);
+
   const renderHomeContent = () => (
     <div className="min-h-screen">
-      {/* WILDROOTS-SPECIFIC: Festival/Nature Hero Section */}
+      {/* MODERN FESTIVAL HERO SECTION */}
       <div 
-        className="px-6 py-12 text-center relative overflow-hidden"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
         style={{ 
-          background: `linear-gradient(135deg, ${config.theme.colors.background} 0%, ${config.theme.colors.surface} 100%)`,
+          background: `linear-gradient(135deg, ${config.theme.colors.background} 0%, ${config.theme.colors.surface} 50%, ${config.theme.colors.background} 100%)`,
         }}
       >
-        {/* WILDROOTS-SPECIFIC: Nature/festival decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-10">
-          <div className="absolute top-10 left-10 text-6xl">🌿</div>
-          <div className="absolute top-20 right-16 text-4xl">🧘</div>
-          <div className="absolute bottom-20 left-20 text-5xl">♻️</div>
-          <div className="absolute bottom-10 right-10 text-6xl">🌱</div>
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Floating Nature Elements */}
+          <div className="absolute top-20 left-10 text-8xl opacity-20 animate-pulse">🌿</div>
+          <div className="absolute top-40 right-20 text-6xl opacity-15 animate-bounce" style={{ animationDelay: '1s' }}>🧘</div>
+          <div className="absolute bottom-40 left-20 text-7xl opacity-25 animate-pulse" style={{ animationDelay: '2s' }}>♻️</div>
+          <div className="absolute bottom-20 right-10 text-9xl opacity-20 animate-bounce" style={{ animationDelay: '0.5s' }}>🌱</div>
+          <div className="absolute top-60 left-1/3 text-5xl opacity-15 animate-pulse" style={{ animationDelay: '1.5s' }}>🌻</div>
+          <div className="absolute bottom-60 right-1/3 text-6xl opacity-20 animate-bounce" style={{ animationDelay: '2.5s' }}>🦋</div>
+          
+          {/* Gradient Orbs */}
+          <div 
+            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full opacity-10 blur-3xl animate-pulse"
+            style={{ 
+              background: `radial-gradient(circle, ${config.theme.colors.primary} 0%, transparent 70%)`,
+              animationDelay: '0s'
+            }}
+          />
+          <div 
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-8 blur-3xl animate-pulse"
+            style={{ 
+              background: `radial-gradient(circle, ${config.theme.colors.secondary} 0%, transparent 70%)`,
+              animationDelay: '1s'
+            }}
+          />
         </div>
 
-        <EmbrKitContainer size="lg">
-          <div className="relative z-10">
-            {/* WILDROOTS-SPECIFIC: Festival-focused heading */}
+        <EmbrKitContainer size="lg" className="relative z-10">
+          <div className="text-center">
+            {/* Festival Badge */}
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full mb-8 animate-fade-in"
+                 style={{ 
+                   backgroundColor: `${config.theme.colors.primary}15`,
+                   border: `1px solid ${config.theme.colors.primary}30`
+                 }}>
+              <span className="text-2xl">🌿</span>
+              <span 
+                className="text-sm font-medium"
+                style={{ 
+                  color: config.theme.colors.primary,
+                  fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                }}
+              >
+                Sustainable Living & Wellness Festival
+              </span>
+            </div>
+
+            {/* Main Heading */}
             <h1 
-              className="text-5xl md:text-6xl leading-tight mb-6"
+              className="text-6xl md:text-8xl lg:text-9xl leading-none mb-8 animate-slide-up"
               style={{ 
                 fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
                 color: config.theme.colors.text,
-                fontWeight: 400
+                fontWeight: 300,
+                letterSpacing: '-0.02em'
               }}
             >
-              Welcome to<br />
-              <span style={{ color: config.theme.colors.primary }}>WildRoots Festival</span>
+              WildRoots
             </h1>
             
-            {/* WILDROOTS-SPECIFIC: Festival-focused subtitle */}
+            {/* Subtitle */}
             <p 
-              className="text-xl md:text-2xl mb-12 leading-relaxed max-w-3xl mx-auto"
+              className="text-xl md:text-2xl lg:text-3xl mb-16 leading-relaxed max-w-4xl mx-auto animate-slide-up"
               style={{ 
                 fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif",
                 color: config.theme.colors.textSecondary,
-                fontWeight: 300
+                fontWeight: 300,
+                animationDelay: '0.2s'
               }}
             >
-              Your digital companion for the Sustainable Living & Wellness Festival experience. 
-              Navigate workshops, discover vendors, and plan your mindful weekend.
+              Connect with nature, discover sustainable living, and embrace wellness in our 
+              <span style={{ color: config.theme.colors.primary }}> mindful community</span>
             </p>
 
-            {/* WILDROOTS-SPECIFIC: Festival-focused stat cards */}
-            <div className="mb-16">
-              <EmbrKitGrid cols={2} gap={6} className="md:grid-cols-4">
+            {/* Festival Stats */}
+            <div className="mb-16 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+              <EmbrKitGrid cols={2} gap={6} className="md:grid-cols-4 max-w-4xl mx-auto">
                 {config.content?.schedule?.events && (
-                  <EmbrKitStatCard 
-                    value={config.content.schedule.events.length}
-                    label="Events"
-                    color={config.theme.colors.primary}
-                    size="lg"
-                    className="p-8 text-center"
-                    style={{
-                      backgroundColor: config.theme.colors.surface,
-                      borderRadius: '1rem',
-                      boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
-                    }}
-                  />
+                  <div className="text-center group">
+                    <div 
+                      className="text-4xl md:text-5xl font-light mb-2 transition-transform group-hover:scale-110"
+                      style={{ 
+                        color: config.theme.colors.primary,
+                        fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif"
+                      }}
+                    >
+                      {config.content.schedule.events.length}
+                    </div>
+                    <div 
+                      className="text-sm font-medium uppercase tracking-wider"
+                      style={{ 
+                        color: config.theme.colors.textSecondary,
+                        fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                      }}
+                    >
+                      Events
+                    </div>
+                  </div>
                 )}
-                <EmbrKitStatCard 
-                  value="3"
-                  label="Vendors"
-                  color={config.theme.colors.primary}
-                  size="lg"
-                  className="p-8 text-center"
-                  style={{
-                    backgroundColor: config.theme.colors.surface,
-                    borderRadius: '1rem',
-                    boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
-                  }}
-                />
-                <EmbrKitStatCard 
-                  value="8"
-                  label="Locations"
-                  color={config.theme.colors.primary}
-                  size="lg"
-                  className="p-8 text-center"
-                  style={{
-                    backgroundColor: config.theme.colors.surface,
-                    borderRadius: '1rem',
-                    boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
-                  }}
-                />
-                <EmbrKitStatCard 
-                  value="3"
-                  label="Days"
-                  color={config.theme.colors.primary}
-                  size="lg"
-                  className="p-8 text-center"
-                  style={{
-                    backgroundColor: config.theme.colors.surface,
-                    borderRadius: '1rem',
-                    boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
-                  }}
-                />
+                <div className="text-center group">
+                  <div 
+                    className="text-4xl md:text-5xl font-light mb-2 transition-transform group-hover:scale-110"
+                    style={{ 
+                      color: config.theme.colors.primary,
+                      fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    25+
+                  </div>
+                  <div 
+                    className="text-sm font-medium uppercase tracking-wider"
+                    style={{ 
+                      color: config.theme.colors.textSecondary,
+                      fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    Vendors
+                  </div>
+                </div>
+                <div className="text-center group">
+                  <div 
+                    className="text-4xl md:text-5xl font-light mb-2 transition-transform group-hover:scale-110"
+                    style={{ 
+                      color: config.theme.colors.primary,
+                      fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    8
+                  </div>
+                  <div 
+                    className="text-sm font-medium uppercase tracking-wider"
+                    style={{ 
+                      color: config.theme.colors.textSecondary,
+                      fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    Locations
+                  </div>
+                </div>
+                <div className="text-center group">
+                  <div 
+                    className="text-4xl md:text-5xl font-light mb-2 transition-transform group-hover:scale-110"
+                    style={{ 
+                      color: config.theme.colors.primary,
+                      fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    3
+                  </div>
+                  <div 
+                    className="text-sm font-medium uppercase tracking-wider"
+                    style={{ 
+                      color: config.theme.colors.textSecondary,
+                      fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    Days
+                  </div>
+                </div>
               </EmbrKitGrid>
             </div>
 
-            {/* WILDROOTS-SPECIFIC: Festival-focused action buttons */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-slide-up" style={{ animationDelay: '0.6s' }}>
               <EmbrKitButton
                 variant="primary"
                 size="lg"
                 onClick={() => setActiveTab('schedule')}
-                className="transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-3"
+                className="group transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-3 px-8 py-4"
                 style={{ 
-                  padding: '1.25rem 2rem',
-                  fontSize: '1.125rem',
                   backgroundColor: config.theme.colors.primary,
-                  color: '#ffffff'
+                  color: '#ffffff',
+                  fontSize: '1.125rem',
+                  borderRadius: '2rem',
+                  boxShadow: `0 8px 32px ${config.theme.colors.primary}30`
                 }}
               >
                 {getIcon('calendar')}
-                View Schedule
+                <span>Explore Schedule</span>
+                <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </EmbrKitButton>
               
               <EmbrKitButton
                 variant="secondary"
                 size="lg"
                 onClick={() => setActiveTab('map')}
-                className="transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-3"
+                className="group transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-3 px-8 py-4"
                 style={{ 
-                  padding: '1.25rem 2rem',
+                  backgroundColor: 'transparent',
+                  color: config.theme.colors.primary,
+                  border: `2px solid ${config.theme.colors.primary}`,
                   fontSize: '1.125rem',
-                  backgroundColor: config.theme.colors.secondary,
-                  color: '#ffffff'
+                  borderRadius: '2rem'
                 }}
               >
                 {getIcon('map')}
-                Festival Map
+                <span>Festival Map</span>
+                <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </EmbrKitButton>
+            </div>
+
+            {/* Scroll Indicator */}
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+              <div 
+                className="w-6 h-10 border-2 rounded-full flex justify-center"
+                style={{ borderColor: config.theme.colors.textSecondary }}
+              >
+                <div 
+                  className="w-1 h-3 rounded-full mt-2 animate-pulse"
+                  style={{ backgroundColor: config.theme.colors.textSecondary }}
+                />
+              </div>
             </div>
           </div>
         </EmbrKitContainer>
       </div>
 
-      {/* WILDROOTS-SPECIFIC: Featured Events Section */}
+      {/* FEATURED EVENTS SECTION */}
       {config.content?.schedule?.events && config.content.schedule.events.length > 0 && (
-        <div className="px-6 py-12" style={{ backgroundColor: config.theme.colors.background }}>
+        <div className="py-24" style={{ backgroundColor: config.theme.colors.background }}>
           <EmbrKitContainer size="lg">
-            <h2 
-              className="text-4xl text-center mb-12"
-              style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
-                color: config.theme.colors.text 
-              }}
-            >
-              Featured Events
-            </h2>
+            <div className="text-center mb-16">
+              <h2 
+                className="text-5xl md:text-6xl font-light mb-6"
+                style={{ 
+                  fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                  color: config.theme.colors.text 
+                }}
+              >
+                Featured Events
+              </h2>
+              <p 
+                className="text-xl text-center max-w-2xl mx-auto"
+                style={{ 
+                  color: config.theme.colors.textSecondary,
+                  fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                }}
+              >
+                Discover workshops, talks, and experiences that inspire sustainable living
+              </p>
+            </div>
             
-            <div className="space-y-8">
-              {config.content.schedule.events.slice(0, 3).map((event) => (
-                <EmbrKitCard 
-                  key={event.id} 
-                  variant="elevated"
-                  className="hover:shadow-xl transition-all duration-300 group cursor-pointer"
-                  style={{ 
-                    backgroundColor: config.theme.colors.background,
-                    padding: '2rem'
-                  }}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {config.content.schedule.events.slice(0, 3).map((event, index) => (
+                <div 
+                  key={event.id}
+                  className="group cursor-pointer"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-4">
-                        <h3 
-                          className="text-2xl font-normal group-hover:text-opacity-80 transition-colors"
-                          style={{ 
-                            fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
-                            color: config.theme.colors.text 
-                          }}
-                        >
-                          {event.title}
-                        </h3>
+                  <EmbrKitCard 
+                    variant="elevated"
+                    className="h-full hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
+                    style={{ 
+                      backgroundColor: config.theme.colors.surface,
+                      borderRadius: '1.5rem'
+                    }}
+                  >
+                    {/* Event Image Placeholder */}
+                    <div 
+                      className="h-48 relative overflow-hidden"
+                      style={{ 
+                        background: `linear-gradient(135deg, ${config.theme.colors.primary}20 0%, ${config.theme.colors.secondary}20 100%)`
+                      }}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-6xl opacity-30">
+                          {(event as any).category === 'Wellness' ? '🧘' : 
+                           (event as any).category === 'Education' ? '📚' : 
+                           (event as any).category === 'Food' ? '🍃' : '🌿'}
+                        </div>
+                      </div>
+                      <div className="absolute top-4 right-4">
                         <EmbrKitBadge 
                           variant="primary"
+                          className="px-3 py-1"
                           style={{ 
                             backgroundColor: config.theme.colors.primary,
-                            color: '#ffffff'
+                            color: '#ffffff',
+                            fontSize: '0.75rem'
                           }}
                         >
                           {(event as any).category || 'Event'}
                         </EmbrKitBadge>
                       </div>
+                    </div>
+                    
+                    <div className="p-6">
+                      <h3 
+                        className="text-xl font-medium mb-3 group-hover:text-opacity-80 transition-colors"
+                        style={{ 
+                          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                          color: config.theme.colors.text 
+                        }}
+                      >
+                        {event.title}
+                      </h3>
                       
                       <p 
-                        className="text-lg mb-6 leading-relaxed"
+                        className="text-sm mb-6 leading-relaxed line-clamp-3"
                         style={{ 
                           color: config.theme.colors.textSecondary,
                           fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
@@ -272,11 +447,11 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         {event.description}
                       </p>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-base">
-                        <div className="flex items-center gap-3">
+                      <div className="space-y-3 mb-6">
+                        <div className="flex items-center gap-3 text-sm">
                           <div 
-                            className="text-2xl"
-                            style={{ color: config.theme.colors.primary }}
+                            className="w-8 h-8 rounded-full flex items-center justify-center"
+                            style={{ backgroundColor: `${config.theme.colors.primary}15` }}
                           >
                             📅
                           </div>
@@ -289,12 +464,13 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                               }}
                             >
                               {new Date(event.startTime).toLocaleDateString('en-US', { 
-                                weekday: 'long',
+                                weekday: 'short',
                                 month: 'short', 
                                 day: 'numeric' 
                               })}
                             </div>
                             <div 
+                              className="text-xs"
                               style={{ 
                                 color: config.theme.colors.textSecondary,
                                 fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
@@ -308,14 +484,32 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                           </div>
                         </div>
                         
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 text-sm">
                           <div 
-                            className="text-2xl"
-                            style={{ color: config.theme.colors.primary }}
+                            className="w-8 h-8 rounded-full flex items-center justify-center"
+                            style={{ backgroundColor: `${config.theme.colors.primary}15` }}
                           >
                             📍
                           </div>
-                          <div>
+                          <div 
+                            className="font-medium"
+                            style={{ 
+                              color: config.theme.colors.text,
+                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            }}
+                          >
+                            {event.location}
+                          </div>
+                        </div>
+                        
+                        {event.speaker && (
+                          <div className="flex items-center gap-3 text-sm">
+                            <div 
+                              className="w-8 h-8 rounded-full flex items-center justify-center"
+                              style={{ backgroundColor: `${config.theme.colors.primary}15` }}
+                            >
+                              👤
+                            </div>
                             <div 
                               className="font-medium"
                               style={{ 
@@ -323,79 +517,66 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                                 fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
                               }}
                             >
-                              {event.location}
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {event.speaker && (
-                          <div className="flex items-center gap-3">
-                            <div 
-                              className="text-2xl"
-                              style={{ color: config.theme.colors.primary }}
-                            >
-                              👤
-                            </div>
-                            <div>
-                              <div 
-                                className="font-medium"
-                                style={{ 
-                                  color: config.theme.colors.text,
-                                  fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-                                }}
-                              >
-                                {event.speaker}
-                              </div>
+                              {event.speaker}
                             </div>
                           </div>
                         )}
                       </div>
+                      
+                      <div className="flex gap-3">
+                        <EmbrKitButton 
+                          variant="primary"
+                          size="sm"
+                          className="flex-1 transition-all hover:scale-105"
+                          style={{ 
+                            backgroundColor: config.theme.colors.primary,
+                            color: '#ffffff',
+                            borderRadius: '0.75rem'
+                          }}
+                        >
+                          Learn More
+                        </EmbrKitButton>
+                        
+                        {(event as any).bookmarkable && (
+                          <EmbrKitButton 
+                            variant="secondary"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleBookmark(event.id);
+                            }}
+                            className="transition-all hover:scale-105"
+                            style={{ 
+                              backgroundColor: bookmarkedEvents.has(event.id) ? config.theme.colors.primary : 'transparent',
+                              color: bookmarkedEvents.has(event.id) ? '#ffffff' : config.theme.colors.primary,
+                              border: `1px solid ${config.theme.colors.primary}`,
+                              borderRadius: '0.75rem'
+                            }}
+                          >
+                            {getIcon('bookmark')}
+                          </EmbrKitButton>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  
-                  {(event as any).bookmarkable && (
-                    <div className="flex gap-4 pt-6 border-t border-opacity-10" style={{ borderColor: config.theme.colors.text }}>
-                      <EmbrKitButton 
-                        variant="secondary"
-                        size="sm"
-                        className="transition-all hover:scale-105"
-                        style={{ 
-                          backgroundColor: config.theme.colors.secondary,
-                          color: '#ffffff'
-                        }}
-                      >
-                        🔖 Bookmark
-                      </EmbrKitButton>
-                      <EmbrKitButton 
-                        variant="text"
-                        size="sm"
-                        className="transition-all hover:scale-105"
-                        style={{ 
-                          color: config.theme.colors.primary,
-                          border: `2px solid ${config.theme.colors.primary}`
-                        }}
-                      >
-                        Share
-                      </EmbrKitButton>
-                    </div>
-                  )}
-                </EmbrKitCard>
+                  </EmbrKitCard>
+                </div>
               ))}
             </div>
             
-            <div className="text-center mt-12">
+            <div className="text-center mt-16">
               <EmbrKitButton 
                 variant="secondary"
                 size="lg"
                 onClick={() => setActiveTab('schedule')}
-                className="inline-flex items-center gap-3 transition-all hover:scale-105"
+                className="group inline-flex items-center gap-3 transition-all hover:scale-105 px-8 py-4"
                 style={{ 
                   color: config.theme.colors.primary,
-                  border: `2px solid ${config.theme.colors.primary}`
+                  border: `2px solid ${config.theme.colors.primary}`,
+                  borderRadius: '2rem'
                 }}
               >
-                View All Events
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span>View All Events</span>
+                <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </EmbrKitButton>
@@ -453,75 +634,299 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
   );
 
   const renderScheduleContent = () => (
-    <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
-      <div className="text-center mb-12">
-        <h1 
-          className="text-4xl md:text-5xl mb-4"
-          style={{ 
-            fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
-            color: config.theme.colors.text 
-          }}
-        >
-          Festival Schedule
-        </h1>
-        <p 
-          className="text-xl"
-          style={{ 
-            color: config.theme.colors.textSecondary,
-            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-          }}
-        >
-          Filter by category and bookmark your favorite sessions
-        </p>
-      </div>
+    <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
+      <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
+        <div className="text-center mb-12">
+          <h1 
+            className="text-5xl md:text-6xl font-light mb-6"
+            style={{ 
+              fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+              color: config.theme.colors.text 
+            }}
+          >
+            Festival Schedule
+          </h1>
+          <p 
+            className="text-xl max-w-2xl mx-auto"
+            style={{ 
+              color: config.theme.colors.textSecondary,
+              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+            }}
+          >
+            Discover and bookmark your favorite workshops, talks, and experiences
+          </p>
+        </div>
 
-      {config.content?.schedule?.events && config.content.schedule.events.length > 0 ? (
-        <div className="space-y-8">
-          {config.content.schedule.events.map((event) => (
-            <EmbrKitCard 
-              key={event.id} 
-              variant="elevated"
-              className="hover:shadow-xl transition-all cursor-pointer"
+        {/* Search and Filter Controls */}
+        <div className="mb-12">
+          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
+            {/* Search Bar */}
+            <div className="flex-1 max-w-md">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  {getIcon('search')}
+                </div>
+                <EmbrKitInput
+                  type="text"
+                  placeholder="Search events, speakers, locations..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-4 py-3 w-full"
+                  style={{
+                    backgroundColor: config.theme.colors.surface,
+                    border: `1px solid ${config.theme.colors.primary}30`,
+                    borderRadius: '1rem',
+                    color: config.theme.colors.text
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Category Filter */}
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setSelectedCategory('all')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  selectedCategory === 'all' ? 'scale-105' : 'hover:scale-105'
+                }`}
+                style={{ 
+                  backgroundColor: selectedCategory === 'all' ? config.theme.colors.primary : 'transparent',
+                  color: selectedCategory === 'all' ? '#ffffff' : config.theme.colors.textSecondary,
+                  border: `1px solid ${selectedCategory === 'all' ? config.theme.colors.primary : config.theme.colors.primary}30`,
+                  fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                }}
+              >
+                All Events
+              </button>
+              {getEventCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    selectedCategory === category ? 'scale-105' : 'hover:scale-105'
+                  }`}
+                  style={{ 
+                    backgroundColor: selectedCategory === category ? config.theme.colors.primary : 'transparent',
+                    color: selectedCategory === category ? '#ffffff' : config.theme.colors.textSecondary,
+                    border: `1px solid ${selectedCategory === category ? config.theme.colors.primary : config.theme.colors.primary}30`,
+                    fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                  }}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Results Count */}
+        <div className="mb-8">
+          <p 
+            className="text-sm"
+            style={{ 
+              color: config.theme.colors.textSecondary,
+              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+            }}
+          >
+            Showing {filteredEvents.length} of {config.content?.schedule?.events?.length || 0} events
+          </p>
+        </div>
+
+        {/* Events Grid */}
+        {filteredEvents.length > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {filteredEvents.map((event, index) => (
+              <div 
+                key={event.id}
+                className="group"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <EmbrKitCard 
+                  variant="elevated"
+                  className="h-full hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 overflow-hidden"
+                  style={{ 
+                    backgroundColor: config.theme.colors.surface,
+                    borderRadius: '1.5rem'
+                  }}
+                >
+                  {/* Event Header */}
+                  <div 
+                    className="h-32 relative overflow-hidden"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${config.theme.colors.primary}20 0%, ${config.theme.colors.secondary}20 100%)`
+                    }}
+                  >
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-4xl opacity-30">
+                        {(event as any).category === 'Wellness' ? '🧘' : 
+                         (event as any).category === 'Education' ? '📚' : 
+                         (event as any).category === 'Food' ? '🍃' : '🌿'}
+                      </div>
+                    </div>
+                    <div className="absolute top-4 right-4">
+                      <EmbrKitBadge 
+                        variant="primary"
+                        className="px-3 py-1"
+                        style={{ 
+                          backgroundColor: config.theme.colors.primary,
+                          color: '#ffffff',
+                          fontSize: '0.75rem'
+                        }}
+                      >
+                        {(event as any).category || 'Event'}
+                      </EmbrKitBadge>
+                    </div>
+                    <div className="absolute bottom-4 left-4">
+                      <div 
+                        className="text-2xl font-light"
+                        style={{ 
+                          color: config.theme.colors.text,
+                          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif"
+                        }}
+                      >
+                        {new Date(event.startTime).toLocaleDateString('en-US', { 
+                          weekday: 'short',
+                          month: 'short', 
+                          day: 'numeric' 
+                        })}
+                      </div>
+                      <div 
+                        className="text-sm"
+                        style={{ 
+                          color: config.theme.colors.textSecondary,
+                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                        }}
+                      >
+                        {new Date(event.startTime).toLocaleTimeString('en-US', { 
+                          hour: 'numeric', 
+                          minute: '2-digit' 
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 
+                      className="text-xl font-medium mb-3 group-hover:text-opacity-80 transition-colors"
+                      style={{ 
+                        fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                        color: config.theme.colors.text 
+                      }}
+                    >
+                      {event.title}
+                    </h3>
+                    
+                    <p 
+                      className="text-sm mb-6 leading-relaxed line-clamp-3"
+                      style={{ 
+                        color: config.theme.colors.textSecondary,
+                        fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                      }}
+                    >
+                      {event.description}
+                    </p>
+                    
+                    <div className="space-y-3 mb-6">
+                      <div className="flex items-center gap-3 text-sm">
+                        <div 
+                          className="w-8 h-8 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: `${config.theme.colors.primary}15` }}
+                        >
+                          📍
+                        </div>
+                        <div 
+                          className="font-medium"
+                          style={{ 
+                            color: config.theme.colors.text,
+                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          }}
+                        >
+                          {event.location}
+                        </div>
+                      </div>
+                      
+                      {event.speaker && (
+                        <div className="flex items-center gap-3 text-sm">
+                          <div 
+                            className="w-8 h-8 rounded-full flex items-center justify-center"
+                            style={{ backgroundColor: `${config.theme.colors.primary}15` }}
+                          >
+                            👤
+                          </div>
+                          <div 
+                            className="font-medium"
+                            style={{ 
+                              color: config.theme.colors.text,
+                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            }}
+                          >
+                            {event.speaker}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="flex gap-3">
+                      <EmbrKitButton 
+                        variant="primary"
+                        size="sm"
+                        className="flex-1 transition-all hover:scale-105"
+                        style={{ 
+                          backgroundColor: config.theme.colors.primary,
+                          color: '#ffffff',
+                          borderRadius: '0.75rem'
+                        }}
+                      >
+                        View Details
+                      </EmbrKitButton>
+                      
+                      {(event as any).bookmarkable && (
+                        <EmbrKitButton 
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => toggleBookmark(event.id)}
+                          className="transition-all hover:scale-105"
+                          style={{ 
+                            backgroundColor: bookmarkedEvents.has(event.id) ? config.theme.colors.primary : 'transparent',
+                            color: bookmarkedEvents.has(event.id) ? '#ffffff' : config.theme.colors.primary,
+                            border: `1px solid ${config.theme.colors.primary}`,
+                            borderRadius: '0.75rem'
+                          }}
+                        >
+                          {getIcon('bookmark')}
+                        </EmbrKitButton>
+                      )}
+                    </div>
+                  </div>
+                </EmbrKitCard>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <EmbrKitCard className="text-center py-20">
+            <div className="text-8xl mb-6 opacity-30">🔍</div>
+            <h3 
+              className="text-2xl mb-4"
               style={{ 
-                backgroundColor: config.theme.colors.surface,
-                color: config.theme.colors.text,
-                padding: '2rem'
+                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                color: config.theme.colors.text 
               }}
             >
-              <h3 className="text-2xl mb-4" style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif", 
-                color: config.theme.colors.text 
-              }}>
-                {event.title}
-              </h3>
-              <p className="text-lg mb-4" style={{ color: config.theme.colors.textSecondary }}>
-                {event.description}
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-base">
-                <div>
-                  <strong>📅 Date:</strong> {new Date(event.startTime).toLocaleDateString()}
-                </div>
-                <div>
-                  <strong>📍 Location:</strong> {event.location}
-                </div>
-                {event.speaker && (
-                  <div>
-                    <strong>👤 Speaker:</strong> {event.speaker}
-                  </div>
-                )}
-              </div>
-            </EmbrKitCard>
-          ))}
-        </div>
-      ) : (
-        <EmbrKitCard className="text-center py-16">
-          <div className="text-6xl mb-4">📅</div>
-          <p className="text-xl" style={{ color: config.theme.colors.textSecondary }}>
-            No events scheduled yet.
-          </p>
-        </EmbrKitCard>
-      )}
-    </EmbrKitContainer>
+              No events found
+            </h3>
+            <p 
+              className="text-lg max-w-md mx-auto"
+              style={{ 
+                color: config.theme.colors.textSecondary,
+                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+              }}
+            >
+              Try adjusting your search terms or category filter to find more events.
+            </p>
+          </EmbrKitCard>
+        )}
+      </EmbrKitContainer>
+    </div>
   );
 
   const renderGenericContent = (title: string, description: string, emoji: string) => (
@@ -625,9 +1030,59 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
             outline: none !important;
             box-shadow: none !important;
           }
+
+          /* Custom Animations */
+          @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+
+          @keyframes slide-up {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+
+          .animate-fade-in {
+            animation: fade-in 0.8s ease-out forwards;
+          }
+
+          .animate-slide-up {
+            animation: slide-up 1s ease-out forwards;
+            opacity: 0;
+          }
+
+          .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+
+          /* Smooth scrolling */
+          html {
+            scroll-behavior: smooth;
+          }
+
+          /* Custom scrollbar */
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          ::-webkit-scrollbar-track {
+            background: ${config.theme.colors.surface};
+          }
+
+          ::-webkit-scrollbar-thumb {
+            background: ${config.theme.colors.primary}40;
+            border-radius: 4px;
+          }
+
+          ::-webkit-scrollbar-thumb:hover {
+            background: ${config.theme.colors.primary}60;
+          }
         `
       }} />
-      <div className="min-h-screen min-h-[100dvh]" style={{ backgroundColor: config.theme.colors.background }}>
+      <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
         {/* WILDROOTS-SPECIFIC: Festival-focused navigation */}
         <div 
           className="sticky top-0 z-50 backdrop-blur-md border-b"
