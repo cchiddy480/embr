@@ -49,7 +49,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         <h1 style={{ 
           margin: '0 0 0.5rem 0', 
           fontSize: '1.8rem',
-          fontFamily: config.theme.typography.heading,
+          fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
           fontWeight: 700
         }}>
           {config.content.home.title}
@@ -63,7 +63,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
       <div style={{ marginBottom: '2rem' }}>
         <h2 style={{ 
           color: config.theme.colors.primary,
-          fontFamily: config.theme.typography.heading,
+          fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
           fontWeight: 600,
           marginBottom: '1rem'
         }}>
@@ -114,7 +114,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
       <div style={{ marginBottom: '2rem' }}>
         <h2 style={{ 
           color: config.theme.colors.primary,
-          fontFamily: config.theme.typography.heading,
+          fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
           fontWeight: 600,
           marginBottom: '1rem'
         }}>
@@ -912,7 +912,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
       background: config.theme.colors.background,
       color: config.theme.colors.text,
       minHeight: '100vh',
-      fontFamily: config.theme.typography.body
+      fontFamily: `"${config.theme.typography.body}", system-ui, sans-serif`
     }}>
       {/* Header */}
       <header style={{
@@ -931,7 +931,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
           <h1 style={{ 
             margin: 0, 
             fontSize: '1.2rem',
-            fontFamily: config.theme.typography.heading,
+            fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
             fontWeight: 600
           }}>
             {config.name}
