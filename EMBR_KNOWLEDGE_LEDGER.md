@@ -711,8 +711,16 @@ npm run dev:hub
 
 ### Dev Log Workflow
 - Reuse same-day daily entry for multiple sessions; create a new daily file only for later dates.
-- Use `npm run devlog:update` to ensure today’s file exists and `DEV_LOG.md` Latest Summary/Index are correct.
-- Use `npm run devlog:append -- "message"` to add a timestamped bullet under today’s Changes section.
+- Use `npm run devlog:update` to ensure today's file exists and `DEV_LOG.md` Latest Summary/Index are correct.
+- Use `npm run devlog:append -- "message"` to add a timestamped bullet under today's Changes section.
+
+### Session-Based Git Workflow (MANDATORY)
+- **Every development session** must use session branches for clear boundaries and automatic cleanup
+- **Session Creation**: `npm run git:session <descriptive-name>` creates `session/name-YYYY-MM-DD`
+- **Progress Saving**: `npm run git:save "message"` for frequent progress updates during development
+- **Session End**: `npm run git:end` merges to main and deletes session branch automatically
+- **Documentation Updates**: Automatically handled by session-init and session-end scripts
+- **Quality Checks**: Isolation and theme audits run automatically during session management
 
 ### Config Deployment to Firebase
 Prerequisites
@@ -765,6 +773,16 @@ CI/CD: OIDC (No Static Keys)
 - Added PR checklist enforcing ledger read, hub baseline unchanged, audit pass, and 30s keyboard focus check.
 - Codified Cursor Playbook in `.cursorrules` for brief → config → hybrid → validation → ship.
 
+### Session 2025-09-15 Session-Based Git Workflow Implementation
+- **MAJOR WORKFLOW UPGRADE**: Implemented comprehensive session-based git workflow system
+- **Session Branch Management**: Each development session now gets its own branch (`session/name-YYYY-MM-DD`)
+- **Automatic Cleanup**: Session branches are automatically merged and deleted when complete
+- **New Commands**: Added `npm run git:session`, `npm run git:save`, `npm run git:end`
+- **Enhanced Scripts**: Updated git-workflow.js, session-init.js, session-end.js with session support
+- **Documentation Updates**: Updated .cursorrules, DEVELOPMENT_GUIDE.md with new workflow requirements
+- **Clear Session Boundaries**: Every development session now has clear start/end with automatic cleanup
+- **Progress Saving**: Easy `npm run git:save "message"` for frequent progress updates during development
+
 
 ### Important File Locations
 - **Design Tokens**: `packages/ui/src/lib/embrkit-core.css`
@@ -791,8 +809,8 @@ CI/CD: OIDC (No Static Keys)
 
 ---
 
-*Last Updated: August 8, 2025*
-*Version: 1.1.1 - Dev Log Workflow & Scripts Added*
+*Last Updated: September 15, 2025*
+*Version: 1.2.0 - Session-Based Git Workflow System Implemented*
 
 ---
 

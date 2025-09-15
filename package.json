@@ -13,6 +13,7 @@
     "build-client": "node scripts/build-client.js",
     "devlog:update": "node scripts/update-dev-log.js",
     "devlog:append": "node scripts/update-dev-log.js --append",
+    "update:docs": "node scripts/update-documentation.js",
     "configs:push": "node scripts/configs-push.js",
     "configs:push:one": "node scripts/configs-push.js --only",
     "client:create": "node scripts/create-client.js",
