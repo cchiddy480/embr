@@ -162,7 +162,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                     margin: '0 0 0.25rem 0',
                     color: config.theme.colors.text,
                     fontSize: '1rem',
-                    fontWeight: 600
+                    fontWeight: 600,
+                    fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
                   }}>
                     {tip.title}
                   </h3>
@@ -204,7 +205,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
           margin: '0 0 0.5rem 0',
           color: config.theme.colors.primary,
           fontSize: '1.1rem',
-          fontWeight: 600
+          fontWeight: 600,
+          fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
         }}>
           Find Your Clinic
         </h3>
@@ -245,7 +247,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
     <div style={{ padding: '1rem' }}>
       <h1 style={{ 
         color: config.theme.colors.primary,
-        fontFamily: config.theme.typography.heading,
+        fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
         fontWeight: 600,
         marginBottom: '1.5rem'
       }}>
@@ -285,7 +287,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                   margin: '0 0 0.25rem 0',
                   color: config.theme.colors.text,
                   fontSize: '1.1rem',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
                 }}>
                   {appointment.time} - {appointment.type}
                 </h3>
@@ -363,7 +366,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
     <div style={{ padding: '1rem' }}>
       <h1 style={{ 
         color: config.theme.colors.primary,
-        fontFamily: config.theme.typography.heading,
+        fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
         fontWeight: 600,
         marginBottom: '1.5rem'
       }}>
@@ -484,7 +487,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 margin: '0 0 0.5rem 0',
                 color: config.theme.colors.text,
                 fontSize: '1rem',
-                fontWeight: 600
+                fontWeight: 600,
+                fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
               }}>
                 {exercise.title}
               </h3>
@@ -517,7 +521,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
     <div style={{ padding: '1rem' }}>
       <h1 style={{ 
         color: config.theme.colors.primary,
-        fontFamily: config.theme.typography.heading,
+        fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
         fontWeight: 600,
         marginBottom: '1.5rem'
       }}>
@@ -622,7 +626,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                   margin: '0 0 0.5rem 0',
                   color: config.theme.colors.text,
                   fontSize: '1.1rem',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
                 }}>
                   {article.title}
                 </h3>
@@ -664,7 +669,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
     <div style={{ padding: '1rem' }}>
       <h1 style={{ 
         color: config.theme.colors.primary,
-        fontFamily: config.theme.typography.heading,
+        fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
         fontWeight: 600,
         marginBottom: '1.5rem'
       }}>
@@ -693,7 +698,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <div style={{ fontSize: '1.5rem' }}>🏥</div>
             <div>
-              <h3 style={{ margin: '0 0 0.25rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600 }}>
+              <h3 style={{ margin: '0 0 0.25rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif` }}>
                 Clinic Information
               </h3>
               <p style={{ margin: 0, color: config.theme.colors.textSecondary, fontSize: '0.9rem' }}>
@@ -725,7 +730,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <div style={{ fontSize: '1.5rem' }}>🔔</div>
             <div>
-              <h3 style={{ margin: '0 0 0.25rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600 }}>
+              <h3 style={{ margin: '0 0 0.25rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif` }}>
                 Notifications
               </h3>
               <p style={{ margin: 0, color: config.theme.colors.textSecondary, fontSize: '0.9rem' }}>
@@ -760,7 +765,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
           borderRadius: '0.75rem',
           padding: '1.5rem'
         }}>
-          <h3 style={{ margin: '0 0 1rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600 }}>
+          <h3 style={{ margin: '0 0 1rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif` }}>
             App Settings
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -838,7 +843,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         overflow: 'auto'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h2 style={{ margin: 0, color: config.theme.colors.text, fontSize: '1.2rem', fontWeight: 600 }}>
+          <h2 style={{ margin: 0, color: config.theme.colors.text, fontSize: '1.2rem', fontWeight: 600, fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif` }}>
             Notifications
           </h2>
           <button
@@ -871,7 +876,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 margin: '0 0 0.5rem 0',
                 color: config.theme.colors.text,
                 fontSize: '0.9rem',
-                fontWeight: 600
+                fontWeight: 600,
+                fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
               }}>
                 {notification.title}
               </h4>
