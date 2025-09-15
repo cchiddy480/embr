@@ -212,7 +212,7 @@ class FileValidator {
         .filter(line => line.trim());
       
       for (const filePath of this.referencedFiles) {
-        const relativePath = path.relative(process.cwd(), filePath);
+        const relativePath = path.relative(process.cwd(), filePath).replace(/\\/g, '/');
         
         if (!trackedFiles.includes(relativePath)) {
           this.untrackedFiles.push(relativePath);
