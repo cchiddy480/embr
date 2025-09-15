@@ -907,6 +907,734 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
     </div>
   );
 
+  const renderMapContent = () => {
+    const mapData = (config.content as any)?.map;
+    if (!mapData?.locations) {
+      return renderGenericContent('Festival Map', 'Interactive map coming soon');
+    }
+
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
+        <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
+          <div className="text-center mb-12">
+            <h1 
+              className="text-5xl md:text-6xl font-light mb-6"
+              style={{ 
+                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                color: config.theme.colors.text 
+              }}
+            >
+              {mapData.title}
+            </h1>
+            <p 
+              className="text-xl max-w-2xl mx-auto"
+              style={{ 
+                color: config.theme.colors.textSecondary,
+                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+              }}
+            >
+              {mapData.description}
+            </p>
+          </div>
+
+          {/* Interactive Map */}
+          <div className="mb-12">
+            <EmbrKitCard 
+              className="relative overflow-hidden"
+              style={{ 
+                backgroundColor: config.theme.colors.surface,
+                borderRadius: '1.5rem',
+                minHeight: '600px'
+              }}
+            >
+              {/* Map Background */}
+              <div 
+                className="absolute inset-0 opacity-20"
+                style={{ 
+                  background: `linear-gradient(135deg, ${config.theme.colors.primary}10 0%, ${config.theme.colors.secondary}10 100%)`
+                }}
+              />
+              
+              {/* Map Grid */}
+              <div className="relative w-full h-full p-8">
+                <div className="relative w-full h-full" style={{ minHeight: '500px' }}>
+                  {/* Location Markers */}
+                  {mapData.locations.map((location: any, index: number) => (
+                    <div
+                      key={location.id}
+                      className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
+                      style={{
+                        left: `${location.coordinates.x}%`,
+                        top: `${location.coordinates.y}%`,
+                        animationDelay: `${index * 0.1}s`
+                      }}
+                    >
+                      {/* Marker */}
+                      <div 
+                        className="w-6 h-6 rounded-full border-2 transition-all duration-300 group-hover:scale-125 group-hover:shadow-lg"
+                        style={{ 
+                          backgroundColor: getLocationColor(location.type),
+                          borderColor: config.theme.colors.primary,
+                          boxShadow: `0 0 0 4px ${getLocationColor(location.type)}20`
+                        }}
+                      />
+                      
+                      {/* Tooltip */}
+                      <div 
+                        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
+                        style={{ animationDelay: '0.2s' }}
+                      >
+                        <div 
+                          className="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap"
+                          style={{ 
+                            backgroundColor: config.theme.colors.primary,
+                            color: '#ffffff'
+                          }}
+                        >
+                          {location.name}
+                        </div>
+                        <div 
+                          className="w-0 h-0 mx-auto border-l-4 border-r-4 border-t-4 border-transparent"
+                          style={{ borderTopColor: config.theme.colors.primary }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {/* Legend */}
+                  <div className="absolute top-4 right-4">
+                    <div 
+                      className="p-4 rounded-lg"
+                      style={{ backgroundColor: `${config.theme.colors.background}95` }}
+                    >
+                      <h3 
+                        className="text-sm font-medium mb-3"
+                        style={{ 
+                          color: config.theme.colors.text,
+                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                        }}
+                      >
+                        Legend
+                      </h3>
+                      <div className="space-y-2">
+                        {getLocationTypes().map((type) => (
+                          <div key={type.id} className="flex items-center gap-2">
+                            <div 
+                              className="w-3 h-3 rounded-full"
+                              style={{ backgroundColor: getLocationColor(type.id) }}
+                            />
+                            <span 
+                              className="text-xs"
+                              style={{ 
+                                color: config.theme.colors.textSecondary,
+                                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                              }}
+                            >
+                              {type.name}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </EmbrKitCard>
+          </div>
+
+          {/* Location Details */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {mapData.locations.map((location: any, index: number) => (
+              <div 
+                key={location.id}
+                className="group"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <EmbrKitCard 
+                  className="h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  style={{ 
+                    backgroundColor: config.theme.colors.surface,
+                    borderRadius: '1rem'
+                  }}
+                >
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div 
+                        className="w-4 h-4 rounded-full"
+                        style={{ backgroundColor: getLocationColor(location.type) }}
+                      />
+                      <h3 
+                        className="text-lg font-medium"
+                        style={{ 
+                          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                          color: config.theme.colors.text 
+                        }}
+                      >
+                        {location.name}
+                      </h3>
+                    </div>
+                    
+                    <p 
+                      className="text-sm mb-4"
+                      style={{ 
+                        color: config.theme.colors.textSecondary,
+                        fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                      }}
+                    >
+                      {location.description}
+                    </p>
+                    
+                    {location.events && location.events.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {location.events.map((eventId: string) => {
+                          const event = config.content?.schedule?.events?.find((e: any) => e.id === eventId);
+                          return event ? (
+                            <EmbrKitBadge 
+                              key={eventId}
+                              variant="secondary"
+                              className="text-xs"
+                              style={{ 
+                                backgroundColor: `${config.theme.colors.primary}15`,
+                                color: config.theme.colors.primary
+                              }}
+                            >
+                              {event.title}
+                            </EmbrKitBadge>
+                          ) : null;
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </EmbrKitCard>
+              </div>
+            ))}
+          </div>
+        </EmbrKitContainer>
+      </div>
+    );
+  };
+
+  const getLocationColor = (type: string) => {
+    const colors: Record<string, string> = {
+      stage: config.theme.colors.primary,
+      workshop: config.theme.colors.secondary,
+      food: '#E67E22',
+      wellness: '#9B59B6',
+      marketplace: '#F39C12',
+      entrance: '#2ECC71',
+      parking: '#95A5A6'
+    };
+    return colors[type] || config.theme.colors.primary;
+  };
+
+  const getLocationTypes = () => [
+    { id: 'stage', name: 'Stages' },
+    { id: 'workshop', name: 'Workshops' },
+    { id: 'food', name: 'Food & Dining' },
+    { id: 'wellness', name: 'Wellness' },
+    { id: 'marketplace', name: 'Vendors' },
+    { id: 'entrance', name: 'Entrance' },
+    { id: 'parking', name: 'Parking' }
+  ];
+
+  const renderVendorsContent = () => {
+    const vendorsData = (config.content as any)?.vendors;
+    if (!vendorsData?.featured) {
+      return renderGenericContent('Vendor Village', 'Discover sustainable brands and local artisans');
+    }
+
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
+        <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
+          <div className="text-center mb-12">
+            <h1 
+              className="text-5xl md:text-6xl font-light mb-6"
+              style={{ 
+                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                color: config.theme.colors.text 
+              }}
+            >
+              {vendorsData.title}
+            </h1>
+            <p 
+              className="text-xl max-w-2xl mx-auto"
+              style={{ 
+                color: config.theme.colors.textSecondary,
+                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+              }}
+            >
+              {vendorsData.description}
+            </p>
+          </div>
+
+          {/* Category Stats */}
+          <div className="mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {vendorsData.categories.map((category: any, index: number) => (
+                <div 
+                  key={category.id}
+                  className="text-center group"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div 
+                    className="text-3xl font-light mb-2 transition-transform group-hover:scale-110"
+                    style={{ 
+                      color: config.theme.colors.primary,
+                      fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    {category.count}
+                  </div>
+                  <div 
+                    className="text-sm font-medium"
+                    style={{ 
+                      color: config.theme.colors.textSecondary,
+                      fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                    }}
+                  >
+                    {category.name}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Vendors */}
+          <div className="mb-16">
+            <h2 
+              className="text-3xl font-light mb-8 text-center"
+              style={{ 
+                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                color: config.theme.colors.text 
+              }}
+            >
+              Featured Vendors
+            </h2>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {vendorsData.featured.map((vendor: any, index: number) => (
+                <div 
+                  key={vendor.id}
+                  className="group"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <EmbrKitCard 
+                    className="h-full hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden"
+                    style={{ 
+                      backgroundColor: config.theme.colors.surface,
+                      borderRadius: '1.5rem'
+                    }}
+                  >
+                    {/* Vendor Image Placeholder */}
+                    <div 
+                      className="h-48 relative overflow-hidden"
+                      style={{ 
+                        background: `linear-gradient(135deg, ${config.theme.colors.primary}15 0%, ${config.theme.colors.secondary}15 100%)`
+                      }}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div 
+                          className="w-16 h-16 rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: `${config.theme.colors.primary}20` }}
+                        >
+                          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: config.theme.colors.primary }}>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="absolute top-4 right-4">
+                        <EmbrKitBadge 
+                          variant="primary"
+                          className="px-3 py-1"
+                          style={{ 
+                            backgroundColor: config.theme.colors.primary,
+                            color: '#ffffff',
+                            fontSize: '0.75rem'
+                          }}
+                        >
+                          {vendor.category}
+                        </EmbrKitBadge>
+                      </div>
+                    </div>
+                    
+                    <div className="p-6">
+                      <div className="flex items-start justify-between mb-3">
+                        <h3 
+                          className="text-xl font-medium group-hover:text-opacity-80 transition-colors"
+                          style={{ 
+                            fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                            color: config.theme.colors.text 
+                          }}
+                        >
+                          {vendor.name}
+                        </h3>
+                        <div className="flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" style={{ color: '#F59E0B' }}>
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          <span 
+                            className="text-sm font-medium"
+                            style={{ 
+                              color: config.theme.colors.text,
+                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            }}
+                          >
+                            {vendor.rating}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <p 
+                        className="text-sm mb-4 leading-relaxed"
+                        style={{ 
+                          color: config.theme.colors.textSecondary,
+                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                        }}
+                      >
+                        {vendor.description}
+                      </p>
+                      
+                      <div className="space-y-3 mb-6">
+                        <div className="flex items-center gap-3 text-sm">
+                          <div 
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: config.theme.colors.primary }}
+                          />
+                          <div 
+                            className="font-medium"
+                            style={{ 
+                              color: config.theme.colors.text,
+                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            }}
+                          >
+                            {vendor.location}
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-3 text-sm">
+                          <div 
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: config.theme.colors.secondary }}
+                          />
+                          <div 
+                            className="font-medium"
+                            style={{ 
+                              color: config.theme.colors.text,
+                              fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                            }}
+                          >
+                            {vendor.sustainability}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-3">
+                        <EmbrKitButton 
+                          variant="primary"
+                          size="sm"
+                          className="flex-1 transition-all hover:scale-105"
+                          style={{ 
+                            backgroundColor: config.theme.colors.primary,
+                            color: '#ffffff',
+                            borderRadius: '0.75rem'
+                          }}
+                        >
+                          Visit Booth
+                        </EmbrKitButton>
+                        
+                        <EmbrKitButton 
+                          variant="secondary"
+                          size="sm"
+                          className="transition-all hover:scale-105"
+                          style={{ 
+                            backgroundColor: 'transparent',
+                            color: config.theme.colors.primary,
+                            border: `1px solid ${config.theme.colors.primary}`,
+                            borderRadius: '0.75rem'
+                          }}
+                        >
+                          {getIcon('share')}
+                        </EmbrKitButton>
+                      </div>
+                    </div>
+                  </EmbrKitCard>
+                </div>
+              ))}
+            </div>
+          </div>
+        </EmbrKitContainer>
+      </div>
+    );
+  };
+
+  const renderAboutContent = () => {
+    const aboutData = (config.content as any)?.about;
+    if (!aboutData) {
+      return renderGenericContent('About & Info', 'Everything you need to know for an amazing festival experience');
+    }
+
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: config.theme.colors.background }}>
+        <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
+          <div className="text-center mb-16">
+            <h1 
+              className="text-5xl md:text-6xl font-light mb-6"
+              style={{ 
+                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                color: config.theme.colors.text 
+              }}
+            >
+              {aboutData.title}
+            </h1>
+            <p 
+              className="text-xl max-w-3xl mx-auto mb-8"
+              style={{ 
+                color: config.theme.colors.textSecondary,
+                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+              }}
+            >
+              {aboutData.mission}
+            </p>
+            <p 
+              className="text-lg max-w-4xl mx-auto"
+              style={{ 
+                color: config.theme.colors.textSecondary,
+                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+              }}
+            >
+              {aboutData.description}
+            </p>
+          </div>
+
+          {/* Values Section */}
+          <div className="mb-16">
+            <h2 
+              className="text-3xl font-light mb-12 text-center"
+              style={{ 
+                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                color: config.theme.colors.text 
+              }}
+            >
+              Our Values
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {aboutData.values.map((value: any, index: number) => (
+                <div 
+                  key={value.title}
+                  className="group"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <EmbrKitCard 
+                    className="h-full hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                    style={{ 
+                      backgroundColor: config.theme.colors.surface,
+                      borderRadius: '1.5rem'
+                    }}
+                  >
+                    <div className="p-8">
+                      <h3 
+                        className="text-xl font-medium mb-4"
+                        style={{ 
+                          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                          color: config.theme.colors.text 
+                        }}
+                      >
+                        {value.title}
+                      </h3>
+                      <p 
+                        className="leading-relaxed"
+                        style={{ 
+                          color: config.theme.colors.textSecondary,
+                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                        }}
+                      >
+                        {value.description}
+                      </p>
+                    </div>
+                  </EmbrKitCard>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact & FAQ Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Information */}
+            <div>
+              <h2 
+                className="text-3xl font-light mb-8"
+                style={{ 
+                  fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                  color: config.theme.colors.text 
+                }}
+              >
+                Contact Us
+              </h2>
+              
+              <EmbrKitCard 
+                style={{ 
+                  backgroundColor: config.theme.colors.surface,
+                  borderRadius: '1.5rem'
+                }}
+              >
+                <div className="p-8">
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <div 
+                        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: `${config.theme.colors.primary}15` }}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: config.theme.colors.primary }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div 
+                          className="font-medium mb-1"
+                          style={{ 
+                            color: config.theme.colors.text,
+                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          }}
+                        >
+                          Email
+                        </div>
+                        <div 
+                          className="text-sm"
+                          style={{ 
+                            color: config.theme.colors.textSecondary,
+                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          }}
+                        >
+                          {aboutData.contact.email}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-4">
+                      <div 
+                        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: `${config.theme.colors.primary}15` }}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: config.theme.colors.primary }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div 
+                          className="font-medium mb-1"
+                          style={{ 
+                            color: config.theme.colors.text,
+                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          }}
+                        >
+                          Phone
+                        </div>
+                        <div 
+                          className="text-sm"
+                          style={{ 
+                            color: config.theme.colors.textSecondary,
+                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          }}
+                        >
+                          {aboutData.contact.phone}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-4">
+                      <div 
+                        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: `${config.theme.colors.primary}15` }}
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: config.theme.colors.primary }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div 
+                          className="font-medium mb-1"
+                          style={{ 
+                            color: config.theme.colors.text,
+                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          }}
+                        >
+                          Address
+                        </div>
+                        <div 
+                          className="text-sm"
+                          style={{ 
+                            color: config.theme.colors.textSecondary,
+                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          }}
+                        >
+                          {aboutData.contact.address}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </EmbrKitCard>
+            </div>
+
+            {/* FAQ Section */}
+            <div>
+              <h2 
+                className="text-3xl font-light mb-8"
+                style={{ 
+                  fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                  color: config.theme.colors.text 
+                }}
+              >
+                Frequently Asked Questions
+              </h2>
+              
+              <div className="space-y-4">
+                {aboutData.faq.map((faq: any, index: number) => (
+                  <div 
+                    key={faq.question}
+                    className="group"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <EmbrKitCard 
+                      className="hover:shadow-lg transition-all duration-300"
+                      style={{ 
+                        backgroundColor: config.theme.colors.surface,
+                        borderRadius: '1rem'
+                      }}
+                    >
+                      <div className="p-6">
+                        <h3 
+                          className="text-lg font-medium mb-3"
+                          style={{ 
+                            fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
+                            color: config.theme.colors.text 
+                          }}
+                        >
+                          {faq.question}
+                        </h3>
+                        <p 
+                          className="leading-relaxed"
+                          style={{ 
+                            color: config.theme.colors.textSecondary,
+                            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+                          }}
+                        >
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </EmbrKitCard>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </EmbrKitContainer>
+      </div>
+    );
+  };
+
   const renderGenericContent = (title: string, description: string) => (
     <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
       <EmbrKitCard className="text-center">
@@ -958,20 +1686,11 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
       case 'schedule':
         return renderScheduleContent();
       case 'map':
-        return renderGenericContent(
-          getNavItem(activeTab)?.title || 'Festival Map', 
-          'Find your way around the festival grounds'
-        );
+        return renderMapContent();
       case 'vendors':
-        return renderGenericContent(
-          getNavItem(activeTab)?.title || 'Vendors', 
-          'Discover sustainable brands and local artisans'
-        );
+        return renderVendorsContent();
       case 'about':
-        return renderGenericContent(
-          getNavItem(activeTab)?.title || 'About & Info', 
-          'Everything you need to know for an amazing festival experience'
-        );
+        return renderAboutContent();
       default:
         return renderHomeContent();
     }

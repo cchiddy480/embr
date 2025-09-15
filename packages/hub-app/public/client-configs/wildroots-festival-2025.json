@@ -95,6 +95,188 @@
           "speaker": "Chef Maria Santos",
           "category": "Food",
           "bookmarkable": true
+        },
+        {
+          "id": "permaculture-design",
+          "title": "Permaculture Design Principles",
+          "description": "Explore how to design sustainable systems that work with nature, not against it.",
+          "startTime": "2025-06-14T16:00:00Z",
+          "endTime": "2025-06-14T17:30:00Z",
+          "location": "Garden Pavilion",
+          "speaker": "Alex Rivera",
+          "category": "Education",
+          "bookmarkable": true
+        },
+        {
+          "id": "sound-healing",
+          "title": "Sound Healing & Crystal Bowls",
+          "description": "Experience the therapeutic power of sound vibrations for deep relaxation and healing.",
+          "startTime": "2025-06-15T09:00:00Z",
+          "endTime": "2025-06-15T10:30:00Z",
+          "location": "Healing Tent",
+          "speaker": "Luna Chen",
+          "category": "Wellness",
+          "bookmarkable": true
+        }
+      ]
+    },
+    "map": {
+      "title": "Festival Map",
+      "description": "Navigate the festival grounds and discover all locations",
+      "locations": [
+        {
+          "id": "zen-garden",
+          "name": "Zen Garden Stage",
+          "type": "stage",
+          "coordinates": { "x": 25, "y": 30 },
+          "description": "Main wellness and meditation area",
+          "events": ["morning-yoga"]
+        },
+        {
+          "id": "knowledge-hub",
+          "name": "Knowledge Hub",
+          "type": "workshop",
+          "coordinates": { "x": 60, "y": 25 },
+          "description": "Educational workshops and talks",
+          "events": ["sustainable-living", "permaculture-design"]
+        },
+        {
+          "id": "community-kitchen",
+          "name": "Community Kitchen",
+          "type": "food",
+          "coordinates": { "x": 40, "y": 60 },
+          "description": "Cooking workshops and food demos",
+          "events": ["plant-based-cooking"]
+        },
+        {
+          "id": "healing-tent",
+          "name": "Healing Tent",
+          "type": "wellness",
+          "coordinates": { "x": 15, "y": 70 },
+          "description": "Sound healing and therapeutic sessions",
+          "events": ["sound-healing"]
+        },
+        {
+          "id": "vendor-village",
+          "name": "Vendor Village",
+          "type": "marketplace",
+          "coordinates": { "x": 75, "y": 50 },
+          "description": "Sustainable products and local artisans"
+        },
+        {
+          "id": "food-court",
+          "name": "Food Court",
+          "type": "food",
+          "coordinates": { "x": 50, "y": 80 },
+          "description": "Plant-based meals and local vendors"
+        },
+        {
+          "id": "entrance",
+          "name": "Main Entrance",
+          "type": "entrance",
+          "coordinates": { "x": 50, "y": 10 },
+          "description": "Welcome and information center"
+        },
+        {
+          "id": "parking",
+          "name": "Parking Area",
+          "type": "parking",
+          "coordinates": { "x": 50, "y": 5 },
+          "description": "Vehicle parking and bike storage"
+        }
+      ]
+    },
+    "vendors": {
+      "title": "Vendor Village",
+      "description": "Discover sustainable brands and local artisans",
+      "categories": [
+        { "id": "food", "name": "Food & Beverages", "count": 8 },
+        { "id": "wellness", "name": "Wellness & Beauty", "count": 12 },
+        { "id": "clothing", "name": "Sustainable Fashion", "count": 6 },
+        { "id": "home", "name": "Home & Garden", "count": 10 },
+        { "id": "art", "name": "Art & Crafts", "count": 15 }
+      ],
+      "featured": [
+        {
+          "id": "green-kitchen",
+          "name": "Green Kitchen Co.",
+          "category": "food",
+          "description": "Organic, locally-sourced plant-based meals and smoothies",
+          "location": "Food Court - Booth A1",
+          "rating": 4.8,
+          "image": "/images/vendors/green-kitchen.jpg",
+          "sustainability": "Zero waste, compostable packaging"
+        },
+        {
+          "id": "earth-essentials",
+          "name": "Earth Essentials",
+          "category": "wellness",
+          "description": "Natural skincare and wellness products made with organic ingredients",
+          "location": "Vendor Village - Booth B3",
+          "rating": 4.9,
+          "image": "/images/vendors/earth-essentials.jpg",
+          "sustainability": "Plastic-free, refillable containers"
+        },
+        {
+          "id": "conscious-threads",
+          "name": "Conscious Threads",
+          "category": "clothing",
+          "description": "Ethically-made clothing from sustainable materials",
+          "location": "Vendor Village - Booth C2",
+          "rating": 4.7,
+          "image": "/images/vendors/conscious-threads.jpg",
+          "sustainability": "Fair trade, organic cotton"
+        }
+      ]
+    },
+    "about": {
+      "title": "About WildRoots Festival",
+      "mission": "Connecting people with nature, sustainable living, and mindful wellness practices",
+      "description": "WildRoots Festival is a celebration of sustainable living, environmental consciousness, and holistic wellness. We bring together like-minded individuals, experts, and vendors to create a transformative experience that inspires positive change.",
+      "values": [
+        {
+          "title": "Environmental Stewardship",
+          "description": "We're committed to minimizing our environmental impact and promoting sustainable practices."
+        },
+        {
+          "title": "Community Connection",
+          "description": "Building meaningful connections between people, nature, and sustainable living practices."
+        },
+        {
+          "title": "Holistic Wellness",
+          "description": "Supporting physical, mental, and spiritual well-being through natural and mindful approaches."
+        },
+        {
+          "title": "Education & Awareness",
+          "description": "Empowering individuals with knowledge and tools for sustainable living."
+        }
+      ],
+      "contact": {
+        "email": "hello@wildrootsfestival.com",
+        "phone": "+1 (555) 123-4567",
+        "address": "Sunset Meadows, 123 Nature Trail, Green Valley, CA 90210",
+        "social": {
+          "instagram": "@wildrootsfestival",
+          "facebook": "WildRoots Festival",
+          "twitter": "@wildrootsfest"
+        }
+      },
+      "faq": [
+        {
+          "question": "What should I bring to the festival?",
+          "answer": "Bring a reusable water bottle, comfortable walking shoes, weather-appropriate clothing, and an open mind! We provide all necessary materials for workshops."
+        },
+        {
+          "question": "Is the festival family-friendly?",
+          "answer": "Yes! We have activities and workshops suitable for all ages, including a dedicated children's area with nature-based activities."
+        },
+        {
+          "question": "Are pets allowed?",
+          "answer": "Service animals are welcome. For other pets, please check our pet policy as some areas may have restrictions."
+        },
+        {
+          "question": "What's the parking situation?",
+          "answer": "We have designated parking areas with electric vehicle charging stations. We encourage carpooling and offer bike storage facilities."
         }
       ]
     }
