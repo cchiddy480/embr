@@ -1,513 +1,1027 @@
-import React, { useEffect, useState } from 'react';
-import { ClientConfig } from '../../types/client';
-import { 
-  EmbrKitProvider, 
-  EmbrKitContainer, 
-  EmbrKitCard,
-  EmbrKitButton,
-  EmbrKitGrid,
-  EmbrKitBadge,
-  EmbrKitStatCard
-} from '@embr/ui';
+import React, { useState } from 'react';
+import { ClientConfig } from '../../../../types/client';
 
 interface PeakFormPhysioAppProps {
   config: ClientConfig;
 }
 
 export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
-  const [activeTab, setActiveTab] = useState(config.navigation[0]?.id || 'home');
+  const [activeTab, setActiveTab] = useState('home');
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [bookmarkedExercises, setBookmarkedExercises] = useState(new Set(['ex-2']));
+  const [bookmarkedArticles, setBookmarkedArticles] = useState(new Set(['article-2']));
 
-  // Set page background to client theme
-  useEffect(() => {
-    const prevBodyBg = document.body.style.background;
-    const prevHtmlBg = document.documentElement.style.background;
-    const prevBodyColor = document.body.style.color;
-    document.body.style.background = config.theme.colors.background;
-    document.documentElement.style.background = config.theme.colors.background;
-    document.body.style.color = config.theme.colors.text;
-    return () => {
-      document.body.style.background = prevBodyBg;
-      document.documentElement.style.background = prevHtmlBg;
-      document.body.style.color = prevBodyColor;
-    };
-  }, [config.theme.colors.background, config.theme.colors.text]);
-
-  // PeakForm-specific theme
-  const embrKitTheme = {
-    primaryColor: config.theme.colors.primary,
-    secondaryColor: config.theme.colors.secondary,
-    backgroundColor: config.theme.colors.background,
-    surfaceColor: config.theme.colors.surface,
-    textColor: config.theme.colors.text,
-    textSecondaryColor: config.theme.colors.textSecondary,
-    headingFontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', sans-serif` : "'Inter', sans-serif",
-    fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
+  const handleBookmarkExercise = (exerciseId: string) => {
+    const newBookmarks = new Set(bookmarkedExercises);
+    if (newBookmarks.has(exerciseId)) {
+      newBookmarks.delete(exerciseId);
+    } else {
+      newBookmarks.add(exerciseId);
+    }
+    setBookmarkedExercises(newBookmarks);
   };
 
-  const getIcon = (iconName: string) => {
-    const icons: Record<string, JSX.Element> = {
-      home: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      ),
-      calendar: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-      ),
-      activity: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-      ),
-      'map-pin': (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      ),
-      heart: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-        </svg>
-      ),
-    };
-    return icons[iconName] || icons.home;
+  const handleBookmarkArticle = (articleId: string) => {
+    const newBookmarks = new Set(bookmarkedArticles);
+    if (newBookmarks.has(articleId)) {
+      newBookmarks.delete(articleId);
+    } else {
+      newBookmarks.add(articleId);
+    }
+    setBookmarkedArticles(newBookmarks);
   };
 
-  const renderHomeContent = () => (
-    <div className="min-h-screen">
-      {/* PEAKFORM-SPECIFIC: Medical/Healthcare Hero Section */}
-      <div 
-        className="px-6 py-16 text-center relative overflow-hidden"
-        style={{ 
-          background: `linear-gradient(135deg, ${config.theme.colors.background} 0%, ${config.theme.colors.surfaceElevated || config.theme.colors.surface} 100%)`,
-        }}
-      >
-        {/* PEAKFORM-SPECIFIC: Medical decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-5">
-          <div className="absolute top-10 left-10 text-6xl">🏥</div>
-          <div className="absolute top-20 right-16 text-4xl">💪</div>
-          <div className="absolute bottom-20 left-20 text-5xl">🩺</div>
-          <div className="absolute bottom-10 right-10 text-6xl">⚕️</div>
-        </div>
+  const unreadNotifications = config.content.notifications?.recent?.filter(n => !n.read).length || 0;
 
-        <EmbrKitContainer size="lg">
-          <div className="relative z-10">
-            {/* PEAKFORM-SPECIFIC: Medical-focused heading */}
-            <h1 
-              className="text-4xl md:text-5xl leading-tight mb-6"
-              style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', sans-serif` : "'Inter', sans-serif",
-                color: config.theme.colors.text,
-                fontWeight: 600
-              }}
-            >
-              Your Path to<br />
-              <span style={{ color: config.theme.colors.primary }}>Peak Performance</span>
-            </h1>
-            
-            {/* PEAKFORM-SPECIFIC: Healthcare-focused subtitle */}
-            <p 
-              className="text-lg md:text-xl mb-12 leading-relaxed max-w-2xl mx-auto"
-              style={{ 
-                fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif",
-                color: config.theme.colors.textSecondary,
-                fontWeight: 400
-              }}
-            >
-              Professional physiotherapy care, personalized exercise plans, and expert guidance to help you recover, strengthen, and perform at your best.
-            </p>
-
-            {/* PEAKFORM-SPECIFIC: Healthcare-focused stat cards */}
-            <div className="mb-16">
-              <EmbrKitGrid cols={2} gap={6} className="md:grid-cols-4">
-                {config.content?.appointments?.upcoming && (
-                  <EmbrKitStatCard 
-                    value={config.content.appointments.upcoming.length}
-                    label="Upcoming Appointments"
-                    color={config.theme.colors.primary}
-                    size="lg"
-                    className="p-6 text-center"
-                    style={{
-                      backgroundColor: config.theme.colors.surface,
-                      borderRadius: '1rem',
-                      boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
-                    }}
-                  />
-                )}
-                {config.content?.exerciseLibrary?.exercises && (
-                  <EmbrKitStatCard 
-                    value={config.content.exerciseLibrary.exercises.length}
-                    label="Exercise Library"
-                    color={config.theme.colors.primary}
-                    size="lg"
-                    className="p-6 text-center"
-                    style={{
-                      backgroundColor: config.theme.colors.surface,
-                      borderRadius: '1rem',
-                      boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
-                    }}
-                  />
-                )}
-                {config.content?.staff && (
-                  <EmbrKitStatCard 
-                    value={config.content.staff.length}
-                    label="Expert Staff"
-                    color={config.theme.colors.primary}
-                    size="lg"
-                    className="p-6 text-center"
-                    style={{
-                      backgroundColor: config.theme.colors.surface,
-                      borderRadius: '1rem',
-                      boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
-                    }}
-                  />
-                )}
-                {config.content?.wellnessTips && (
-                  <EmbrKitStatCard 
-                    value={config.content.wellnessTips.length}
-                    label="Wellness Tips"
-                    color={config.theme.colors.primary}
-                    size="lg"
-                    className="p-6 text-center"
-                    style={{
-                      backgroundColor: config.theme.colors.surface,
-                      borderRadius: '1rem',
-                      boxShadow: '0 4px 6px -1px hsl(0 0% 0% / 0.1)'
-                    }}
-                  />
-                )}
-              </EmbrKitGrid>
-            </div>
-
-            {/* PEAKFORM-SPECIFIC: Healthcare-focused action buttons */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-              <EmbrKitButton
-                variant="primary"
-                size="lg"
-                onClick={() => setActiveTab('appointments')}
-                className="transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-3"
-                style={{ 
-                  padding: '1.25rem 2rem',
-                  fontSize: '1.125rem',
-                  backgroundColor: config.theme.colors.primary,
-                  color: '#ffffff'
-                }}
-              >
-                {getIcon('calendar')}
-                My Appointments
-              </EmbrKitButton>
-              
-              <EmbrKitButton
-                variant="secondary"
-                size="lg"
-                onClick={() => setActiveTab('exercises')}
-                className="transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-3"
-                style={{ 
-                  padding: '1.25rem 2rem',
-                  fontSize: '1.125rem',
-                  backgroundColor: config.theme.colors.secondary,
-                  color: '#ffffff'
-                }}
-              >
-                {getIcon('activity')}
-                Exercise Library
-              </EmbrKitButton>
-            </div>
-          </div>
-        </EmbrKitContainer>
+  const renderHome = () => (
+    <div style={{ padding: '1rem' }}>
+      {/* Hero Banner */}
+      <div style={{
+        background: `linear-gradient(135deg, ${config.theme.colors.primary} 0%, ${config.theme.colors.secondary} 100%)`,
+        borderRadius: '1rem',
+        padding: '2rem',
+        color: 'white',
+        textAlign: 'center',
+        marginBottom: '2rem'
+      }}>
+        <h1 style={{ 
+          margin: '0 0 0.5rem 0', 
+          fontSize: '1.8rem',
+          fontFamily: config.theme.typography.heading,
+          fontWeight: 700
+        }}>
+          {config.content.home.title}
+        </h1>
+        <p style={{ margin: 0, opacity: 0.9, fontSize: '1rem' }}>
+          {config.content.home.subtitle}
+        </p>
       </div>
 
-      {/* PEAKFORM-SPECIFIC: Upcoming Appointments Section */}
-      {config.content?.appointments?.upcoming && config.content.appointments.upcoming.length > 0 && (
-        <div className="px-6 py-12" style={{ backgroundColor: config.theme.colors.background }}>
-          <EmbrKitContainer size="lg">
-            <h2 
-              className="text-3xl text-center mb-12"
-              style={{ 
-                fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', sans-serif` : "'Inter', sans-serif",
-                color: config.theme.colors.text 
+      {/* Quick Links */}
+      <div style={{ marginBottom: '2rem' }}>
+        <h2 style={{ 
+          color: config.theme.colors.primary,
+          fontFamily: config.theme.typography.heading,
+          fontWeight: 600,
+          marginBottom: '1rem'
+        }}>
+          Quick Access
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
+          {config.content.home.quickLinks?.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => setActiveTab(link.path.replace('/', ''))}
+              style={{
+                background: config.theme.colors.surface,
+                border: `1px solid ${config.theme.colors.border}`,
+                borderRadius: '0.75rem',
+                padding: '1.5rem 1rem',
+                textAlign: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = config.theme.colors.surfaceElevated;
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = config.theme.colors.surface;
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              Upcoming Appointments
-            </h2>
-            
-            <div className="space-y-6">
-              {config.content.appointments.upcoming.slice(0, 2).map((appointment) => (
-                <EmbrKitCard 
-                  key={appointment.id} 
-                  variant="elevated"
-                  className="hover:shadow-lg transition-all duration-300"
-                  style={{ 
-                    backgroundColor: config.theme.colors.surface,
-                    padding: '1.5rem'
-                  }}
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div 
-                      className="w-16 h-16 rounded-xl flex items-center justify-center text-2xl font-bold"
-                      style={{ 
-                        backgroundColor: config.theme.colors.primary,
-                        color: '#ffffff'
-                      }}
-                    >
-                      {new Date(appointment.date).getDate()}
-                    </div>
-                    <div>
-                      <h3 
-                        className="text-xl font-semibold mb-1"
-                        style={{ 
-                          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', sans-serif` : "'Inter', sans-serif",
-                          color: config.theme.colors.text 
-                        }}
-                      >
-                        {appointment.type}
-                      </h3>
-                      <p 
-                        className="text-lg"
-                        style={{ 
-                          color: config.theme.colors.textSecondary,
-                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-                        }}
-                      >
-                        {appointment.time} • {appointment.duration}
-                      </p>
-                      <p 
-                        className="text-sm"
-                        style={{ 
-                          color: config.theme.colors.textSecondary,
-                          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-                        }}
-                      >
-                        with {appointment.therapist}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex gap-3 pt-4 border-t" style={{ borderColor: `${config.theme.colors.border}50` }}>
-                    {appointment.canReschedule && (
-                      <EmbrKitButton 
-                        variant="secondary"
-                        size="sm"
-                        className="flex-1"
-                        style={{ 
-                          backgroundColor: config.theme.colors.secondary,
-                          color: '#ffffff'
-                        }}
-                      >
-                        Reschedule
-                      </EmbrKitButton>
-                    )}
-                    {appointment.canCancel && (
-                      <EmbrKitButton 
-                        variant="outline"
-                        size="sm"
-                        className="flex-1"
-                        style={{ 
-                          borderColor: config.theme.colors.primary,
-                          color: config.theme.colors.primary
-                        }}
-                      >
-                        Cancel
-                      </EmbrKitButton>
-                    )}
-                  </div>
-                </EmbrKitCard>
-              ))}
-            </div>
-            
-            <div className="text-center mt-8">
-              <EmbrKitButton 
-                variant="secondary"
-                size="lg"
-                onClick={() => setActiveTab('appointments')}
-                className="inline-flex items-center gap-3 transition-all hover:scale-105"
-                style={{ 
-                  color: config.theme.colors.primary,
-                  border: `2px solid ${config.theme.colors.primary}`
-                }}
-              >
-                View All Appointments
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </EmbrKitButton>
-            </div>
-          </EmbrKitContainer>
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>
+                {link.icon === 'calendar' && '📅'}
+                {link.icon === 'fitness' && '💪'}
+                {link.icon === 'mail' && '📧'}
+              </div>
+              <div style={{ 
+                color: config.theme.colors.text,
+                fontWeight: 500,
+                fontSize: '0.9rem'
+              }}>
+                {link.label}
+              </div>
+            </button>
+          ))}
         </div>
-      )}
+      </div>
+
+      {/* Latest Tips */}
+      <div style={{ marginBottom: '2rem' }}>
+        <h2 style={{ 
+          color: config.theme.colors.primary,
+          fontFamily: config.theme.typography.heading,
+          fontWeight: 600,
+          marginBottom: '1rem'
+        }}>
+          Latest Wellness Tips
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {config.content.home.latestTips?.slice(0, 3).map((tip) => (
+            <div
+              key={tip.id}
+              onClick={() => setSelectedArticle(tip)}
+              style={{
+                background: config.theme.colors.surface,
+                border: `1px solid ${config.theme.colors.border}`,
+                borderRadius: '0.75rem',
+                padding: '1.5rem',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = config.theme.colors.surfaceElevated;
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = config.theme.colors.surface;
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{
+                  width: '60px',
+                  height: '60px',
+                  background: config.theme.colors.secondary,
+                  borderRadius: '0.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.5rem'
+                }}>
+                  {tip.category === 'Posture' && '🧘'}
+                  {tip.category === 'Recovery' && '💧'}
+                  {tip.category === 'Fitness' && '🏃'}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ 
+                    margin: '0 0 0.25rem 0',
+                    color: config.theme.colors.text,
+                    fontSize: '1rem',
+                    fontWeight: 600
+                  }}>
+                    {tip.title}
+                  </h3>
+                  <p style={{ 
+                    margin: 0,
+                    color: config.theme.colors.textSecondary,
+                    fontSize: '0.9rem',
+                    lineHeight: 1.4
+                  }}>
+                    {tip.summary}
+                  </p>
+                  <span style={{
+                    display: 'inline-block',
+                    background: config.theme.colors.primary,
+                    color: 'white',
+                    padding: '0.25rem 0.5rem',
+                    borderRadius: '0.25rem',
+                    fontSize: '0.75rem',
+                    marginTop: '0.5rem'
+                  }}>
+                    {tip.category}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Mini Map Card */}
+      <div style={{
+        background: config.theme.colors.surface,
+        border: `1px solid ${config.theme.colors.border}`,
+        borderRadius: '0.75rem',
+        padding: '1.5rem',
+        textAlign: 'center'
+      }}>
+        <h3 style={{ 
+          margin: '0 0 0.5rem 0',
+          color: config.theme.colors.primary,
+          fontSize: '1.1rem',
+          fontWeight: 600
+        }}>
+          Find Your Clinic
+        </h3>
+        <p style={{ 
+          margin: '0 0 1rem 0',
+          color: config.theme.colors.textSecondary,
+          fontSize: '0.9rem'
+        }}>
+          Get directions to our Main Clinic or Sports Clinic
+        </p>
+        <button
+          onClick={() => setActiveTab('clinic')}
+          style={{
+            background: config.theme.colors.primary,
+            color: 'white',
+            border: 'none',
+            borderRadius: '0.5rem',
+            padding: '0.75rem 1.5rem',
+            fontSize: '0.9rem',
+            fontWeight: 500,
+            cursor: 'pointer',
+            transition: 'background-color 0.2s'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = config.theme.colors.primaryHover;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = config.theme.colors.primary;
+          }}
+        >
+          View Locations
+        </button>
+      </div>
     </div>
   );
 
-  const renderGenericContent = (title: string, description: string, emoji: string) => (
-    <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
-      <EmbrKitCard className="text-center">
-        <h1 className="text-4xl md:text-5xl mb-4" style={{ 
-          fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', sans-serif` : "'Inter', sans-serif", 
-          color: config.theme.colors.text 
-        }}>
-          {title}
-        </h1>
-        <p className="text-xl mb-12" style={{ 
-          color: config.theme.colors.textSecondary,
-          fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-        }}>
-          {description}
-        </p>
-
-        <div className="py-20">
-          <div className="text-8xl mb-6 opacity-30">{emoji}</div>
-          <h3 className="text-2xl mb-4" style={{ 
-            fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', sans-serif` : "'Inter', sans-serif", 
-            color: config.theme.colors.text 
-          }}>
-            Coming Soon
-          </h3>
-          <p className="text-lg max-w-2xl mx-auto" style={{ 
-            color: config.theme.colors.textSecondary,
-            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-          }}>
-            This feature is being carefully crafted for your physiotherapy experience.
-            </p>
+  const renderAppointments = () => (
+    <div style={{ padding: '1rem' }}>
+      <h1 style={{ 
+        color: config.theme.colors.primary,
+        fontFamily: config.theme.typography.heading,
+        fontWeight: 600,
+        marginBottom: '1.5rem'
+      }}>
+        {config.content.appointments.title}
+      </h1>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {config.content.appointments.upcoming?.map((appointment) => (
+          <div
+            key={appointment.id}
+            style={{
+              background: config.theme.colors.surface,
+              border: `1px solid ${config.theme.colors.border}`,
+              borderRadius: '0.75rem',
+              padding: '1.5rem',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+              <div style={{
+                background: config.theme.colors.primary,
+                color: 'white',
+                borderRadius: '0.5rem',
+                padding: '0.75rem',
+                textAlign: 'center',
+                minWidth: '80px'
+              }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 600 }}>
+                  {new Date(appointment.date).getDate()}
+                </div>
+                <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>
+                  {new Date(appointment.date).toLocaleDateString('en-US', { month: 'short' })}
+                </div>
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ 
+                  margin: '0 0 0.25rem 0',
+                  color: config.theme.colors.text,
+                  fontSize: '1.1rem',
+                  fontWeight: 600
+                }}>
+                  {appointment.time} - {appointment.type}
+                </h3>
+                <p style={{ 
+                  margin: '0 0 0.25rem 0',
+                  color: config.theme.colors.textSecondary,
+                  fontSize: '0.9rem'
+                }}>
+                  with {appointment.therapist}
+                </p>
+                <p style={{ 
+                  margin: 0,
+                  color: config.theme.colors.textSecondary,
+                  fontSize: '0.9rem'
+                }}>
+                  📍 {appointment.location}
+                </p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <button
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  color: config.theme.colors.primary,
+                  border: `1px solid ${config.theme.colors.primary}`,
+                  borderRadius: '0.5rem',
+                  padding: '0.75rem',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = config.theme.colors.primary;
+                  e.currentTarget.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = config.theme.colors.primary;
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                style={{
+                  flex: 1,
+                  background: config.theme.colors.primary,
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '0.5rem',
+                  padding: '0.75rem',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = config.theme.colors.primaryHover;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = config.theme.colors.primary;
+                }}
+              >
+                Reschedule
+              </button>
+            </div>
           </div>
-      </EmbrKitCard>
-    </EmbrKitContainer>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderExercises = () => (
+    <div style={{ padding: '1rem' }}>
+      <h1 style={{ 
+        color: config.theme.colors.primary,
+        fontFamily: config.theme.typography.heading,
+        fontWeight: 600,
+        marginBottom: '1.5rem'
+      }}>
+        {config.content.exercises.title}
+      </h1>
+
+      {/* Category Filters */}
+      <div style={{ 
+        display: 'flex', 
+        gap: '0.5rem', 
+        overflowX: 'auto',
+        paddingBottom: '0.5rem',
+        marginBottom: '1.5rem'
+      }}>
+        {config.content.exercises.categories?.map((category) => (
+          <button
+            key={category.id}
+            style={{
+              background: config.theme.colors.surface,
+              color: config.theme.colors.text,
+              border: `1px solid ${config.theme.colors.border}`,
+              borderRadius: '1.5rem',
+              padding: '0.5rem 1rem',
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = config.theme.colors.primary;
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = config.theme.colors.surface;
+              e.currentTarget.style.color = config.theme.colors.text;
+            }}
+          >
+            {category.label} ({category.count})
+          </button>
+        ))}
+      </div>
+
+      {/* Exercise Grid */}
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
+        gap: '1rem' 
+      }}>
+        {config.content.exercises.featured?.map((exercise) => (
+          <div
+            key={exercise.id}
+            style={{
+              background: config.theme.colors.surface,
+              border: `1px solid ${config.theme.colors.border}`,
+              borderRadius: '0.75rem',
+              overflow: 'hidden',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}
+            onClick={() => setSelectedExercise(exercise)}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            }}
+          >
+            <div style={{
+              height: '120px',
+              background: config.theme.colors.secondary,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '2rem',
+              position: 'relative'
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: '0.5rem',
+                right: '0.5rem',
+                background: 'rgba(0,0,0,0.7)',
+                color: 'white',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '0.25rem',
+                fontSize: '0.8rem'
+              }}>
+                {exercise.duration}
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleBookmarkExercise(exercise.id);
+                }}
+                style={{
+                  position: 'absolute',
+                  top: '0.5rem',
+                  left: '0.5rem',
+                  background: 'rgba(0,0,0,0.7)',
+                  color: bookmarkedExercises.has(exercise.id) ? '#FFD700' : 'white',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: '32px',
+                  height: '32px',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+              >
+                {bookmarkedExercises.has(exercise.id) ? '⭐' : '☆'}
+              </button>
+              🏃‍♂️
+            </div>
+            <div style={{ padding: '1rem' }}>
+              <h3 style={{ 
+                margin: '0 0 0.5rem 0',
+                color: config.theme.colors.text,
+                fontSize: '1rem',
+                fontWeight: 600
+              }}>
+                {exercise.title}
+              </h3>
+              <p style={{ 
+                margin: '0 0 0.5rem 0',
+                color: config.theme.colors.textSecondary,
+                fontSize: '0.9rem',
+                lineHeight: 1.4
+              }}>
+                {exercise.description}
+              </p>
+              <span style={{
+                display: 'inline-block',
+                background: config.theme.colors.primary,
+                color: 'white',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '0.25rem',
+                fontSize: '0.75rem'
+              }}>
+                {exercise.category}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderWellness = () => (
+    <div style={{ padding: '1rem' }}>
+      <h1 style={{ 
+        color: config.theme.colors.primary,
+        fontFamily: config.theme.typography.heading,
+        fontWeight: 600,
+        marginBottom: '1.5rem'
+      }}>
+        {config.content.wellness.title}
+      </h1>
+
+      {/* Category Filters */}
+      <div style={{ 
+        display: 'flex', 
+        gap: '0.5rem', 
+        overflowX: 'auto',
+        paddingBottom: '0.5rem',
+        marginBottom: '1.5rem'
+      }}>
+        {config.content.wellness.categories?.map((category) => (
+          <button
+            key={category}
+            style={{
+              background: config.theme.colors.surface,
+              color: config.theme.colors.text,
+              border: `1px solid ${config.theme.colors.border}`,
+              borderRadius: '1.5rem',
+              padding: '0.5rem 1rem',
+              fontSize: '0.9rem',
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = config.theme.colors.primary;
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = config.theme.colors.surface;
+              e.currentTarget.style.color = config.theme.colors.text;
+            }}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      {/* Articles */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {config.content.wellness.articles?.map((article) => (
+          <div
+            key={article.id}
+            style={{
+              background: config.theme.colors.surface,
+              border: `1px solid ${config.theme.colors.border}`,
+              borderRadius: '0.75rem',
+              overflow: 'hidden',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            }}
+            onClick={() => setSelectedArticle(article)}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            }}
+          >
+            <div style={{ display: 'flex', gap: '1rem', padding: '1.5rem' }}>
+              <div style={{
+                width: '80px',
+                height: '80px',
+                background: config.theme.colors.secondary,
+                borderRadius: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '1.5rem',
+                flexShrink: 0
+              }}>
+                📖
+              </div>
+              <div style={{ flex: 1, position: 'relative' }}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBookmarkArticle(article.id);
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                    background: 'transparent',
+                    color: bookmarkedArticles.has(article.id) ? '#FFD700' : config.theme.colors.textSecondary,
+                    border: 'none',
+                    fontSize: '1.2rem',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {bookmarkedArticles.has(article.id) ? '⭐' : '☆'}
+                </button>
+                <h3 style={{ 
+                  margin: '0 0 0.5rem 0',
+                  color: config.theme.colors.text,
+                  fontSize: '1.1rem',
+                  fontWeight: 600
+                }}>
+                  {article.title}
+                </h3>
+                <p style={{ 
+                  margin: '0 0 0.5rem 0',
+                  color: config.theme.colors.textSecondary,
+                  fontSize: '0.9rem',
+                  lineHeight: 1.4
+                }}>
+                  {article.summary}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.8rem', color: config.theme.colors.textSecondary }}>
+                  <span>{article.author}</span>
+                  <span>•</span>
+                  <span>{article.readTime}</span>
+                  <span>•</span>
+                  <span>{article.date}</span>
+                </div>
+                <span style={{
+                  display: 'inline-block',
+                  background: config.theme.colors.primary,
+                  color: 'white',
+                  padding: '0.25rem 0.5rem',
+                  borderRadius: '0.25rem',
+                  fontSize: '0.75rem',
+                  marginTop: '0.5rem'
+                }}>
+                  {article.category}
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderMore = () => (
+    <div style={{ padding: '1rem' }}>
+      <h1 style={{ 
+        color: config.theme.colors.primary,
+        fontFamily: config.theme.typography.heading,
+        fontWeight: 600,
+        marginBottom: '1.5rem'
+      }}>
+        More
+      </h1>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <button
+          onClick={() => setActiveTab('clinic')}
+          style={{
+            background: config.theme.colors.surface,
+            border: `1px solid ${config.theme.colors.border}`,
+            borderRadius: '0.75rem',
+            padding: '1.5rem',
+            textAlign: 'left',
+            cursor: 'pointer',
+            transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = config.theme.colors.surfaceElevated;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = config.theme.colors.surface;
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ fontSize: '1.5rem' }}>🏥</div>
+            <div>
+              <h3 style={{ margin: '0 0 0.25rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600 }}>
+                Clinic Information
+              </h3>
+              <p style={{ margin: 0, color: config.theme.colors.textSecondary, fontSize: '0.9rem' }}>
+                Contact details, hours, and team information
+              </p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setShowNotifications(true)}
+          style={{
+            background: config.theme.colors.surface,
+            border: `1px solid ${config.theme.colors.border}`,
+            borderRadius: '0.75rem',
+            padding: '1.5rem',
+            textAlign: 'left',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            position: 'relative'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = config.theme.colors.surfaceElevated;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = config.theme.colors.surface;
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{ fontSize: '1.5rem' }}>🔔</div>
+            <div>
+              <h3 style={{ margin: '0 0 0.25rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600 }}>
+                Notifications
+              </h3>
+              <p style={{ margin: 0, color: config.theme.colors.textSecondary, fontSize: '0.9rem' }}>
+                View your recent notifications and updates
+              </p>
+            </div>
+            {unreadNotifications > 0 && (
+              <div style={{
+                position: 'absolute',
+                top: '1rem',
+                right: '1rem',
+                background: config.theme.colors.primary,
+                color: 'white',
+                borderRadius: '50%',
+                width: '20px',
+                height: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.8rem',
+                fontWeight: 600
+              }}>
+                {unreadNotifications}
+              </div>
+            )}
+          </div>
+        </button>
+
+        <div style={{
+          background: config.theme.colors.surface,
+          border: `1px solid ${config.theme.colors.border}`,
+          borderRadius: '0.75rem',
+          padding: '1.5rem'
+        }}>
+          <h3 style={{ margin: '0 0 1rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600 }}>
+            App Settings
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: config.theme.colors.text, fontSize: '0.9rem' }}>Push Notifications</span>
+              <div style={{
+                width: '44px',
+                height: '24px',
+                background: config.theme.colors.primary,
+                borderRadius: '12px',
+                position: 'relative',
+                cursor: 'pointer'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '2px',
+                  right: '2px',
+                  width: '20px',
+                  height: '20px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  transition: 'transform 0.2s'
+                }} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ color: config.theme.colors.text, fontSize: '0.9rem' }}>Offline Mode</span>
+              <div style={{
+                width: '44px',
+                height: '24px',
+                background: config.theme.colors.border,
+                borderRadius: '12px',
+                position: 'relative',
+                cursor: 'pointer'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '2px',
+                  left: '2px',
+                  width: '20px',
+                  height: '20px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  transition: 'transform 0.2s'
+                }} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderNotifications = () => (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'rgba(0,0,0,0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+      padding: '1rem'
+    }}>
+      <div style={{
+        background: config.theme.colors.surface,
+        borderRadius: '1rem',
+        padding: '1.5rem',
+        maxWidth: '500px',
+        width: '100%',
+        maxHeight: '80vh',
+        overflow: 'auto'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+          <h2 style={{ margin: 0, color: config.theme.colors.text, fontSize: '1.2rem', fontWeight: 600 }}>
+            Notifications
+          </h2>
+          <button
+            onClick={() => setShowNotifications(false)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              fontSize: '1.5rem',
+              cursor: 'pointer',
+              color: config.theme.colors.textSecondary
+            }}
+          >
+            ✕
+          </button>
+        </div>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {config.content.notifications?.recent?.map((notification) => (
+            <div
+              key={notification.id}
+              style={{
+                background: notification.read ? config.theme.colors.surface : config.theme.colors.surfaceElevated,
+                border: `1px solid ${config.theme.colors.border}`,
+                borderRadius: '0.75rem',
+                padding: '1rem',
+                borderLeft: notification.read ? `4px solid ${config.theme.colors.border}` : `4px solid ${config.theme.colors.primary}`
+              }}
+            >
+              <h4 style={{ 
+                margin: '0 0 0.5rem 0',
+                color: config.theme.colors.text,
+                fontSize: '0.9rem',
+                fontWeight: 600
+              }}>
+                {notification.title}
+              </h4>
+              <p style={{ 
+                margin: '0 0 0.5rem 0',
+                color: config.theme.colors.textSecondary,
+                fontSize: '0.9rem',
+                lineHeight: 1.4
+              }}>
+                {notification.message}
+              </p>
+              <div style={{ 
+                fontSize: '0.8rem',
+                color: config.theme.colors.textSecondary
+              }}>
+                {notification.date} at {notification.time}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 
   const renderContent = () => {
-    const getNavItem = (id: string) => config.navigation.find(nav => nav.id === id);
-    
     switch (activeTab) {
-      case 'home':
-        return renderHomeContent();
-      case 'appointments':
-        return renderGenericContent(
-          getNavItem(activeTab)?.title || 'My Appointments', 
-          'Manage your upcoming physiotherapy sessions', 
-          '📅'
-        );
-      case 'exercises':
-        return renderGenericContent(
-          getNavItem(activeTab)?.title || 'Exercise Library', 
-          'Browse exercises and rehabilitation plans', 
-          '💪'
-        );
-      case 'clinic':
-        return renderGenericContent(
-          getNavItem(activeTab)?.title || 'Clinic Info', 
-          'Find our location and contact information', 
-          '🏥'
-        );
-      case 'wellness':
-        return renderGenericContent(
-          getNavItem(activeTab)?.title || 'Wellness Tips', 
-          'Health tips and wellness information', 
-          '💚'
-        );
-      default:
-        return renderHomeContent();
+      case 'home': return renderHome();
+      case 'appointments': return renderAppointments();
+      case 'exercises': return renderExercises();
+      case 'wellness': return renderWellness();
+      case 'more': return renderMore();
+      default: return renderHome();
     }
   };
 
   return (
-    <EmbrKitProvider initialTheme={embrKitTheme}>
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          :root {
-            --embr-primary-color: ${config.theme.colors.primary};
-            --embr-secondary-color: ${config.theme.colors.secondary};
-            --embr-text-color: ${config.theme.colors.text};
-            --embr-button-outline-color: ${config.theme.colors.primary};
-            --embr-primary-hover: ${config.theme.colors.primary};
-            --embr-secondary-hover: ${config.theme.colors.secondary};
-            --embr-text-hover: ${config.theme.colors.text};
-            --embr-background: ${config.theme.colors.background};
-            --embr-surface: ${config.theme.colors.surface};
-            --embr-surface-elevated: ${config.theme.colors.surfaceElevated || config.theme.colors.surface};
-            --embr-text-on-dark: ${config.theme.colors.text};
-            --embr-text-secondary-dark-bg: ${config.theme.colors.textSecondary};
-            --embr-border: hsl(0 0% 0% / 0.12);
-          }
-          
-          .embr-btn:focus-visible,
-          .embr-input:focus-visible,
-          .embr-form-input:focus-visible,
-          .embr-select-trigger:focus-visible,
-          .embr-date-input:focus-visible {
-            outline-color: ${config.theme.colors.primary} !important;
-          }
-          
-          .embr-btn-primary:focus,
-          .embr-btn-primary:focus-visible,
-          .embr-btn-secondary:focus,
-          .embr-btn-secondary:focus-visible {
-            outline: none !important;
-            box-shadow: none !important;
-          }
-        `
-      }} />
-      <div className="min-h-screen min-h-[100dvh]" style={{ backgroundColor: config.theme.colors.background }}>
-        {/* PEAKFORM-SPECIFIC: Medical-focused navigation */}
-        <div 
-          className="sticky top-0 z-50 backdrop-blur-md border-b"
-          style={{ 
-            backgroundColor: `${config.theme.colors.surface}95`,
-            borderColor: `${config.theme.colors.text}10`
+    <div style={{ 
+      background: config.theme.colors.background,
+      color: config.theme.colors.text,
+      minHeight: '100vh',
+      fontFamily: config.theme.typography.body
+    }}>
+      {/* Header */}
+      <header style={{
+        background: config.theme.colors.primary,
+        color: 'white',
+        padding: '1rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ fontSize: '1.5rem' }}>🏥</div>
+          <h1 style={{ 
+            margin: 0, 
+            fontSize: '1.2rem',
+            fontFamily: config.theme.typography.heading,
+            fontWeight: 600
+          }}>
+            {config.name}
+          </h1>
+        </div>
+        <button
+          onClick={() => setShowNotifications(true)}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'white',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+            position: 'relative'
           }}
         >
-          <div className="flex items-center justify-between px-6 py-4">
-            <div className="flex items-center gap-4">
-              <h1 
-                className="text-xl font-semibold"
-                style={{ 
-                  color: config.theme.colors.text,
-                  fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', sans-serif` : "'Inter', sans-serif"
-                }}
-              >
-                {config.name}
-              </h1>
+          🔔
+          {unreadNotifications > 0 && (
+            <div style={{
+              position: 'absolute',
+              top: '-4px',
+              right: '-4px',
+              background: '#FF4444',
+              color: 'white',
+              borderRadius: '50%',
+              width: '16px',
+              height: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.7rem',
+              fontWeight: 600
+            }}>
+              {unreadNotifications}
             </div>
-            
-            {/* PEAKFORM-SPECIFIC: Medical navigation */}
-            <div className="flex items-center gap-2">
-              {config.navigation.slice(0, 3).map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    activeTab === item.id ? 'scale-105' : 'hover:scale-105'
-                  }`}
-                  style={{ 
-                    backgroundColor: activeTab === item.id ? config.theme.colors.primary : 'transparent',
-                    color: activeTab === item.id ? '#ffffff' : config.theme.colors.textSecondary,
-                    fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-                  }}
-                >
-                  {getIcon(item.icon)}
-                  <span className="hidden md:inline">{item.title}</span>
-                </button>
-              ))}
-            </div>
-            
-            <EmbrKitBadge
-              variant="primary" 
-              style={{ 
-                backgroundColor: `${config.theme.colors.primary}20`,
-                color: config.theme.colors.primary
-              }}
-            >
-              v{config.version}
-            </EmbrKitBadge>
-          </div>
-        </div>
+          )}
+        </button>
+      </header>
 
-        {/* Content */}
-        <div className="pt-12 md:pt-16 pb-8">
-          {renderContent()}
-        </div>
-      </div>
-    </EmbrKitProvider>
+      {/* Main Content */}
+      <main style={{ paddingBottom: '80px' }}>
+        {renderContent()}
+      </main>
+
+      {/* Bottom Navigation */}
+      <nav style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: config.theme.colors.surface,
+        borderTop: `1px solid ${config.theme.colors.border}`,
+        display: 'flex',
+        padding: '0.5rem 0',
+        zIndex: 100
+      }}>
+        {config.navigation.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.path.replace('/', ''))}
+            style={{
+              flex: 1,
+              background: 'transparent',
+              border: 'none',
+              color: activeTab === item.path.replace('/', '') ? config.theme.colors.primary : config.theme.colors.textSecondary,
+              padding: '0.5rem',
+              cursor: 'pointer',
+              transition: 'color 0.2s',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.25rem'
+            }}
+          >
+            <div style={{ fontSize: '1.2rem' }}>
+              {item.icon === 'home' && '🏠'}
+              {item.icon === 'calendar' && '📅'}
+              {item.icon === 'fitness' && '💪'}
+              {item.icon === 'wellness' && '🧘'}
+              {item.icon === 'menu' && '⚙️'}
+            </div>
+            <span style={{ fontSize: '0.7rem', fontWeight: 500 }}>
+              {item.label}
+            </span>
+          </button>
+        ))}
+      </nav>
+
+      {/* Modals */}
+      {showNotifications && renderNotifications()}
+    </div>
   );
 }
