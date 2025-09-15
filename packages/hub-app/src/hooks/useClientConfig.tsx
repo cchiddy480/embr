@@ -31,10 +31,22 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
         console.warn('[ClientConfigProvider] Emergency timeout - forcing loading to false');
         setLoading(false);
       }
-    }, 5000); // 5 second emergency timeout
+    }, 3000); // 3 second emergency timeout
     
     return () => clearTimeout(emergencyTimeout);
   }, [loading]);
+  
+  // Immediate fallback for browser environments
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      // In browser, if no cached config, immediately stop loading
+      const cachedConfig = localStorage.getItem(STORAGE_CONFIG_KEY);
+      if (!cachedConfig) {
+        console.log('[ClientConfigProvider] No cached config in browser - stopping loading immediately');
+        setLoading(false);
+      }
+    }
+  }, []);
 
   // Check if config is expired
   const checkExpiry = useCallback((expiry: string | null | undefined) => {
@@ -56,59 +68,69 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
   }, [config]);
 
   useEffect(() => {
-    // On mount, try to load cached config from Capacitor Storage
+    // On mount, try to load cached config from storage
     (async () => {
+      console.log('[ClientConfigProvider] Starting initial load...');
       setLoading(true);
-      // Safety valve: never hang the UI on first load
+      
+      // Very aggressive timeout - 1 second max
       const loadingTimeout = setTimeout(() => {
         console.warn('[ClientConfigProvider] Initial load timed out; releasing loading state');
         setLoading(false);
-      }, 2000); // Reduced timeout to 2 seconds
+      }, 1000);
       
       try {
-        // Check if we're in a browser environment
+        let cachedConfig: string | null = null;
+        
+        // Always try localStorage first in browser
         if (typeof window !== 'undefined' && window.localStorage) {
-          // Use localStorage as fallback in browser
-          const cachedConfig = localStorage.getItem(STORAGE_CONFIG_KEY);
-          if (cachedConfig) {
-            try {
-              const parsed = JSON.parse(cachedConfig);
-              setConfig(parsed);
-              checkExpiry(parsed.expiry);
-              console.log('[ClientConfigProvider] loaded cached config from localStorage:', parsed);
-            } catch (e) {
-              console.warn('[ClientConfigProvider] Failed to parse cached config from localStorage');
+          try {
+            cachedConfig = localStorage.getItem(STORAGE_CONFIG_KEY);
+            console.log('[ClientConfigProvider] localStorage result:', cachedConfig ? 'found' : 'not found');
+          } catch (e) {
+            console.warn('[ClientConfigProvider] localStorage access failed:', e);
+          }
+        }
+        
+        // If no localStorage result, try Capacitor with very short timeout
+        if (!cachedConfig) {
+          try {
+            const preferencesPromise = Preferences.get({ key: STORAGE_CONFIG_KEY });
+            const timeoutPromise = new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Preferences timeout')), 500)
+            );
+            
+            const result = await Promise.race([preferencesPromise, timeoutPromise]) as any;
+            cachedConfig = result?.value || null;
+            console.log('[ClientConfigProvider] Capacitor result:', cachedConfig ? 'found' : 'not found');
+          } catch (prefError) {
+            console.warn('[ClientConfigProvider] Capacitor Preferences failed:', prefError);
+          }
+        }
+        
+        // Process the cached config if found
+        if (cachedConfig) {
+          try {
+            const parsed = JSON.parse(cachedConfig);
+            setConfig(parsed);
+            checkExpiry(parsed.expiry);
+            console.log('[ClientConfigProvider] Successfully loaded cached config:', parsed.clientId);
+          } catch (e) {
+            console.warn('[ClientConfigProvider] Failed to parse cached config:', e);
+            // Clear invalid config
+            if (typeof window !== 'undefined' && window.localStorage) {
               localStorage.removeItem(STORAGE_CONFIG_KEY);
             }
           }
         } else {
-          // Try Capacitor Preferences with timeout
-          try {
-            const preferencesPromise = Preferences.get({ key: STORAGE_CONFIG_KEY });
-            const timeoutPromise = new Promise((_, reject) => 
-              setTimeout(() => reject(new Error('Preferences timeout')), 1000)
-            );
-            
-            const { value: cachedConfig } = await Promise.race([preferencesPromise, timeoutPromise]) as any;
-            if (cachedConfig) {
-              try {
-                const parsed = JSON.parse(cachedConfig);
-                setConfig(parsed);
-                checkExpiry(parsed.expiry);
-                console.log('[ClientConfigProvider] loaded cached config from Capacitor Storage:', parsed);
-              } catch (e) {
-                console.warn('[ClientConfigProvider] Failed to parse cached config from Capacitor Storage');
-              }
-            }
-          } catch (prefError) {
-            console.warn('[ClientConfigProvider] Capacitor Preferences failed or timed out:', prefError);
-          }
+          console.log('[ClientConfigProvider] No cached config found');
         }
       } catch (err) {
-        console.warn('[ClientConfigProvider] Storage access failed; continuing without cached config:', err);
+        console.warn('[ClientConfigProvider] Initial load failed:', err);
       } finally {
         clearTimeout(loadingTimeout);
         setLoading(false);
+        console.log('[ClientConfigProvider] Initial load complete, loading set to false');
       }
     })();
   }, [checkExpiry]);

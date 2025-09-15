@@ -19,7 +19,8 @@ export default function HomePage() {
   useEffect(() => {
     console.log('[HomePage] config:', config);
     console.log('[HomePage] isExpired:', isExpired);
-  }, [config, isExpired]);
+    console.log('[HomePage] loading:', loading);
+  }, [config, isExpired, loading]);
 
   const handleQRScan = async (data: string) => {
     setShowQRScanner(false)
@@ -68,6 +69,7 @@ export default function HomePage() {
 
   if (loading) {
     // Show hub loading screen but allow escape if something wedges
+    console.log('[HomePage] Showing loading screen');
     return <LoadingScreen message="Loading your app..." />;
   }
 
