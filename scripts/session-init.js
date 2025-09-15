@@ -42,16 +42,17 @@ try {
     console.log('✅ No uncommitted changes');
   }
   
-  // Check if we're on a feature branch
-  if (gitBranch.startsWith('feature/') || gitBranch.startsWith('hotfix/')) {
+  // Check if we're on a feature/session branch
+  if (gitBranch.startsWith('feature/') || gitBranch.startsWith('hotfix/') || gitBranch.startsWith('session/')) {
     console.log('');
-    console.log('🔧 Feature Branch Detected:');
-    console.log('   - Use `npm run git:commit "message"` to save progress');
-    console.log('   - Use `npm run git:finish` to merge to main and cleanup');
+    console.log('🔧 Development Branch Detected:');
+    console.log('   - Use `npm run git:save "message"` to save session progress');
+    console.log('   - Use `npm run git:end` to end session (merge & cleanup)');
     console.log('   - Use `npm run git:status` to check current status');
   } else if (gitBranch === 'main') {
     console.log('');
     console.log('🌿 Main Branch Detected:');
+    console.log('   - Use `npm run git:session <session-name>` to create new session branch');
     console.log('   - Use `npm run git:start <feature-name>` to create new feature branch');
     console.log('   - Use `npm run git:status` to check current status');
   }
@@ -190,8 +191,16 @@ console.log('- `npm run devlog:update` - Update development log');
 console.log('- `npm run devlog:append -- "message"` - Add log entry');
 console.log('');
 console.log('🌿 Git Workflow Commands:');
+console.log('Session-Based Workflow:');
+console.log('- `npm run git:session <session-name>` - Create new session branch');
+console.log('- `npm run git:save "message"` - Save session progress');
+console.log('- `npm run git:end` - End session (merge & cleanup)');
+console.log('');
+console.log('Feature-Based Workflow:');
 console.log('- `npm run git:start <feature-name>` - Create new feature branch');
 console.log('- `npm run git:commit "message"` - Commit and push changes');
 console.log('- `npm run git:finish` - Merge to main and cleanup');
+console.log('');
+console.log('Utility Commands:');
 console.log('- `npm run git:status` - Show current branch status');
 console.log('- `npm run git:cleanup <branch-name>` - Cleanup specific branch');

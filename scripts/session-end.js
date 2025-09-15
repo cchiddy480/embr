@@ -12,6 +12,7 @@ const path = require('path');
 // Configuration
 const MAIN_BRANCH = 'main';
 const FEATURE_PREFIX = 'feature/';
+const SESSION_PREFIX = 'session/';
 
 function execCommand(command, options = {}) {
   try {
@@ -100,11 +101,16 @@ function handleGitOperations() {
     return;
   }
   
-  // If on feature branch with changes
-  if (currentBranch && currentBranch.startsWith(FEATURE_PREFIX) && hasChanges) {
-    console.log('   🔧 Feature branch with uncommitted changes detected');
-    console.log('   💡 Use: npm run git:commit "descriptive message"');
-    console.log('   💡 Then: npm run git:finish (when ready to merge)');
+  // If on feature/session branch with changes
+  if (currentBranch && (currentBranch.startsWith(FEATURE_PREFIX) || currentBranch.startsWith(SESSION_PREFIX)) && hasChanges) {
+    console.log('   🔧 Development branch with uncommitted changes detected');
+    if (currentBranch.startsWith(SESSION_PREFIX)) {
+      console.log('   💡 Use: npm run git:save "descriptive message"');
+      console.log('   💡 Then: npm run git:end (when ready to merge)');
+    } else {
+      console.log('   💡 Use: npm run git:commit "descriptive message"');
+      console.log('   💡 Then: npm run git:finish (when ready to merge)');
+    }
     return;
   }
   
@@ -125,8 +131,11 @@ function displaySessionSummary() {
   
   if (hasChanges) {
     if (currentBranch === MAIN_BRANCH) {
-      console.log('   1. Create feature branch: npm run git:start <feature-name>');
-      console.log('   2. Commit changes: npm run git:commit "message"');
+      console.log('   1. Create session branch: npm run git:session <session-name>');
+      console.log('   2. Save progress: npm run git:save "message"');
+    } else if (currentBranch && currentBranch.startsWith(SESSION_PREFIX)) {
+      console.log('   1. Save progress: npm run git:save "message"');
+      console.log('   2. End session: npm run git:end (when ready)');
     } else if (currentBranch && currentBranch.startsWith(FEATURE_PREFIX)) {
       console.log('   1. Commit changes: npm run git:commit "message"');
       console.log('   2. Finish feature: npm run git:finish (when ready)');
@@ -138,9 +147,17 @@ function displaySessionSummary() {
   
   console.log('');
   console.log('📚 Available Commands:');
+  console.log('Session-Based Workflow:');
+  console.log('   npm run git:session <name>  - Create new session branch');
+  console.log('   npm run git:save "msg"      - Save session progress');
+  console.log('   npm run git:end             - End session (merge & cleanup)');
+  console.log('');
+  console.log('Feature-Based Workflow:');
   console.log('   npm run git:start <name>    - Create new feature branch');
   console.log('   npm run git:commit "msg"    - Commit and push changes');
   console.log('   npm run git:finish          - Merge to main and cleanup');
+  console.log('');
+  console.log('Utility Commands:');
   console.log('   npm run git:status          - Show current branch status');
   console.log('   npm run session:init        - Initialize next session');
 }

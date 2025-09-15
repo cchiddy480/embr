@@ -45,7 +45,32 @@ npm run dev
 
 ## 🌿 **Git Workflow System**
 
-### **Automated Branch Management**
+### **Session-Based Development (RECOMMENDED)**
+
+#### **New Development Session Workflow:**
+```bash
+# 1. Start new session
+npm run git:session <session-name>
+# Creates: session/<name>-YYYY-MM-DD
+
+# 2. Save progress frequently during development
+npm run git:save "descriptive message"
+
+# 3. End session when complete
+npm run git:end
+# Merges to main and deletes branch automatically
+```
+
+#### **Session Workflow Benefits:**
+- **Clear session boundaries**: Each development session gets its own branch
+- **Automatic cleanup**: Session branches deleted after merging
+- **Progress saving**: Easy way to save work during development
+- **Cross-platform sync**: Same workflow on both Windows and Mac
+- **Clean history**: Each session creates a clear merge commit
+
+### **Feature-Based Development (For Longer Features)**
+
+#### **Traditional Feature Branch Workflow:**
 ```bash
 # Start new feature
 npm run git:start <feature-name>
@@ -62,7 +87,7 @@ npm run git:status
 ```
 
 ### **Workflow Benefits**
-- **No branch confusion**: Always work on proper feature branches
+- **No branch confusion**: Always work on proper development branches
 - **Automatic cleanup**: Branches deleted after merging
 - **Frequent commits**: Easy progress saving
 - **Cross-platform sync**: Same workflow on both Windows and Mac
@@ -201,7 +226,27 @@ npm run configs:push     # Deploy to Firebase
 
 ## 🔄 **Development Workflow**
 
-### **Starting New Feature**
+### **Starting New Development Session (RECOMMENDED)**
+```bash
+# 1. Session initialization
+npm run session:init
+
+# 2. Create session branch
+npm run git:session <session-name>
+
+# 3. Start development server
+npm run dev
+
+# 4. Make changes and test
+# 5. Save progress frequently
+npm run git:save "Progress update"
+
+# 6. Continue development
+# 7. End session
+npm run git:end
+```
+
+### **Starting New Feature (For Longer Features)**
 ```bash
 # 1. Session initialization
 npm run session:init
@@ -257,9 +302,17 @@ npm run audit:theme           # Audit theme compliance
 
 ### **Git Workflow Commands**
 ```bash
+# Session-Based Workflow (RECOMMENDED)
+npm run git:session <name>     # Create new session branch
+npm run git:save "message"     # Save session progress
+npm run git:end                # End session (merge & cleanup)
+
+# Feature-Based Workflow (for longer features)
 npm run git:start <name>       # Create new feature branch
 npm run git:commit "message"   # Commit and push changes
 npm run git:finish             # Merge to main and cleanup
+
+# Utility Commands
 npm run git:status             # Show current branch status
 npm run git:cleanup <branch>   # Cleanup specific branch
 ```

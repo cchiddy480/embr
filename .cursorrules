@@ -136,28 +136,44 @@ Before any development work, **ALWAYS**:
 - **Platform Testing**: Test features on the current platform before switching
 
 ### **Git Workflow Requirements**
-- **Branch Management**: Always work on feature branches, never directly on main
-- **Automatic Cleanup**: Use `npm run git:finish` to merge and cleanup branches
-- **Commit Frequently**: Use `npm run git:commit "message"` to save progress
-- **Branch Creation**: Use `npm run git:start <feature-name>` for new features
+- **Session-Based Development**: Always create session branches for development work
+- **Branch Management**: Never work directly on main - use session or feature branches
+- **Automatic Cleanup**: Use `npm run git:end` to merge session branches and cleanup
+- **Save Progress Frequently**: Use `npm run git:save "message"` to save session progress
+- **Branch Creation**: Use `npm run git:session <session-name>` for new development sessions
 - **Status Checking**: Use `npm run git:status` to check current state
 
 ### **Git Workflow Commands**
 ```bash
-# Start new feature
-npm run git:start <feature-name>
+# Session-Based Workflow (RECOMMENDED)
+npm run git:session <session-name>    # Create new session branch
+npm run git:save "descriptive message" # Save session progress
+npm run git:end                        # End session (merge & cleanup)
 
-# Commit progress
-npm run git:commit "descriptive message"
+# Feature-Based Workflow (for longer features)
+npm run git:start <feature-name>       # Create new feature branch
+npm run git:commit "descriptive message" # Commit and push changes
+npm run git:finish                     # Merge to main and cleanup
 
-# Finish and cleanup
-npm run git:finish
-
-# Check status
-npm run git:status
+# Utility Commands
+npm run git:status                     # Check current branch status
 ```
 
-### **Session Management Commands**
+### **Session-Based Development Workflow (MANDATORY)**
+
+#### **When Starting a New Development Session:**
+1. **Ask User**: "What would you like to work on today?"
+2. **Create Session Branch**: `npm run git:session <descriptive-name>`
+3. **Begin Development**: Start working on the discussed feature/fix
+4. **Save Progress**: Use `npm run git:save "message"` frequently during development
+5. **End Session**: Use `npm run git:end` when session is complete
+
+#### **Session Branch Naming Convention:**
+- Use descriptive names: `wildroots-fixes`, `embrkit-improvements`, `client-app-updates`
+- Include date automatically: `session/wildroots-fixes-2025-01-27`
+- Keep names concise but clear about the work being done
+
+#### **Session Management Commands**
 ```bash
 # Start session
 npm run session:init

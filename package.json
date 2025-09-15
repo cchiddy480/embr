@@ -32,8 +32,11 @@
     "session:init": "node scripts/session-init.js",
     "session:end": "node scripts/session-end.js",
     "git:start": "node scripts/git-workflow.js start",
+    "git:session": "node scripts/git-workflow.js session",
     "git:commit": "node scripts/git-workflow.js commit",
+    "git:save": "node scripts/git-workflow.js save",
     "git:finish": "node scripts/git-workflow.js finish",
+    "git:end": "node scripts/git-workflow.js end",
     "git:status": "node scripts/git-workflow.js status",
     "git:cleanup": "node scripts/git-workflow.js cleanup"
   },
