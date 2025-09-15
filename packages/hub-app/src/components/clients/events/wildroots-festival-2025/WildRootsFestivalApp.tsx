@@ -136,26 +136,22 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
           background: `linear-gradient(135deg, ${config.theme.colors.background} 0%, ${config.theme.colors.surface} 50%, ${config.theme.colors.background} 100%)`,
         }}
       >
-        {/* Animated Background Elements */}
+        {/* Subtle Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
-          {/* Floating Nature Elements */}
-          <div className="absolute top-20 left-10 text-8xl opacity-20 animate-pulse">🌿</div>
-          <div className="absolute top-40 right-20 text-6xl opacity-15 animate-bounce" style={{ animationDelay: '1s' }}>🧘</div>
-          <div className="absolute bottom-40 left-20 text-7xl opacity-25 animate-pulse" style={{ animationDelay: '2s' }}>♻️</div>
-          <div className="absolute bottom-20 right-10 text-9xl opacity-20 animate-bounce" style={{ animationDelay: '0.5s' }}>🌱</div>
-          <div className="absolute top-60 left-1/3 text-5xl opacity-15 animate-pulse" style={{ animationDelay: '1.5s' }}>🌻</div>
-          <div className="absolute bottom-60 right-1/3 text-6xl opacity-20 animate-bounce" style={{ animationDelay: '2.5s' }}>🦋</div>
+          {/* Minimal Nature Accents */}
+          <div className="absolute top-32 right-16 text-4xl opacity-8 animate-pulse" style={{ animationDelay: '2s' }}>🌿</div>
+          <div className="absolute bottom-32 left-16 text-3xl opacity-6 animate-pulse" style={{ animationDelay: '4s' }}>♻️</div>
           
           {/* Gradient Orbs */}
           <div 
-            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full opacity-10 blur-3xl animate-pulse"
+            className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full opacity-8 blur-3xl animate-pulse"
             style={{ 
               background: `radial-gradient(circle, ${config.theme.colors.primary} 0%, transparent 70%)`,
               animationDelay: '0s'
             }}
           />
           <div 
-            className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-8 blur-3xl animate-pulse"
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-6 blur-3xl animate-pulse"
             style={{ 
               background: `radial-gradient(circle, ${config.theme.colors.secondary} 0%, transparent 70%)`,
               animationDelay: '1s'
@@ -166,14 +162,13 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
         <EmbrKitContainer size="lg" className="relative z-10">
           <div className="text-center">
             {/* Festival Badge */}
-            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full mb-8 animate-fade-in"
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full mb-8 animate-fade-in"
                  style={{ 
-                   backgroundColor: `${config.theme.colors.primary}15`,
-                   border: `1px solid ${config.theme.colors.primary}30`
+                   backgroundColor: `${config.theme.colors.primary}10`,
+                   border: `1px solid ${config.theme.colors.primary}20`
                  }}>
-              <span className="text-2xl">🌿</span>
               <span 
-                className="text-sm font-medium"
+                className="text-sm font-medium uppercase tracking-wider"
                 style={{ 
                   color: config.theme.colors.primary,
                   fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
@@ -397,20 +392,13 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                       borderRadius: '1.5rem'
                     }}
                   >
-                    {/* Event Image Placeholder */}
+                    {/* Event Header */}
                     <div 
-                      className="h-48 relative overflow-hidden"
+                      className="h-32 relative overflow-hidden"
                       style={{ 
-                        background: `linear-gradient(135deg, ${config.theme.colors.primary}20 0%, ${config.theme.colors.secondary}20 100%)`
+                        background: `linear-gradient(135deg, ${config.theme.colors.primary}15 0%, ${config.theme.colors.secondary}15 100%)`
                       }}
                     >
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-6xl opacity-30">
-                          {(event as any).category === 'Wellness' ? '🧘' : 
-                           (event as any).category === 'Education' ? '📚' : 
-                           (event as any).category === 'Food' ? '🍃' : '🌿'}
-                        </div>
-                      </div>
                       <div className="absolute top-4 right-4">
                         <EmbrKitBadge 
                           variant="primary"
@@ -450,11 +438,9 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                       <div className="space-y-3 mb-6">
                         <div className="flex items-center gap-3 text-sm">
                           <div 
-                            className="w-8 h-8 rounded-full flex items-center justify-center"
-                            style={{ backgroundColor: `${config.theme.colors.primary}15` }}
-                          >
-                            📅
-                          </div>
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: config.theme.colors.primary }}
+                          />
                           <div>
                             <div 
                               className="font-medium"
@@ -486,11 +472,9 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         
                         <div className="flex items-center gap-3 text-sm">
                           <div 
-                            className="w-8 h-8 rounded-full flex items-center justify-center"
-                            style={{ backgroundColor: `${config.theme.colors.primary}15` }}
-                          >
-                            📍
-                          </div>
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: config.theme.colors.primary }}
+                          />
                           <div 
                             className="font-medium"
                             style={{ 
@@ -505,11 +489,9 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         {event.speaker && (
                           <div className="flex items-center gap-3 text-sm">
                             <div 
-                              className="w-8 h-8 rounded-full flex items-center justify-center"
-                              style={{ backgroundColor: `${config.theme.colors.primary}15` }}
-                            >
-                              👤
-                            </div>
+                              className="w-2 h-2 rounded-full"
+                              style={{ backgroundColor: config.theme.colors.primary }}
+                            />
                             <div 
                               className="font-medium"
                               style={{ 
@@ -751,18 +733,11 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                 >
                   {/* Event Header */}
                   <div 
-                    className="h-32 relative overflow-hidden"
+                    className="h-24 relative overflow-hidden"
                     style={{ 
-                      background: `linear-gradient(135deg, ${config.theme.colors.primary}20 0%, ${config.theme.colors.secondary}20 100%)`
+                      background: `linear-gradient(135deg, ${config.theme.colors.primary}15 0%, ${config.theme.colors.secondary}15 100%)`
                     }}
                   >
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-4xl opacity-30">
-                        {(event as any).category === 'Wellness' ? '🧘' : 
-                         (event as any).category === 'Education' ? '📚' : 
-                         (event as any).category === 'Food' ? '🍃' : '🌿'}
-                      </div>
-                    </div>
                     <div className="absolute top-4 right-4">
                       <EmbrKitBadge 
                         variant="primary"
@@ -778,7 +753,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                     </div>
                     <div className="absolute bottom-4 left-4">
                       <div 
-                        className="text-2xl font-light"
+                        className="text-lg font-light"
                         style={{ 
                           color: config.theme.colors.text,
                           fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif"
@@ -791,7 +766,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                         })}
                       </div>
                       <div 
-                        className="text-sm"
+                        className="text-xs"
                         style={{ 
                           color: config.theme.colors.textSecondary,
                           fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
@@ -829,11 +804,9 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                     <div className="space-y-3 mb-6">
                       <div className="flex items-center gap-3 text-sm">
                         <div 
-                          className="w-8 h-8 rounded-full flex items-center justify-center"
-                          style={{ backgroundColor: `${config.theme.colors.primary}15` }}
-                        >
-                          📍
-                        </div>
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: config.theme.colors.primary }}
+                        />
                         <div 
                           className="font-medium"
                           style={{ 
@@ -848,11 +821,9 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
                       {event.speaker && (
                         <div className="flex items-center gap-3 text-sm">
                           <div 
-                            className="w-8 h-8 rounded-full flex items-center justify-center"
-                            style={{ backgroundColor: `${config.theme.colors.primary}15` }}
-                          >
-                            👤
-                          </div>
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: config.theme.colors.primary }}
+                          />
                           <div 
                             className="font-medium"
                             style={{ 
@@ -904,7 +875,14 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
           </div>
         ) : (
           <EmbrKitCard className="text-center py-20">
-            <div className="text-8xl mb-6 opacity-30">🔍</div>
+            <div 
+              className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+              style={{ backgroundColor: `${config.theme.colors.primary}15` }}
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: config.theme.colors.primary }}>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
             <h3 
               className="text-2xl mb-4"
               style={{ 
@@ -929,7 +907,7 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
     </div>
   );
 
-  const renderGenericContent = (title: string, description: string, emoji: string) => (
+  const renderGenericContent = (title: string, description: string) => (
     <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
       <EmbrKitCard className="text-center">
         <h1 className="text-4xl md:text-5xl mb-4" style={{ 
@@ -946,7 +924,14 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
         </p>
 
         <div className="py-20">
-          <div className="text-8xl mb-6 opacity-30">{emoji}</div>
+          <div 
+            className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center"
+            style={{ backgroundColor: `${config.theme.colors.primary}15` }}
+          >
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: config.theme.colors.primary }}>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </div>
           <h3 className="text-2xl mb-4" style={{ 
             fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif", 
             color: config.theme.colors.text 
@@ -975,20 +960,17 @@ export function WildRootsFestivalApp({ config }: WildRootsFestivalAppProps) {
       case 'map':
         return renderGenericContent(
           getNavItem(activeTab)?.title || 'Festival Map', 
-          'Find your way around the festival grounds', 
-          '🗺️'
+          'Find your way around the festival grounds'
         );
       case 'vendors':
         return renderGenericContent(
           getNavItem(activeTab)?.title || 'Vendors', 
-          'Discover sustainable brands and local artisans', 
-          '🏪'
+          'Discover sustainable brands and local artisans'
         );
       case 'about':
         return renderGenericContent(
           getNavItem(activeTab)?.title || 'About & Info', 
-          'Everything you need to know for an amazing festival experience', 
-          'ℹ️'
+          'Everything you need to know for an amazing festival experience'
         );
       default:
         return renderHomeContent();
