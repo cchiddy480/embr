@@ -10,30 +10,14 @@
 
 ## ⚡ 15-Minute Setup
 
-### Step 1: Create Client Config (5 minutes)
+### Step 1: Create Client Config in Firestore (5 minutes)
 
-1. **Copy a template config:**
-   ```bash
-   cp packages/hub-app/public/client-configs/wildroots-festival-2025.json packages/hub-app/public/client-configs/your-client-2025.json
-   ```
+1. **Create Firestore document `client-configs/your-client-2025`:**
+   - Include: `clientId`, `name`, `description`, `theme.colors`, `navigation`, `pluginId`, `configVersion`, optional `accessCode`, `expiry`.
+   - Assets should be URLs (Firebase Hosting).
+   - Optional: keep a static JSON fallback in `public/client-configs/` during migration.
 
-2. **Edit the config with your client details:**
-   ```json
-   {
-     "clientId": "your-client-2025",
-     "accessCode": "YOURCODE2025",
-     "name": "Your Client Name",
-     "description": "Your client description",
-     "theme": {
-       "colors": {
-         "primary": "#YOUR_PRIMARY_COLOR",
-         "secondary": "#YOUR_SECONDARY_COLOR"
-       }
-     }
-   }
-   ```
-
-### Step 2: Create Client Component (5 minutes)
+### Step 2: Create Client Component (Lazy Plugin) (5 minutes)
 
 1. **Choose your industry directory:**
    - `healthcare/` - Medical, wellness, fitness
@@ -44,78 +28,60 @@
    - `other/` - Everything else
 
 2. **Create client directory:**
-   ```bash
-   mkdir packages/hub-app/src/components/clients/[industry]/[your-client-2025]
-   ```
+```bash
+mkdir packages/hub-app/src/components/clients/[industry]/[your-client-2025]
+```
 
-3. **Create the component:**
-   ```typescript
-   // packages/hub-app/src/components/clients/[industry]/[your-client-2025]/YourClientApp.tsx
-   import React from 'react';
-   import { ClientConfig } from '../../../../types/client';
+3. **Create the component (export default):**
+```typescript
+// packages/hub-app/src/components/clients/[industry]/[your-client-2025]/YourClientApp.tsx
+import React from 'react';
+import { ClientConfig } from '../../../../types/client';
 
-   interface YourClientAppProps {
-     config: ClientConfig;
-   }
+interface YourClientAppProps {
+  config: ClientConfig;
+}
 
-   export function YourClientApp({ config }: YourClientAppProps) {
-     return (
-       <div style={{ 
-         background: config.theme.colors.background,
-         color: config.theme.colors.text,
-         minHeight: '100vh',
-         padding: '2rem'
-       }}>
-         <h1 style={{ color: config.theme.colors.primary }}>
-           Welcome to {config.name}
-         </h1>
-         <p>{config.description}</p>
-         {/* Add your custom UI here */}
-       </div>
-     );
-   }
-   ```
+export default function YourClientApp({ config }: YourClientAppProps) {
+  return (
+    <div style={{ 
+      background: config.theme.colors.background,
+      color: config.theme.colors.text,
+      minHeight: '100vh',
+      padding: '2rem'
+    }}>
+      <h1 style={{ color: config.theme.colors.primary }}>
+        Welcome to {config.name}
+      </h1>
+      <p>{config.description}</p>
+      {/* Add your custom UI here */}
+    </div>
+  );
+}
+```
 
-4. **Create index file:**
-   ```typescript
-   // packages/hub-app/src/components/clients/[industry]/[your-client-2025]/index.ts
-   export { YourClientApp } from './YourClientApp';
-   ```
+4. **Create index file (re-export default):**
+```typescript
+// packages/hub-app/src/components/clients/[industry]/[your-client-2025]/index.ts
+export { default as YourClientApp } from './YourClientApp';
+```
 
-### Step 3: Register Client (3 minutes)
+### Step 3: Register Client in Lazy Loader (3 minutes)
 
-1. **Update industry registry:**
-   ```typescript
-   // packages/hub-app/src/components/clients/[industry]/index.ts
-   import { YourClientApp } from './your-client-2025';
+1. **Generate loader map:**
+```bash
+npm run clients:loader
+```
 
-   export const [INDUSTRY]_CLIENTS = {
-     'your-client-2025': YourClientApp,
-   } as const;
-   ```
-
-2. **Update main registry:**
-   ```typescript
-   // packages/hub-app/src/components/clients/index.ts
-   import { [INDUSTRY]_CLIENTS } from './[industry]';
-
-   export const CLIENT_APP_REGISTRY = {
-     ...HEALTHCARE_CLIENTS,
-     ...EVENT_CLIENTS,
-     ...[INDUSTRY]_CLIENTS,  // Add your industry
-   } as const;
-   ```
-
-### Step 4: Test & Deploy (2 minutes)
+### Step 4: Test & Publish (2 minutes)
 
 1. **Test locally:**
-   - Start dev server: `npm run dev`
-   - Navigate to your app with access code
+- Start dev server: `npm run dev`
+- Navigate to your app with access code
 
-2. **Deploy to Firebase:**
-   ```bash
-   npm run configs:push
-   ```
+2. **Publish config/assets:**
+- Config migration (legacy JSON → Firestore): `npm run migrate:configs -- --key <service_account.json>`
+- Update expiry (dev/testing): `npm run clients:expiry -- --key <service_account.json> --clients your-client-2025 --expiry 2027-12-31T23:59:59Z`
 
 ## 🎯 That's It!
 
@@ -126,7 +92,7 @@ Your client micro-app is now live and accessible via their access code!
 - **Customize UI**: Add your client's specific features and content
 - **Add Components**: Create client-specific components in the same directory
 - **Test Thoroughly**: Ensure it works on mobile and desktop
-- **Deploy**: Push to Firebase when ready
+- **Deploy**: Publish Firestore config and upload assets to Hosting
 
 ## 📚 Need More Help?
 
@@ -138,15 +104,15 @@ Your client micro-app is now live and accessible via their access code!
 
 - ❌ Don't share layouts between clients
 - ❌ Don't hardcode colors (use config.theme.colors)
-- ❌ Don't forget to register in both industry and main registries
+- ❌ Don't forget to run the loader generator
 - ❌ Don't skip testing the access code
 
 ## ✅ Checklist
 
-- [ ] Config file created with correct clientId and accessCode
+- [ ] Firestore config created with correct `clientId` and fields
 - [ ] Component created in correct industry directory
-- [ ] Component registered in industry registry
-- [ ] Industry registry imported in main registry
+- [ ] Index re-exports default component
+- [ ] Loader map generated (`npm run clients:loader`)
 - [ ] Access code tested locally
-- [ ] Config deployed to Firebase
+- [ ] Config/assets published
 - [ ] Final testing with access code
