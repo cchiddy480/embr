@@ -1,3 +1,27 @@
+# Embr Cursor Rules
+
+## Client Architecture Conventions
+- Firestore is the source of truth for client configs (`client-configs/{clientId}`): theme, navigation, features, pluginId, configVersion, expiry.
+- Assets (logos/images/docs) must be hosted on Firebase Hosting and referenced by URL.
+- Client app code (TSX/TS) must export default and be placed under `packages/hub-app/src/components/clients/[industry]/[clientId]/YourClientApp.tsx`.
+- Each client folder must include an `index.ts` that re-exports default: `export { default as YourClientApp } from './YourClientApp'`.
+- The lazy loader map is auto-generated. Do not edit `clients/loader.ts` manually. Run `npm run clients:loader` after adding/removing clients.
+
+## Import Restrictions
+- Do not import client modules directly outside of the lazy loader (`clients/loader.ts`) or their own folder.
+- Prefer shared UI in `packages/ui`. Move common code out of client folders.
+
+## Expiry and Testing
+- Use `npm run clients:expiry -- --key <service_account.json> --clients <id1,id2> --expiry <ISO>` for dev expiry updates.
+- Use URL autoload (`?client=` or `/c/<id>`) for testing client selection.
+
+## Commit Hygiene
+- If adding a new client:
+  - [ ] Publish Firestore config and upload assets to Hosting
+  - [ ] Create TSX with default export and `index.ts`
+  - [ ] Run `npm run clients:loader`
+  - [ ] Add/update docs if needed
+
 # Cursor Session Rules — Embr
 
 Always begin each session by:

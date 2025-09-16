@@ -39,7 +39,10 @@
     "git:finish": "node scripts/git-workflow.js finish",
     "git:end": "node scripts/git-workflow.js end",
     "git:status": "node scripts/git-workflow.js status",
-    "git:cleanup": "node scripts/git-workflow.js cleanup"
+    "git:cleanup": "node scripts/git-workflow.js cleanup",
+    "migrate:configs": "node scripts/migrate-configs-to-firestore.js",
+    "clients:loader": "node scripts/generate-client-loader.js",
+    "clients:expiry": "node scripts/update-expiry.js"
   },
   "devDependencies": {
     "@chainlift/liftkit": "^0.1.1",

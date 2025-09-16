@@ -2,8 +2,22 @@ const admin = require('firebase-admin');
 const fs = require('fs');
 const path = require('path');
 
-// Path to your service account key
-const serviceAccount = require('../firebase-service-account.json');
+// Resolve service account path (CLI arg: --key <path>)
+function resolveServiceAccount() {
+  const args = process.argv.slice(2);
+  const keyFlagIndex = args.indexOf('--key');
+  let keyPath = keyFlagIndex !== -1 ? args[keyFlagIndex + 1] : null;
+  if (!keyPath) {
+    // fallback to default location relative to repo root
+    keyPath = path.join(__dirname, '..', 'firebase-service-account.json');
+  }
+  if (!fs.existsSync(keyPath)) {
+    throw new Error(`Service account key not found at: ${keyPath}. Provide with --key <path>`);
+  }
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  return require(keyPath);
+}
+const serviceAccount = resolveServiceAccount();
 
 // Path to your configs directory
 const CONFIGS_DIR = path.join(__dirname, '../packages/hub-app/public/client-configs');

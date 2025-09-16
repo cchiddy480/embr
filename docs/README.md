@@ -31,6 +31,7 @@ Start with: **[DEVELOPMENT_GUIDE.md](./DEVELOPMENT_GUIDE.md)** - Complete develo
 
 ### **🎨 Development Guides**
 - **[guides/DEVELOPMENT_ISOLATION_GUIDE.md](./guides/DEVELOPMENT_ISOLATION_GUIDE.md)** - Demo/client isolation strategy
+- **[guides/QR_TO_APP_AUTOLOAD.md](./guides/QR_TO_APP_AUTOLOAD.md)** - Plan for QR → app autoload and deferred deep links
 
 ### **📝 Development Logs**
 - **[dev-log/](./dev-log/)** - Daily development logs and progress tracking

@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import { useSearchParams, usePathname } from 'next/navigation'
 import { QRCodeScanner } from '../components/QRCodeScanner'
 import { AccessCodeEntry } from '../components/AccessCodeEntry'
 import { LoadingScreen } from '../components/LoadingScreen'
@@ -15,6 +16,8 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null)
   
   const { config, loadConfig, clearConfig, isExpired, loading } = useClientConfig();
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
 
   useEffect(() => {
     console.log('[HomePage] config:', config);
@@ -65,6 +68,37 @@ export default function HomePage() {
     clearConfig()
     setError(null)
   }
+
+  // Auto-load when URL specifies a client, overriding cached config if different
+  useEffect(() => {
+    try {
+      let clientIdFromUrl: string | null = null
+      const qpClient = searchParams?.get('client') || searchParams?.get('clientId')
+      if (qpClient) clientIdFromUrl = qpClient
+      if (!clientIdFromUrl && pathname) {
+        const parts = pathname.split('/').filter(Boolean)
+        const cIdx = parts.indexOf('c')
+        if (cIdx !== -1 && parts[cIdx + 1]) clientIdFromUrl = parts[cIdx + 1]
+      }
+      if (clientIdFromUrl && clientIdFromUrl !== config?.clientId) {
+        setIsLoading(true)
+        setError(null)
+        ;(async () => {
+          try {
+            await loadConfig(clientIdFromUrl as string)
+          } catch (e) {
+            console.error('[HomePage] Auto-load failed', e)
+            setError('Could not load app from link.')
+          } finally {
+            setIsLoading(false)
+          }
+        })()
+      }
+    } catch {
+      // ignore
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, searchParams, config?.clientId])
 
   if (loading) {
     // Show hub loading screen but allow escape if something wedges
