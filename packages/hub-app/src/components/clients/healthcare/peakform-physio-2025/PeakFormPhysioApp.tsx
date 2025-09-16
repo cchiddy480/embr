@@ -82,7 +82,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 textAlign: 'center',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                boxShadow: 'none'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = config.theme.colors.surfaceElevated;
@@ -263,7 +263,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               border: `1px solid ${config.theme.colors.border}`,
               borderRadius: '0.75rem',
               padding: '1.5rem',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
@@ -426,16 +426,16 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               overflow: 'hidden',
               cursor: 'pointer',
               transition: 'all 0.2s',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }}
             onClick={() => setSelectedExercise(exercise)}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+              e.currentTarget.style.boxShadow = 'none';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+              e.currentTarget.style.boxShadow = 'none';
             }}
           >
             <div style={{
@@ -451,7 +451,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 position: 'absolute',
                 top: '0.5rem',
                 right: '0.5rem',
-                background: 'rgba(0,0,0,0.7)',
+                background: config.theme.colors.primary,
+                opacity: 0.7,
                 color: 'white',
                 padding: '0.25rem 0.5rem',
                 borderRadius: '0.25rem',
@@ -468,8 +469,9 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                   position: 'absolute',
                   top: '0.5rem',
                   left: '0.5rem',
-                  background: 'rgba(0,0,0,0.7)',
-                  color: bookmarkedExercises.has(exercise.id) ? '#FFD700' : 'white',
+                  background: config.theme.colors.primary,
+                  opacity: 0.7,
+                  color: bookmarkedExercises.has(exercise.id) ? config.theme.colors.secondary : 'white',
                   border: 'none',
                   borderRadius: '50%',
                   width: '32px',
@@ -577,16 +579,16 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               overflow: 'hidden',
               cursor: 'pointer',
               transition: 'all 0.2s',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              boxShadow: 'none'
             }}
             onClick={() => setSelectedArticle(article)}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-1px)';
-              e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+              e.currentTarget.style.boxShadow = 'none';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+              e.currentTarget.style.boxShadow = 'none';
             }}
           >
             <div style={{ display: 'flex', gap: '1rem', padding: '1.5rem' }}>
@@ -614,7 +616,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                     top: 0,
                     right: 0,
                     background: 'transparent',
-                    color: bookmarkedArticles.has(article.id) ? '#FFD700' : config.theme.colors.textSecondary,
+                    color: bookmarkedArticles.has(article.id) ? config.theme.colors.secondary : config.theme.colors.textSecondary,
                     border: 'none',
                     fontSize: '1.2rem',
                     cursor: 'pointer'
@@ -826,7 +828,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
       left: 0,
       right: 0,
       bottom: 0,
-      background: 'rgba(0,0,0,0.5)',
+      background: config.theme.colors.background,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -960,7 +962,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               position: 'absolute',
               top: '-4px',
               right: '-4px',
-              background: '#FF4444',
+              background: config.theme.colors.secondary,
               color: 'white',
               borderRadius: '50%',
               width: '16px',
