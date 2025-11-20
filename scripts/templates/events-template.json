@@ -5,6 +5,7 @@
   "description": "Your digital companion for an unforgettable event experience",
   "version": "1.0",
   "expiry": "{{EXPIRY}}",
+  "template": "festival",
   "theme": {
     "colors": {
       "primary": "#3B6A4C",
