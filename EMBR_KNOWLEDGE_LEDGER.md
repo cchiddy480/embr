@@ -809,8 +809,171 @@ CI/CD: OIDC (No Static Keys)
 
 ---
 
-*Last Updated: September 15, 2025*
-*Version: 1.2.0 - Session-Based Git Workflow System Implemented*
+## 🎨 TEMPLATE SYSTEM (NEW - November 2025)
+
+### Two-Tier Business Model Architecture
+
+Embr now supports a **two-tier approach** to client app creation:
+
+**TIER 1: Template-Based Hub Apps (Quick Setup)**
+- Uses pre-built templates rendered by GenericClientApp
+- No custom React code required
+- Setup time: 30 minutes to 4 hours
+- Cost: £395-£795 one-time OR £50-£150/month recurring
+- Margin: 80-90%
+- Scalability: INFINITE (no app rebuilds)
+
+**TIER 2: Custom Standalone Apps (Premium)**
+- Custom React components with full flexibility
+- Standalone iOS/Android apps (future phase)
+- Setup time: 20-40 hours
+- Cost: £2,000-£5,000 one-time + £200-£500/month
+- Margin: 60-75%
+- For complex clients needing advanced features
+
+### Available Templates
+
+Five production-ready templates covering common use cases:
+
+1. **Festival/Event Template** (`festival`)
+   - Events, conferences, festivals
+   - Features: Schedule, vendors, map, event info
+   - Config: `scripts/templates/events-template.json`
+
+2. **Healthcare Template** (`healthcare`)
+   - Medical, physiotherapy, wellness clinics
+   - Features: Appointments, exercises, clinic info, contact
+   - Config: `scripts/templates/healthcare-template.json`
+
+3. **Business Menu Template** (`menu`)
+   - Product catalogs, service directories
+   - Features: Products, services, pricing, contact
+   - Config: `scripts/templates/menu-template.json`
+
+4. **Restaurant Template** (`restaurant`)
+   - Restaurants, cafes, food services
+   - Features: Menu, specials, location, hours, contact
+   - Config: `scripts/templates/restaurant-template.json`
+
+5. **Property Template** (`property`)
+   - Real estate, property showcases
+   - Features: Property listings, features, location, contact
+   - Config: `scripts/templates/property-template.json`
+
+### Creating Template-Based Clients
+
+**Quick Setup (30 seconds):**
+```bash
+node scripts/create-client.js \
+  --name "My Festival" \
+  --industry events \
+  --access-code FEST2025 \
+  --template festival
+```
+
+**What Happens:**
+1. Loads template config from `scripts/templates/festival-template.json`
+2. Replaces placeholder variables (CLIENT_NAME, ACCESS_CODE, etc.)
+3. Creates JSON config in `packages/hub-app/public/client-configs/`
+4. **Skips** custom component creation (uses GenericClientApp)
+5. **Skips** registry updates (template-based clients don't need registration)
+6. Updates access code mapping
+7. Ready to test immediately!
+
+**Custom Component Setup (Advanced):**
+```bash
+node scripts/create-client.js \
+  --name "Complex App" \
+  --industry healthcare \
+  --access-code COMPLEX2025
+# Note: No --template flag = creates custom React component
+```
+
+### Template Configuration Structure
+
+Each template includes:
+
+```json
+{
+  "template": "festival",           // NEW: Template type
+  "clientId": "{{CLIENT_ID}}",     // Auto-filled
+  "accessCode": "{{ACCESS_CODE}}", // Auto-filled
+  "name": "{{CLIENT_NAME}}",       // Auto-filled
+  "theme": {
+    "colors": { /* Industry-specific defaults */ },
+    "typography": { /* Font choices */ }
+  },
+  "navigation": [ /* Template-specific nav */ ],
+  "features": { /* Feature toggles */ },
+  "content": { /* Page-specific content */ }
+}
+```
+
+### GenericClientApp Template Routing (In Progress)
+
+**Current Status:** Infrastructure complete, renderers in development
+
+**Planned Architecture:**
+```typescript
+// GenericClientApp.tsx
+const templateRenderers = {
+  'festival': FestivalRenderer,
+  'healthcare': HealthcareRenderer,
+  'menu': MenuRenderer,
+  'restaurant': RestaurantRenderer,
+  'property': PropertyRenderer
+};
+
+const Renderer = templateRenderers[config.template] || DefaultRenderer;
+return <Renderer config={config} />;
+```
+
+### Development Status
+
+**✅ Week 1 Complete (Template Infrastructure):**
+- [x] Added `template` field to ClientConfig type
+- [x] Created 5 template JSON configs
+- [x] Updated create-client.js with `--template` flag
+- [x] Template variable replacement system
+- [x] Documentation (CLAUDE.md)
+
+**🚧 Week 2 In Progress (Template Renderers):**
+- [ ] Enhance GenericClientApp with template routing
+- [ ] Build FestivalRenderer (enhance existing patterns)
+- [ ] Build HealthcareRenderer (enhance existing patterns)
+- [ ] Build MenuRenderer (new)
+- [ ] Build RestaurantRenderer (new)
+- [ ] Build PropertyRenderer (new)
+
+**📋 Week 3 Planned (User Experience):**
+- [ ] CLI wizard for template selection
+- [ ] Next.js admin page for config generation
+- [ ] Template preview system
+
+**🧪 Week 4 Planned (Testing & Launch):**
+- [ ] Test all templates with real data
+- [ ] Documentation and guides
+- [ ] Soft launch with pilot clients
+
+### Business Impact
+
+**Before Template System:**
+- Time per client: 14-33 hours @ £40/hr = £560-£1,320 cost
+- Pricing: £325-£995 → **Negative to 45% margin**
+- Scalability: LOW (rebuild per client)
+
+**After Template System (Tier 1):**
+- Time per client: 1-4 hours @ £40/hr = £40-£160 cost
+- Pricing: £395-£795 one-time OR £50-£150/month
+- **Margin: 80-90%** (vs negative to 45%)
+- Scalability: INFINITE (no rebuilds)
+
+**ROI:** Every template client after break-even is 80-90% profit margin
+
+---
+
+*Last Updated: November 20, 2025*
+*Version: 1.3.0 - Template System Week 1 Complete*
 
 ---
 

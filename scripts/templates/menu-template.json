@@ -1,0 +1,79 @@
+{
+  "clientId": "{{CLIENT_ID}}",
+  "accessCode": "{{ACCESS_CODE}}",
+  "name": "{{CLIENT_NAME}}",
+  "description": "Your digital catalog for products and services",
+  "version": "1.0",
+  "expiry": "{{EXPIRY}}",
+  "template": "menu",
+  "theme": {
+    "colors": {
+      "primary": "#2563EB",
+      "secondary": "#7C3AED",
+      "background": "#FFFFFF",
+      "surface": "#F8F9FA",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#1A1A1A",
+      "textSecondary": "#6B7280",
+      "border": "#E5E7EB"
+    },
+    "typography": {
+      "heading": "Inter",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    { "id": "home", "label": "Home", "icon": "home", "path": "/" },
+    { "id": "products", "label": "Products", "icon": "package", "path": "/products" },
+    { "id": "services", "label": "Services", "icon": "briefcase", "path": "/services" },
+    { "id": "pricing", "label": "Pricing", "icon": "currency", "path": "/pricing" },
+    { "id": "contact", "label": "Contact", "icon": "mail", "path": "/contact" }
+  ],
+  "features": {
+    "qrCode": true,
+    "pushNotifications": false,
+    "offlineMode": true,
+    "analytics": true
+  },
+  "content": {
+    "home": {
+      "title": "Welcome to {{CLIENT_NAME}}",
+      "subtitle": "Quality products and services",
+      "description": "Browse our full range of offerings and get in touch with any questions."
+    },
+    "products": {
+      "title": "Our Products",
+      "description": "Discover our carefully curated product selection",
+      "categories": ["Featured", "New Arrivals", "Best Sellers", "All Products"],
+      "products": []
+    },
+    "services": {
+      "title": "Our Services",
+      "description": "Professional services tailored to your needs",
+      "categories": ["Consulting", "Implementation", "Support", "Training"],
+      "services": []
+    },
+    "pricing": {
+      "title": "Pricing",
+      "description": "Transparent pricing for all our offerings",
+      "currency": "GBP",
+      "tiers": []
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "description": "We're here to help with any questions",
+      "phone": "(555) 123-4567",
+      "email": "hello@{{CLIENT_NAME_LOWER}}.com",
+      "hours": "Monday - Friday: 9:00 AM - 5:00 PM",
+      "address": "123 Business Street, City, Postcode"
+    }
+  },
+  "pushNotifications": {
+    "enabled": false,
+    "topics": []
+  },
+  "analytics": {
+    "enabled": true,
+    "trackingId": "{{ANALYTICS_ID}}"
+  }
+}

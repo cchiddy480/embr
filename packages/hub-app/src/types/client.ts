@@ -94,12 +94,29 @@ export interface Analytics {
   trackingId?: string
 }
 
+/**
+ * Available template types for Embr micro-apps
+ * Templates provide pre-built UI renderers for common use cases
+ */
+export type ClientTemplate =
+  | 'festival'      // Events, conferences, festivals
+  | 'healthcare'    // Medical, physiotherapy, wellness
+  | 'menu'          // Business services, product catalogs
+  | 'restaurant'    // Restaurants, cafes, food services
+  | 'property'      // Real estate, property showcases
+  | 'custom'        // Custom React component (legacy)
+
 export interface ClientConfig {
   clientId: string
   name: string
   description: string
   version: string
   expiry: string
+  /**
+   * Template selection for GenericClientApp rendering
+   * If not specified, falls back to custom component or default renderer
+   */
+  template?: ClientTemplate
   theme: ClientTheme
   navigation: NavigationItem[]
   features: ClientFeatures

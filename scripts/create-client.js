@@ -230,10 +230,31 @@ export function ${componentName}({ config }: ${componentName}Props) {
 }`;
 }
 
+function loadTemplate(templateName) {
+  const templatePath = path.join(__dirname, 'templates', `${templateName}-template.json`);
+  if (!fs.existsSync(templatePath)) {
+    throw new Error(`Template "${templateName}" not found at ${templatePath}`);
+  }
+  const templateContent = fs.readFileSync(templatePath, 'utf8');
+  return JSON.parse(templateContent);
+}
+
+function replaceTemplateVariables(template, variables) {
+  let content = JSON.stringify(template);
+
+  for (const [key, value] of Object.entries(variables)) {
+    const regex = new RegExp(`{{${key}}}`, 'g');
+    content = content.replace(regex, value);
+  }
+
+  return JSON.parse(content);
+}
+
 async function createClient() {
   const clientName = getArg('--name');
   const industry = getArg('--industry');
   const accessCode = getArg('--access-code');
+  const template = getArg('--template'); // NEW: Template flag
   const help = hasFlag('--help') || hasFlag('-h');
 
   if (help || !clientName || !industry || !accessCode) {
@@ -241,15 +262,20 @@ async function createClient() {
 🚀 Embr Client Creator
 
 Usage:
-  node scripts/create-client.js --name "Client Name" --industry [industry] --access-code [CODE]
+  node scripts/create-client.js --name "Client Name" --industry [industry] --access-code [CODE] [--template template-name]
 
 Options:
   --name        Client name (e.g., "PeakForm Physio")
   --industry    Industry: healthcare, events, hospitality, retail, services, other
   --access-code Access code (e.g., "CLIENT2025")
+  --template    Template to use: festival, healthcare, menu, restaurant, property (optional)
   --help, -h    Show this help
 
-Examples:
+Template-Based (Quick Setup):
+  node scripts/create-client.js --name "My Festival" --industry events --access-code FEST2025 --template festival
+  node scripts/create-client.js --name "Corner Cafe" --industry hospitality --access-code CAFE2025 --template restaurant
+
+Custom Component (Advanced):
   node scripts/create-client.js --name "PeakForm Physio" --industry healthcare --access-code PEAKFORM2025
   node scripts/create-client.js --name "My Restaurant" --industry hospitality --access-code REST2025
     `);
@@ -262,101 +288,142 @@ Examples:
     process.exit(1);
   }
 
+  const validTemplates = ['festival', 'healthcare', 'menu', 'restaurant', 'property'];
+  if (template && !validTemplates.includes(template)) {
+    console.error(`❌ Invalid template. Must be one of: ${validTemplates.join(', ')}`);
+    process.exit(1);
+  }
+
   const clientId = kebabCase(clientName) + '-2025';
   const componentName = pascalCase(clientName) + 'App';
+  const isTemplateBased = !!template;
 
   console.log(`🚀 Creating client: ${clientName}`);
   console.log(`📁 Client ID: ${clientId}`);
   console.log(`🏭 Industry: ${industry}`);
   console.log(`🔑 Access Code: ${accessCode}`);
+  if (isTemplateBased) {
+    console.log(`📋 Template: ${template} (uses GenericClientApp)`);
+  } else {
+    console.log(`📋 Mode: Custom component`);
+  }
 
   try {
     // 1. Create config file
     const configPath = `packages/hub-app/public/client-configs/${clientId}.json`;
-    const config = createClientConfig(clientName, industry, accessCode, clientId);
+    let config;
+
+    if (isTemplateBased) {
+      // Load and customize template
+      const templateConfig = loadTemplate(template);
+      const currentYear = new Date().getFullYear();
+      config = replaceTemplateVariables(templateConfig, {
+        CLIENT_ID: clientId,
+        ACCESS_CODE: accessCode,
+        CLIENT_NAME: clientName,
+        CLIENT_NAME_LOWER: clientName.toLowerCase(),
+        EXPIRY: `${currentYear + 1}-12-31`,
+        ANALYTICS_ID: '' // Leave empty for now
+      });
+      console.log(`📋 Loaded template: ${template}`);
+    } else {
+      // Create custom config (legacy behavior)
+      config = createClientConfig(clientName, industry, accessCode, clientId);
+    }
+
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
     console.log(`✅ Config created: ${configPath}`);
 
-    // 2. Create client directory
-    const clientDir = `packages/hub-app/src/components/clients/${industry}/${clientId}`;
-    fs.mkdirSync(clientDir, { recursive: true });
-    console.log(`✅ Directory created: ${clientDir}`);
+    // 2-4. Create component files (ONLY for custom, not template-based)
+    if (!isTemplateBased) {
+      // Create client directory
+      const clientDir = `packages/hub-app/src/components/clients/${industry}/${clientId}`;
+      fs.mkdirSync(clientDir, { recursive: true });
+      console.log(`✅ Directory created: ${clientDir}`);
 
-    // 3. Create component file
-    const componentPath = `${clientDir}/${componentName}.tsx`;
-    const componentCode = createClientComponent(clientName, clientId);
-    fs.writeFileSync(componentPath, componentCode);
-    console.log(`✅ Component created: ${componentPath}`);
+      // Create component file
+      const componentPath = `${clientDir}/${componentName}.tsx`;
+      const componentCode = createClientComponent(clientName, clientId);
+      fs.writeFileSync(componentPath, componentCode);
+      console.log(`✅ Component created: ${componentPath}`);
 
-    // 4. Create index file
-    const indexPath = `${clientDir}/index.ts`;
-    const indexCode = `// ${clientName} Client App
+      // Create index file
+      const indexPath = `${clientDir}/index.ts`;
+      const indexCode = `// ${clientName} Client App
 export { ${componentName} } from './${componentName}';
 `;
-    fs.writeFileSync(indexPath, indexCode);
-    console.log(`✅ Index created: ${indexPath}`);
-
-    // 5. Update industry registry
-    const industryIndexPath = `packages/hub-app/src/components/clients/${industry}/index.ts`;
-    let industryIndexContent = fs.readFileSync(industryIndexPath, 'utf8');
-    
-    // Add import
-    const importLine = `import { ${componentName} } from './${clientId}';`;
-    if (!industryIndexContent.includes(importLine)) {
-      industryIndexContent = industryIndexContent.replace(
-        '// Add [industry] clients here as they are created',
-        `// Add ${industry} clients here as they are created\n${importLine}`
-      );
+      fs.writeFileSync(indexPath, indexCode);
+      console.log(`✅ Index created: ${indexPath}`);
+    } else {
+      console.log(`⏭️  Skipping component creation (using template renderer)`);
     }
 
-    // Add to registry
-    const registryPattern = /export const \w+_CLIENTS = \{([^}]*)\} as const;/;
-    const match = industryIndexContent.match(registryPattern);
-    if (match) {
-      const currentRegistry = match[1].trim();
-      const newRegistry = currentRegistry 
-        ? `${currentRegistry},\n  '${clientId}': ${componentName}`
-        : `'${clientId}': ${componentName}`;
-      
-      industryIndexContent = industryIndexContent.replace(
-        registryPattern,
-        `export const ${industry.toUpperCase()}_CLIENTS = {\n  ${newRegistry}\n} as const;`
-      );
+    // 5-6. Update registries (ONLY for custom components, not templates)
+    if (!isTemplateBased) {
+      // Update industry registry
+      const industryIndexPath = `packages/hub-app/src/components/clients/${industry}/index.ts`;
+      let industryIndexContent = fs.readFileSync(industryIndexPath, 'utf8');
+
+      // Add import
+      const importLine = `import { ${componentName} } from './${clientId}';`;
+      if (!industryIndexContent.includes(importLine)) {
+        industryIndexContent = industryIndexContent.replace(
+          '// Add [industry] clients here as they are created',
+          `// Add ${industry} clients here as they are created\n${importLine}`
+        );
+      }
+
+      // Add to registry
+      const registryPattern = /export const \w+_CLIENTS = \{([^}]*)\} as const;/;
+      const match = industryIndexContent.match(registryPattern);
+      if (match) {
+        const currentRegistry = match[1].trim();
+        const newRegistry = currentRegistry
+          ? `${currentRegistry},\n  '${clientId}': ${componentName}`
+          : `'${clientId}': ${componentName}`;
+
+        industryIndexContent = industryIndexContent.replace(
+          registryPattern,
+          `export const ${industry.toUpperCase()}_CLIENTS = {\n  ${newRegistry}\n} as const;`
+        );
+      }
+
+      fs.writeFileSync(industryIndexPath, industryIndexContent);
+      console.log(`✅ Industry registry updated: ${industryIndexPath}`);
+
+      // Update main registry
+      const mainIndexPath = 'packages/hub-app/src/components/clients/index.ts';
+      let mainIndexContent = fs.readFileSync(mainIndexPath, 'utf8');
+
+      // Add import if not exists
+      const mainImportLine = `import { ${industry.toUpperCase()}_CLIENTS } from './${industry}';`;
+      if (!mainIndexContent.includes(mainImportLine)) {
+        mainIndexContent = mainIndexContent.replace(
+          '// Import from industry registries',
+          `// Import from industry registries\n${mainImportLine}`
+        );
+      }
+
+      // Add to main registry
+      const mainRegistryPattern = /export const CLIENT_APP_REGISTRY = \{([^}]*)\} as const;/;
+      const mainMatch = mainIndexContent.match(mainRegistryPattern);
+      if (mainMatch) {
+        const currentMainRegistry = mainMatch[1].trim();
+        const newMainRegistry = currentMainRegistry
+          ? `${currentMainRegistry},\n  ...${industry.toUpperCase()}_CLIENTS`
+          : `...${industry.toUpperCase()}_CLIENTS`;
+
+        mainIndexContent = mainIndexContent.replace(
+          mainRegistryPattern,
+          `export const CLIENT_APP_REGISTRY = {\n  ${newMainRegistry}\n} as const;`
+        );
+      }
+
+      fs.writeFileSync(mainIndexPath, mainIndexContent);
+      console.log(`✅ Main registry updated: ${mainIndexPath}`);
+    } else {
+      console.log(`⏭️  Skipping registry updates (template-based client uses GenericClientApp)`);
     }
-
-    fs.writeFileSync(industryIndexPath, industryIndexContent);
-    console.log(`✅ Industry registry updated: ${industryIndexPath}`);
-
-    // 6. Update main registry
-    const mainIndexPath = 'packages/hub-app/src/components/clients/index.ts';
-    let mainIndexContent = fs.readFileSync(mainIndexPath, 'utf8');
-    
-    // Add import if not exists
-    const mainImportLine = `import { ${industry.toUpperCase()}_CLIENTS } from './${industry}';`;
-    if (!mainIndexContent.includes(mainImportLine)) {
-      mainIndexContent = mainIndexContent.replace(
-        '// Import from industry registries',
-        `// Import from industry registries\n${mainImportLine}`
-      );
-    }
-
-    // Add to main registry
-    const mainRegistryPattern = /export const CLIENT_APP_REGISTRY = \{([^}]*)\} as const;/;
-    const mainMatch = mainIndexContent.match(mainRegistryPattern);
-    if (mainMatch) {
-      const currentMainRegistry = mainMatch[1].trim();
-      const newMainRegistry = currentMainRegistry 
-        ? `${currentMainRegistry},\n  ...${industry.toUpperCase()}_CLIENTS`
-        : `...${industry.toUpperCase()}_CLIENTS`;
-      
-      mainIndexContent = mainIndexContent.replace(
-        mainRegistryPattern,
-        `export const CLIENT_APP_REGISTRY = {\n  ${newMainRegistry}\n} as const;`
-      );
-    }
-
-    fs.writeFileSync(mainIndexPath, mainIndexContent);
-    console.log(`✅ Main registry updated: ${mainIndexPath}`);
 
     // 7. Update access code mapping
     const useClientConfigPath = 'packages/hub-app/src/hooks/useClientConfig.tsx';
@@ -387,8 +454,14 @@ export { ${componentName} } from './${componentName}';
     console.log(`\n📋 Next steps:`);
     console.log(`1. Test locally: npm run dev`);
     console.log(`2. Navigate to your app with access code: ${accessCode}`);
-    console.log(`3. Customize the component in: ${componentPath}`);
-    console.log(`4. Deploy to Firebase: npm run configs:push`);
+    if (isTemplateBased) {
+      console.log(`3. Customize content in: ${configPath}`);
+      console.log(`4. Template renderer: GenericClientApp (auto-selected)`);
+      console.log(`5. Deploy to Firebase: npm run configs:push`);
+    } else {
+      console.log(`3. Customize the component in: packages/hub-app/src/components/clients/${industry}/${clientId}`);
+      console.log(`4. Deploy to Firebase: npm run configs:push`);
+    }
     console.log(`\n🔗 Access your app with code: ${accessCode}`);
 
   } catch (error) {

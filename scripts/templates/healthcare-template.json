@@ -5,6 +5,7 @@
   "description": "Your digital companion for healthcare services, appointments, and wellness management",
   "version": "1.0",
   "expiry": "{{EXPIRY}}",
+  "template": "healthcare",
   "theme": {
     "colors": {
       "primary": "#1A476F",
