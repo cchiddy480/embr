@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ClientConfig } from '../../types/client';
-import { 
-  EmbrKitProvider, 
-  EmbrKitContainer, 
+import {
+  EmbrKitProvider,
+  EmbrKitContainer,
   EmbrKitCard,
   EmbrKitButton,
   EmbrKitGrid,
@@ -10,11 +10,44 @@ import {
   EmbrKitStatCard
 } from '@embr/ui';
 
+// Template Renderers (to be implemented)
+import { FestivalRenderer } from './renderers/FestivalRenderer';
+import { HealthcareRenderer } from './renderers/HealthcareRenderer';
+import { MenuRenderer } from './renderers/MenuRenderer';
+import { RestaurantRenderer } from './renderers/RestaurantRenderer';
+import { PropertyRenderer } from './renderers/PropertyRenderer';
+
 interface GenericClientAppProps {
   config: ClientConfig;
 }
 
 export function GenericClientApp({ config }: GenericClientAppProps) {
+  // Template routing: if config has template field, use appropriate renderer
+  if (config.template && config.template !== 'custom') {
+    const templateRenderers: Record<string, React.ComponentType<GenericClientAppProps>> = {
+      'festival': FestivalRenderer,
+      'healthcare': HealthcareRenderer,
+      'menu': MenuRenderer,
+      'restaurant': RestaurantRenderer,
+      'property': PropertyRenderer,
+    };
+
+    const TemplateRenderer = templateRenderers[config.template];
+
+    if (TemplateRenderer) {
+      return <TemplateRenderer config={config} />;
+    }
+
+    // If template specified but not found, log warning and fall through to default
+    console.warn(`Template "${config.template}" not found, using default renderer`);
+  }
+
+  // Default renderer (original GenericClientApp logic)
+  return <DefaultRenderer config={config} />;
+}
+
+// Extracted default renderer logic
+function DefaultRenderer({ config }: GenericClientAppProps) {
   const [activeTab, setActiveTab] = useState(config.navigation[0]?.id || 'home');
 
   // Set page background to client theme

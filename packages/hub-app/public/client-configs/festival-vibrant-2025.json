@@ -1,0 +1,42 @@
+{
+  "clientId": "festival-vibrant-2025",
+  "accessCode": "FESTVIB2025",
+  "name": "Vibrant Festival",
+  "description": "Bold, energetic event experience with high contrast",
+  "version": "1.0",
+  "expiry": "2026-12-31",
+  "template": "festival",
+  "variation": "vibrant",
+  "theme": {
+    "colors": {
+      "primary": "#FF3366",
+      "secondary": "#00D9FF",
+      "background": "#FFFFFF",
+      "surface": "#FFF5F7",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#1A0A14",
+      "textSecondary": "#7A5966",
+      "border": "#FFD6E0"
+    },
+    "typography": {
+      "heading": "Inter",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    {"id": "home", "label": "Home", "icon": "home", "path": "/"},
+    {"id": "schedule", "label": "Schedule", "icon": "calendar", "path": "/schedule"},
+    {"id": "vendors", "label": "Vendors", "icon": "store", "path": "/vendors"}
+  ],
+  "features": {"qrCode": true, "pushNotifications": true, "offlineMode": true, "analytics": true},
+  "content": {
+    "home": {
+      "title": "Vibrant Festival 2025",
+      "description": "Bold fonts, strong shadows, large rounded corners, playful rotations"
+    },
+    "schedule": {"events": []},
+    "vendors": {"categories": ["Food", "Art", "Services"]}
+  },
+  "pushNotifications": {"enabled": true, "topics": []},
+  "analytics": {"enabled": true}
+}

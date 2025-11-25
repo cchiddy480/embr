@@ -106,6 +106,16 @@ export type ClientTemplate =
   | 'property'      // Real estate, property showcases
   | 'custom'        // Custom React component (legacy)
 
+/**
+ * Visual style variations for each template
+ * Each template supports 4 unique variations for visual differentiation
+ */
+export type TemplateVariation =
+  | 'modern'        // Contemporary, clean, minimalist aesthetics
+  | 'classic'       // Traditional, timeless, elegant styling
+  | 'minimal'       // Ultra-clean, maximum whitespace, stripped-back
+  | 'vibrant'       // Bold, energetic, high-contrast design
+
 export interface ClientConfig {
   clientId: string
   name: string
@@ -117,6 +127,12 @@ export interface ClientConfig {
    * If not specified, falls back to custom component or default renderer
    */
   template?: ClientTemplate
+  /**
+   * Visual variation of the selected template
+   * Provides style differentiation within the same template type
+   * Defaults to 'modern' if not specified
+   */
+  variation?: TemplateVariation
   theme: ClientTheme
   navigation: NavigationItem[]
   features: ClientFeatures

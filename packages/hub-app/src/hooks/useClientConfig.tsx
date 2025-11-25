@@ -77,6 +77,16 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
   const ACCESS_CODE_MAPPING: Record<string, string> = {
     'WILDROOTS2025': 'wildroots-festival-2025',
     'PEAKFORM2025': 'peakform-physio-2025',
+    'FEST2025': 'summer-music-festival-2025',
+    'HEALTH2025': 'wellness-clinic-2025',
+    'MENU2025': 'tech-solutions-co-2025',
+    'REST2025': 'corner-bistro-2025',
+    'PROP2025': 'riverside-apartments-2025',
+    // Template Variation Examples
+    'FESTMOD2025': 'festival-modern-2025',
+    'FESTCLAS2025': 'festival-classic-2025',
+    'FESTMIN2025': 'festival-minimal-2025',
+    'FESTVIB2025': 'festival-vibrant-2025',
     // Add more access codes here as needed
   };
 
@@ -95,8 +105,13 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     const configFileNames = [
       'wildroots-festival-2025.json',
       'peakform-physio-2025.json',
-      'smith-jones-wedding-2024.json', 
-      'demo-festival.json'
+      'smith-jones-wedding-2024.json',
+      'demo-festival.json',
+      'summer-music-festival-2025.json',
+      'wellness-clinic-2025.json',
+      'tech-solutions-co-2025.json',
+      'corner-bistro-2025.json',
+      'riverside-apartments-2025.json',
       // Add more as needed, or make this dynamic
     ];
 

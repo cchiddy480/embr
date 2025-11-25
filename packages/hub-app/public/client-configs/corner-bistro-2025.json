@@ -1,0 +1,136 @@
+{
+  "clientId": "corner-bistro-2025",
+  "accessCode": "REST2025",
+  "name": "Corner Bistro",
+  "description": "Your digital menu and ordering companion",
+  "version": "1.0",
+  "expiry": "2026-12-31",
+  "template": "restaurant",
+  "theme": {
+    "colors": {
+      "primary": "#DC2626",
+      "secondary": "#F59E0B",
+      "background": "#FFFFFF",
+      "surface": "#F8F9FA",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#1A1A1A",
+      "textSecondary": "#6B7280",
+      "border": "#E5E7EB"
+    },
+    "typography": {
+      "heading": "Inter",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "label": "Home",
+      "icon": "home",
+      "path": "/"
+    },
+    {
+      "id": "menu",
+      "label": "Menu",
+      "icon": "book-open",
+      "path": "/menu"
+    },
+    {
+      "id": "specials",
+      "label": "Specials",
+      "icon": "star",
+      "path": "/specials"
+    },
+    {
+      "id": "location",
+      "label": "Location",
+      "icon": "location",
+      "path": "/location"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "icon": "mail",
+      "path": "/contact"
+    }
+  ],
+  "features": {
+    "qrCode": true,
+    "pushNotifications": true,
+    "offlineMode": true,
+    "analytics": true
+  },
+  "content": {
+    "home": {
+      "title": "Welcome to Corner Bistro",
+      "subtitle": "Exceptional dining experience",
+      "description": "Explore our menu, daily specials, and reserve your table today."
+    },
+    "menu": {
+      "title": "Our Menu",
+      "description": "Fresh ingredients, expertly prepared",
+      "categories": [
+        "Starters",
+        "Mains",
+        "Desserts",
+        "Beverages",
+        "Wine List"
+      ],
+      "items": [],
+      "allergens": [
+        "Gluten",
+        "Dairy",
+        "Nuts",
+        "Shellfish",
+        "Eggs"
+      ],
+      "dietary": [
+        "Vegetarian",
+        "Vegan",
+        "Gluten-Free"
+      ]
+    },
+    "specials": {
+      "title": "Today's Specials",
+      "description": "Chef's recommendations and seasonal offerings",
+      "specials": []
+    },
+    "location": {
+      "title": "Visit Us",
+      "description": "Find us and plan your visit",
+      "address": "123 Food Street, City, Postcode",
+      "phone": "(555) 123-4567",
+      "hours": {
+        "monday": "Closed",
+        "tuesday": "5:00 PM - 10:00 PM",
+        "wednesday": "5:00 PM - 10:00 PM",
+        "thursday": "5:00 PM - 10:00 PM",
+        "friday": "5:00 PM - 11:00 PM",
+        "saturday": "12:00 PM - 11:00 PM",
+        "sunday": "12:00 PM - 9:00 PM"
+      },
+      "parking": "Street parking available nearby",
+      "accessibility": "Wheelchair accessible entrance and facilities"
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "description": "Reservations, events, and inquiries",
+      "phone": "(555) 123-4567",
+      "email": "info@corner bistro.com",
+      "reservations": "Call or email to reserve your table",
+      "events": "We host private events! Contact us for details."
+    }
+  },
+  "pushNotifications": {
+    "enabled": true,
+    "topics": [
+      "daily_specials",
+      "events",
+      "promotions"
+    ]
+  },
+  "analytics": {
+    "enabled": true,
+    "trackingId": ""
+  }
+}

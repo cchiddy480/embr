@@ -1,0 +1,42 @@
+{
+  "clientId": "festival-minimal-2025",
+  "accessCode": "FESTMIN2025",
+  "name": "Minimal Festival",
+  "description": "Ultra-clean event experience with maximum whitespace",
+  "version": "1.0",
+  "expiry": "2026-12-31",
+  "template": "festival",
+  "variation": "minimal",
+  "theme": {
+    "colors": {
+      "primary": "#000000",
+      "secondary": "#666666",
+      "background": "#FFFFFF",
+      "surface": "#FAFAFA",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#000000",
+      "textSecondary": "#999999",
+      "border": "#EEEEEE"
+    },
+    "typography": {
+      "heading": "Inter",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    {"id": "home", "label": "Home", "icon": "home", "path": "/"},
+    {"id": "schedule", "label": "Schedule", "icon": "calendar", "path": "/schedule"},
+    {"id": "vendors", "label": "Vendors", "icon": "store", "path": "/vendors"}
+  ],
+  "features": {"qrCode": true, "pushNotifications": true, "offlineMode": true, "analytics": true},
+  "content": {
+    "home": {
+      "title": "Minimal Festival 2025",
+      "description": "Stripped-back design with light fonts, no shadows, sharp edges"
+    },
+    "schedule": {"events": []},
+    "vendors": {"categories": ["Food", "Art", "Services"]}
+  },
+  "pushNotifications": {"enabled": true, "topics": []},
+  "analytics": {"enabled": true}
+}

@@ -1,0 +1,42 @@
+{
+  "clientId": "festival-modern-2025",
+  "accessCode": "FESTMOD2025",
+  "name": "Modern Festival",
+  "description": "Contemporary event experience with clean design",
+  "version": "1.0",
+  "expiry": "2026-12-31",
+  "template": "festival",
+  "variation": "modern",
+  "theme": {
+    "colors": {
+      "primary": "#3B6A4C",
+      "secondary": "#D98C65",
+      "background": "#FFFFFF",
+      "surface": "#F8F9FA",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#1A1A1A",
+      "textSecondary": "#6B7280",
+      "border": "#E5E7EB"
+    },
+    "typography": {
+      "heading": "Inter",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    {"id": "home", "label": "Home", "icon": "home", "path": "/"},
+    {"id": "schedule", "label": "Schedule", "icon": "calendar", "path": "/schedule"},
+    {"id": "vendors", "label": "Vendors", "icon": "store", "path": "/vendors"}
+  ],
+  "features": {"qrCode": true, "pushNotifications": true, "offlineMode": true, "analytics": true},
+  "content": {
+    "home": {
+      "title": "Modern Festival 2025",
+      "description": "Contemporary design with balanced spacing and subtle animations"
+    },
+    "schedule": {"events": []},
+    "vendors": {"categories": ["Food", "Art", "Services"]}
+  },
+  "pushNotifications": {"enabled": true, "topics": []},
+  "analytics": {"enabled": true}
+}

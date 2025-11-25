@@ -1,0 +1,131 @@
+{
+  "clientId": "riverside-apartments-2025",
+  "accessCode": "PROP2025",
+  "name": "Riverside Apartments",
+  "description": "Your digital property showcase and information hub",
+  "version": "1.0",
+  "expiry": "2026-12-31",
+  "template": "property",
+  "theme": {
+    "colors": {
+      "primary": "#059669",
+      "secondary": "#0891B2",
+      "background": "#FFFFFF",
+      "surface": "#F8F9FA",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#1A1A1A",
+      "textSecondary": "#6B7280",
+      "border": "#E5E7EB"
+    },
+    "typography": {
+      "heading": "Inter",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "label": "Home",
+      "icon": "home",
+      "path": "/"
+    },
+    {
+      "id": "properties",
+      "label": "Properties",
+      "icon": "building",
+      "path": "/properties"
+    },
+    {
+      "id": "features",
+      "label": "Features",
+      "icon": "star",
+      "path": "/features"
+    },
+    {
+      "id": "location",
+      "label": "Location",
+      "icon": "location",
+      "path": "/location"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "icon": "mail",
+      "path": "/contact"
+    }
+  ],
+  "features": {
+    "qrCode": true,
+    "pushNotifications": false,
+    "offlineMode": true,
+    "analytics": true
+  },
+  "content": {
+    "home": {
+      "title": "Welcome to Riverside Apartments",
+      "subtitle": "Your perfect space awaits",
+      "description": "Explore our properties, amenities, and neighborhood features."
+    },
+    "properties": {
+      "title": "Our Properties",
+      "description": "Browse available properties and find your ideal space",
+      "filterOptions": [
+        "Type",
+        "Bedrooms",
+        "Price Range",
+        "Availability"
+      ],
+      "propertyTypes": [
+        "Studio",
+        "1 Bedroom",
+        "2 Bedroom",
+        "3 Bedroom",
+        "Penthouse"
+      ],
+      "properties": []
+    },
+    "features": {
+      "title": "Property Features",
+      "description": "Discover what makes our properties special",
+      "categories": [
+        "Amenities",
+        "Building Features",
+        "Unit Features",
+        "Sustainability"
+      ],
+      "amenities": []
+    },
+    "location": {
+      "title": "Location & Neighborhood",
+      "description": "Perfectly situated for modern living",
+      "address": "123 Property Street, City, Postcode",
+      "coordinates": {
+        "lat": 51.5074,
+        "lng": -0.1278
+      },
+      "nearby": {
+        "transit": "5 minutes walk to tube station",
+        "shopping": "Local shops and supermarkets within 10 minutes",
+        "parks": "Beautiful park 2 minutes away",
+        "schools": "Excellent schools in the area"
+      },
+      "neighborhood": "A vibrant community with excellent transport links and local amenities."
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "description": "Schedule a viewing or ask us anything",
+      "phone": "(555) 123-4567",
+      "email": "info@riverside apartments.com",
+      "hours": "Monday - Saturday: 9:00 AM - 6:00 PM\nSunday: 10:00 AM - 4:00 PM",
+      "viewings": "Book a viewing by phone, email, or through our contact form"
+    }
+  },
+  "pushNotifications": {
+    "enabled": false,
+    "topics": []
+  },
+  "analytics": {
+    "enabled": true,
+    "trackingId": ""
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "clientId": "wellness-clinic-2025",
+  "accessCode": "HEALTH2025",
+  "name": "Wellness Clinic",
+  "description": "Your digital companion for healthcare services, appointments, and wellness management",
+  "version": "1.0",
+  "expiry": "2026-12-31",
+  "template": "healthcare",
+  "theme": {
+    "colors": {
+      "primary": "#1A476F",
+      "secondary": "#80C1D8",
+      "background": "#FFFFFF",
+      "surface": "#F8F9FA",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#1A1A1A",
+      "textSecondary": "#6B7280",
+      "border": "#E5E7EB"
+    },
+    "typography": {
+      "heading": "Inter",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "label": "Home",
+      "icon": "home",
+      "path": "/"
+    },
+    {
+      "id": "appointments",
+      "label": "Appointments",
+      "icon": "calendar",
+      "path": "/appointments"
+    },
+    {
+      "id": "exercises",
+      "label": "Exercises",
+      "icon": "fitness",
+      "path": "/exercises"
+    },
+    {
+      "id": "clinic",
+      "label": "Clinic Info",
+      "icon": "location",
+      "path": "/clinic"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "icon": "mail",
+      "path": "/contact"
+    }
+  ],
+  "features": {
+    "qrCode": true,
+    "pushNotifications": true,
+    "offlineMode": false,
+    "analytics": true
+  },
+  "content": {
+    "home": {
+      "title": "Welcome to Wellness Clinic",
+      "subtitle": "Your health and wellness partner",
+      "description": "Access your appointments, exercise plans, and clinic information all in one place."
+    },
+    "appointments": {
+      "title": "My Appointments",
+      "description": "View and manage your upcoming appointments",
+      "upcoming": [],
+      "history": []
+    },
+    "exercises": {
+      "title": "Exercise Library",
+      "description": "Access your personalized exercise plans and rehabilitation routines",
+      "categories": [
+        "Lower Back",
+        "Shoulder",
+        "Knee",
+        "General Fitness"
+      ],
+      "exercises": []
+    },
+    "clinic": {
+      "title": "Clinic Information",
+      "description": "Everything you need to know about our clinic",
+      "hours": "Monday - Friday: 8:00 AM - 6:00 PM\nSaturday: 9:00 AM - 2:00 PM",
+      "location": "123 Health Street, Wellness City, WC 12345",
+      "phone": "(555) 123-4567",
+      "email": "info@wellness clinic.com"
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "description": "We're here to help with your health and wellness journey",
+      "emergency": "For emergencies, please call 911 or visit your nearest emergency room"
+    }
+  },
+  "pushNotifications": {
+    "enabled": true,
+    "topics": [
+      "appointment_reminders",
+      "exercise_tips",
+      "clinic_updates"
+    ]
+  },
+  "analytics": {
+    "enabled": true,
+    "trackingId": ""
+  }
+}

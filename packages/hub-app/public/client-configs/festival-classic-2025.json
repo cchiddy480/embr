@@ -1,0 +1,42 @@
+{
+  "clientId": "festival-classic-2025",
+  "accessCode": "FESTCLAS2025",
+  "name": "Classic Festival",
+  "description": "Timeless event experience with elegant serif fonts",
+  "version": "1.0",
+  "expiry": "2026-12-31",
+  "template": "festival",
+  "variation": "classic",
+  "theme": {
+    "colors": {
+      "primary": "#8B4513",
+      "secondary": "#D4AF37",
+      "background": "#F5F5DC",
+      "surface": "#FFFFFF",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#2C1810",
+      "textSecondary": "#6B5D4F",
+      "border": "#D4C5B9"
+    },
+    "typography": {
+      "heading": "Playfair Display",
+      "body": "Merriweather"
+    }
+  },
+  "navigation": [
+    {"id": "home", "label": "Home", "icon": "home", "path": "/"},
+    {"id": "schedule", "label": "Schedule", "icon": "calendar", "path": "/schedule"},
+    {"id": "vendors", "label": "Vendors", "icon": "store", "path": "/vendors"}
+  ],
+  "features": {"qrCode": true, "pushNotifications": true, "offlineMode": true, "analytics": true},
+  "content": {
+    "home": {
+      "title": "Classic Festival 2025",
+      "description": "Elegant serif typography with deep shadows and generous spacing"
+    },
+    "schedule": {"events": []},
+    "vendors": {"categories": ["Food", "Art", "Services"]}
+  },
+  "pushNotifications": {"enabled": true, "topics": []},
+  "analytics": {"enabled": true}
+}

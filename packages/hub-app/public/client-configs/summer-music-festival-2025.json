@@ -1,0 +1,110 @@
+{
+  "clientId": "summer-music-festival-2025",
+  "accessCode": "FEST2025",
+  "name": "Summer Music Festival",
+  "description": "Your digital companion for an unforgettable event experience",
+  "version": "1.0",
+  "expiry": "2026-12-31",
+  "template": "festival",
+  "theme": {
+    "colors": {
+      "primary": "#3B6A4C",
+      "secondary": "#D98C65",
+      "background": "#FFFFFF",
+      "surface": "#F8F9FA",
+      "surfaceElevated": "#FFFFFF",
+      "text": "#1A1A1A",
+      "textSecondary": "#6B7280",
+      "border": "#E5E7EB"
+    },
+    "typography": {
+      "heading": "Inter",
+      "body": "Inter"
+    }
+  },
+  "navigation": [
+    {
+      "id": "home",
+      "label": "Home",
+      "icon": "home",
+      "path": "/"
+    },
+    {
+      "id": "schedule",
+      "label": "Schedule",
+      "icon": "calendar",
+      "path": "/schedule"
+    },
+    {
+      "id": "vendors",
+      "label": "Vendors",
+      "icon": "store",
+      "path": "/vendors"
+    },
+    {
+      "id": "map",
+      "label": "Map",
+      "icon": "location",
+      "path": "/map"
+    },
+    {
+      "id": "info",
+      "label": "Info",
+      "icon": "info",
+      "path": "/info"
+    }
+  ],
+  "features": {
+    "qrCode": true,
+    "pushNotifications": true,
+    "offlineMode": true,
+    "analytics": true
+  },
+  "content": {
+    "home": {
+      "title": "Welcome to Summer Music Festival",
+      "subtitle": "Your event experience starts here",
+      "description": "Discover everything this amazing event has to offer through our interactive guide."
+    },
+    "schedule": {
+      "title": "Event Schedule",
+      "description": "Never miss a moment with our detailed event timeline",
+      "events": []
+    },
+    "vendors": {
+      "title": "Vendors & Exhibitors",
+      "description": "Explore all the amazing vendors and exhibitors at our event",
+      "categories": [
+        "Food & Drink",
+        "Art & Crafts",
+        "Services",
+        "Entertainment"
+      ],
+      "vendors": []
+    },
+    "map": {
+      "title": "Event Map",
+      "description": "Navigate the event with our interactive map",
+      "locations": []
+    },
+    "info": {
+      "title": "Event Information",
+      "description": "Everything you need to know about the event",
+      "parking": "Free parking available on-site",
+      "weather": "Event is rain or shine!",
+      "contact": "For questions, visit the information booth"
+    }
+  },
+  "pushNotifications": {
+    "enabled": true,
+    "topics": [
+      "event_updates",
+      "schedule_changes",
+      "special_announcements"
+    ]
+  },
+  "analytics": {
+    "enabled": true,
+    "trackingId": ""
+  }
+}
