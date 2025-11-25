@@ -108,10 +108,14 @@ export default function WellnessTimerTemplate() {
           <div className="max-w-4xl mx-auto px-6 py-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">🧘</div>
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-600 rounded-full flex items-center justify-center shadow-lg">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <path d="M12 2L12 22M12 2C10 4 8 6 8 10M12 2C14 4 16 6 16 10M8 10C8 14 10 18 12 22M16 10C16 14 14 18 12 22" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-green-900">Breathe & Relax</h1>
-                  <p className="text-sm text-green-700">Guided breathing exercises</p>
+                  <h1 className="text-2xl font-bold text-green-900">Mindful Breathing</h1>
+                  <p className="text-sm text-green-700">Guided breathwork & meditation</p>
                 </div>
               </div>
               <Link href="/templates-showcase" className="text-sm px-4 py-2 bg-white hover:bg-green-50 rounded-full font-medium transition-colors border border-green-200">
@@ -242,28 +246,45 @@ export default function WellnessTimerTemplate() {
               <h3 className="text-2xl font-bold mb-6">Benefits of Breathing Exercises</h3>
               <EmbrKitGrid cols={1} gap={4} className="md:grid-cols-2">
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">✨</span>
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
                   <div>
                     <h4 className="font-bold mb-1">Reduce Stress</h4>
                     <p className="text-sm text-green-100">Calm your mind and reduce anxiety</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">💪</span>
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 16v-4M12 8h.01"/>
+                    </svg>
+                  </div>
                   <div>
                     <h4 className="font-bold mb-1">Improve Focus</h4>
                     <p className="text-sm text-green-100">Enhance concentration and clarity</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">❤️</span>
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
                   <div>
                     <h4 className="font-bold mb-1">Better Sleep</h4>
                     <p className="text-sm text-green-100">Prepare your body for restful sleep</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">🌟</span>
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
                   <div>
                     <h4 className="font-bold mb-1">Energy Boost</h4>
                     <p className="text-sm text-green-100">Increase oxygen flow and vitality</p>

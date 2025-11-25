@@ -88,12 +88,20 @@ export default function WellnessZen() {
 
           <div className="mt-20 grid grid-cols-2 gap-6 text-center">
             <div className="bg-white/60 backdrop-blur rounded-2xl p-6">
-              <div className="text-3xl mb-2">🧘</div>
+              <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-violet-500 to-purple-500 rounded-full flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                  <path d="M12 2L12 22M12 2C10 4 8 6 8 10M12 2C14 4 16 6 16 10M8 10C8 14 10 18 12 22M16 10C16 14 14 18 12 22" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
               <h4 className="font-semibold text-gray-900 mb-1">Meditation</h4>
               <p className="text-sm text-gray-600">Daily mindfulness practice</p>
             </div>
             <div className="bg-white/60 backdrop-blur rounded-2xl p-6">
-              <div className="text-3xl mb-2">💆</div>
+              <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-violet-500 to-purple-500 rounded-full flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
               <h4 className="font-semibold text-gray-900 mb-1">Relaxation</h4>
               <p className="text-sm text-gray-600">Stress relief techniques</p>
             </div>
