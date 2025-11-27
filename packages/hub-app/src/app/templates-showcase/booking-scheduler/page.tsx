@@ -81,13 +81,17 @@ export default function BookingSchedulerTemplate() {
           <div className="max-w-5xl mx-auto px-6 py-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="text-3xl">💆</div>
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-violet-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <path d="M9 2v2m6-2v2M9 14s1.5-2 3-2 3 2 3 2M5 10a7 7 0 0114 0M5 10v10a2 2 0 002 2h10a2 2 0 002-2V10" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-purple-900">Serenity Spa</h1>
-                  <p className="text-sm text-purple-700">Book Your Appointment</p>
+                  <h1 className="text-2xl font-bold text-purple-900">Serenity Spa & Wellness</h1>
+                  <p className="text-sm text-purple-700 font-medium">Book Your Appointment</p>
                 </div>
               </div>
-              <Link href="/templates-showcase" className="text-sm px-4 py-2 bg-white hover:bg-purple-50 rounded-lg font-medium transition-colors border border-purple-200">
+              <Link href="/templates-showcase" className="text-sm px-5 py-2 bg-white hover:bg-purple-50 rounded-lg font-semibold transition-colors border border-purple-200">
                 Back
               </Link>
             </div>
@@ -159,7 +163,12 @@ export default function BookingSchedulerTemplate() {
                     <div className={`space-y-1 text-sm ${
                       selectedService === service.id ? 'text-purple-100' : 'text-purple-700'
                     }`}>
-                      <p>⏱️ {service.duration}</p>
+                      <div className="flex items-center gap-1.5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <span>{service.duration}</span>
+                      </div>
                       <p className="text-lg font-bold">{service.price}</p>
                     </div>
                   </button>

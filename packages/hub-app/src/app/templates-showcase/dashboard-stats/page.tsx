@@ -27,10 +27,10 @@ const theme = {
 }
 
 const kpiData = [
-  { label: 'Total Revenue', value: '$124,500', change: { value: '+12.5%', type: 'positive' as const } },
-  { label: 'Active Users', value: '2,847', change: { value: '+8.2%', type: 'positive' as const } },
-  { label: 'Conversion Rate', value: '3.24%', change: { value: '-0.5%', type: 'negative' as const } },
-  { label: 'Avg. Order Value', value: '$87.50', change: { value: '+5.1%', type: 'positive' as const } }
+  { label: 'Total Revenue', value: '$847,350', change: { value: '+18.4%', type: 'positive' as const } },
+  { label: 'Active Customers', value: '12,847', change: { value: '+12.8%', type: 'positive' as const } },
+  { label: 'Conversion Rate', value: '4.87%', change: { value: '+0.3%', type: 'positive' as const } },
+  { label: 'Avg. Order Value', value: '$142.80', change: { value: '+7.6%', type: 'positive' as const } }
 ]
 
 const performanceMetrics = [
@@ -48,10 +48,11 @@ const recentActivity = [
 ]
 
 const topProducts = [
-  { name: 'Premium Widget', sales: 245, revenue: '$12,250', trend: 'up' },
-  { name: 'Starter Bundle', sales: 189, revenue: '$9,450', trend: 'up' },
-  { name: 'Pro Package', sales: 156, revenue: '$15,600', trend: 'up' },
-  { name: 'Basic Item', sales: 134, revenue: '$2,680', trend: 'down' }
+  { name: 'Enterprise Solution', sales: 487, revenue: '$73,050', trend: 'up' },
+  { name: 'Professional Plan', sales: 892, revenue: '$62,440', trend: 'up' },
+  { name: 'Business Package', sales: 654, revenue: '$45,780', trend: 'up' },
+  { name: 'Starter Package', sales: 1203, revenue: '$36,090', trend: 'up' },
+  { name: 'Consulting Services', sales: 89, revenue: '$26,700', trend: 'up' }
 ]
 
 export default function DashboardStatsTemplate() {
@@ -62,9 +63,16 @@ export default function DashboardStatsTemplate() {
         <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-5">
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-slate-900">Business Analytics</h1>
-                <p className="text-sm text-slate-600">Real-time performance dashboard</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-500 rounded-lg flex items-center justify-center">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                    <path d="M21 21H4.6c-.56 0-.84 0-1.054-.109a1 1 0 01-.437-.437C3 20.24 3 19.96 3 19.4V3m4 12v3m4-6v6m4-9v9m4-12v12" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-slate-900">Velocity Commerce</h1>
+                  <p className="text-sm text-slate-600">Real-time Analytics Dashboard</p>
+                </div>
               </div>
               <div className="flex items-center gap-4">
                 <select className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700">
@@ -154,11 +162,20 @@ export default function DashboardStatsTemplate() {
                           </div>
                           <div className="text-right">
                             <p className="font-bold text-slate-900">{product.revenue}</p>
-                            <span className={`text-xs font-semibold ${
+                            <div className={`flex items-center gap-1 text-xs font-semibold ${
                               product.trend === 'up' ? 'text-green-600' : 'text-red-600'
                             }`}>
-                              {product.trend === 'up' ? '↗' : '↘'} Trending
-                            </span>
+                              {product.trend === 'up' ? (
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                </svg>
+                              ) : (
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/>
+                                </svg>
+                              )}
+                              <span>Trending</span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -176,9 +193,13 @@ export default function DashboardStatsTemplate() {
               <EmbrKitCardContent className="p-8">
                 <div className="aspect-video bg-slate-100 rounded-lg flex items-center justify-center">
                   <div className="text-center text-slate-500">
-                    <div className="text-6xl mb-4">📊</div>
-                    <p className="font-medium">Revenue chart visualization</p>
-                    <p className="text-sm mt-2">Connect your data source to display live charts</p>
+                    <div className="w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M21 21H4.6c-.56 0-.84 0-1.054-.109a1 1 0 01-.437-.437C3 20.24 3 19.96 3 19.4V3m4 12v3m4-6v6m4-9v9m4-12v12" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <p className="font-medium">Revenue Chart Visualization</p>
+                    <p className="text-sm mt-2">Connect your data source to display live charts and trends</p>
                   </div>
                 </div>
               </EmbrKitCardContent>
@@ -189,19 +210,37 @@ export default function DashboardStatsTemplate() {
           <section className="mt-10">
             <EmbrKitGrid cols={2} gap={4} className="md:grid-cols-4">
               <button className="p-6 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-blue-300 transition-all text-center">
-                <div className="text-3xl mb-2">📥</div>
+                <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center text-blue-600">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m14-7l-5-5m0 0L7 8m5-5v12" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <p className="font-semibold text-slate-900 text-sm">Export Data</p>
               </button>
               <button className="p-6 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-blue-300 transition-all text-center">
-                <div className="text-3xl mb-2">📄</div>
+                <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center text-blue-600">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zm-1 0l5 5m-4 3H9m6 4H9m2-8H9" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <p className="font-semibold text-slate-900 text-sm">Generate Report</p>
               </button>
               <button className="p-6 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-blue-300 transition-all text-center">
-                <div className="text-3xl mb-2">⚙️</div>
+                <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center text-blue-600">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <p className="font-semibold text-slate-900 text-sm">Settings</p>
               </button>
               <button className="p-6 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-blue-300 transition-all text-center">
-                <div className="text-3xl mb-2">📧</div>
+                <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center text-blue-600">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M22 6l-10 7L2 6" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <p className="font-semibold text-slate-900 text-sm">Email Report</p>
               </button>
             </EmbrKitGrid>
