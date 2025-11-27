@@ -27,12 +27,43 @@ const theme = {
 }
 
 const locationCategories = [
-  { id: 'all', name: 'All Locations', icon: '📍' },
-  { id: 'dining', name: 'Dining', icon: '🍽️' },
-  { id: 'amenities', name: 'Amenities', icon: '🏊' },
-  { id: 'wellness', name: 'Wellness', icon: '💆' },
-  { id: 'activities', name: 'Activities', icon: '⛳' }
+  { id: 'all', name: 'All Locations' },
+  { id: 'dining', name: 'Dining' },
+  { id: 'amenities', name: 'Amenities' },
+  { id: 'wellness', name: 'Wellness' },
+  { id: 'activities', name: 'Activities' }
 ]
+
+const getCategoryIcon = (categoryId: string) => {
+  const icons: Record<string, JSX.Element> = {
+    all: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+      </svg>
+    ),
+    dining: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/>
+      </svg>
+    ),
+    amenities: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M22 21c-1.11 0-1.73-.37-2.18-.64-.37-.22-.6-.36-1.15-.36-.56 0-.78.13-1.15.36-.46.27-1.07.64-2.18.64s-1.73-.37-2.18-.64c-.37-.22-.6-.36-1.15-.36-.56 0-.78.13-1.15.36-.46.27-1.08.64-2.19.64-1.11 0-1.73-.37-2.18-.64-.37-.23-.6-.36-1.15-.36s-.78.13-1.15.36c-.46.27-1.08.64-2.19.64v-2c.56 0 .78-.13 1.15-.36.46-.27 1.08-.64 2.19-.64s1.73.37 2.18.64c.37.23.59.36 1.15.36.56 0 .78-.13 1.15-.36.46-.27 1.08-.64 2.19-.64 1.11 0 1.73.37 2.18.64.37.22.6.36 1.15.36s.78-.13 1.15-.36c.45-.27 1.07-.64 2.18-.64s1.73.37 2.18.64c.37.23.59.36 1.15.36v2zm0-4.5c-1.11 0-1.73-.37-2.18-.64-.37-.22-.6-.36-1.15-.36-.56 0-.78.13-1.15.36-.45.27-1.07.64-2.18.64s-1.73-.37-2.18-.64c-.37-.22-.6-.36-1.15-.36-.56 0-.78.13-1.15.36-.45.27-1.07.64-2.18.64s-1.73-.37-2.18-.64c-.37-.22-.6-.36-1.15-.36s-.78.13-1.15.36c-.47.27-1.09.64-2.2.64v-2c.56 0 .78-.13 1.15-.36.45-.27 1.07-.64 2.18-.64s1.73.37 2.18.64c.37.22.6.36 1.15.36.56 0 .78-.13 1.15-.36.45-.27 1.07-.64 2.18-.64s1.73.37 2.18.64c.37.22.6.36 1.15.36s.78-.13 1.15-.36c.45-.27 1.07-.64 2.18-.64s1.73.37 2.18.64c.37.22.6.36 1.15.36v2zM8.67 12c.56 0 .78-.13 1.15-.36.46-.27 1.08-.64 2.19-.64 1.11 0 1.73.37 2.18.64.37.22.6.36 1.15.36.56 0 .78-.13 1.15-.36.45-.27 1.07-.64 2.18-.64s1.73.37 2.18.64c.37.22.6.36 1.15.36v-2c-1.11 0-1.73-.37-2.18-.64-.37-.22-.6-.36-1.15-.36-.56 0-.78.13-1.15.36-.45.27-1.07.64-2.18.64s-1.73-.37-2.18-.64c-.37-.22-.6-.36-1.15-.36-.56 0-.78.13-1.15.36-.45.27-1.07.64-2.18.64s-1.73-.37-2.18-.64c-.37-.22-.6-.36-1.15-.36s-.78.13-1.15.36c-.47.27-1.09.64-2.2.64V12c.56 0 .78-.13 1.15-.36.45-.27 1.07-.64 2.18-.64s1.73.37 2.18.64c.37.22.6.36 1.15.36z"/>
+      </svg>
+    ),
+    wellness: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+      </svg>
+    ),
+    activities: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/>
+      </svg>
+    )
+  }
+  return icons[categoryId] || icons.all
+}
 
 const locations = [
   { id: 1, name: 'Main Restaurant', type: 'dining', distance: '0.1 mi', description: 'Fine dining with ocean views', floor: 'Ground Floor', hours: '6 AM - 11 PM' },
@@ -72,13 +103,18 @@ export default function LocationGuideTemplate() {
           <div className="max-w-7xl mx-auto px-6 py-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="text-3xl">🏖️</div>
+                <div className="w-12 h-12 bg-gradient-to-br from-cyan-600 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="12" cy="9" r="2.5" fill="white"/>
+                  </svg>
+                </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Coastal Resort</h1>
-                  <p className="text-sm text-gray-600">Location Guide & Map</p>
+                  <h1 className="text-2xl font-bold text-gray-900">Azure Bay Resort</h1>
+                  <p className="text-sm text-gray-600 font-medium">Property Map & Directory</p>
                 </div>
               </div>
-              <Link href="/templates-showcase" className="text-sm px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors">
+              <Link href="/templates-showcase" className="text-sm px-5 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg font-semibold transition-colors">
                 Back
               </Link>
             </div>
@@ -92,8 +128,10 @@ export default function LocationGuideTemplate() {
             <EmbrKitCard variant="elevated" className="overflow-hidden">
               <div className="relative aspect-video bg-gradient-to-br from-cyan-100 via-blue-50 to-teal-100">
                 {/* Map Visual Representation */}
-                <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-20">
-                  🗺️
+                <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                  <svg width="200" height="200" viewBox="0 0 24 24" fill="currentColor" className="text-cyan-600">
+                    <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
+                  </svg>
                 </div>
 
                 {/* Map Markers */}
@@ -112,7 +150,9 @@ export default function LocationGuideTemplate() {
                           : 'bg-white text-cyan-600 border-2 border-cyan-600'
                       }`}
                     >
-                      📍
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                      </svg>
                     </div>
                     <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
                       <span className="px-3 py-1 bg-white shadow-lg rounded-full text-xs font-semibold text-gray-700 border border-gray-200">
@@ -150,13 +190,13 @@ export default function LocationGuideTemplate() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-5 py-3 rounded-lg font-semibold transition-all ${
+                  className={`flex items-center gap-2 px-5 py-3 rounded-lg font-semibold transition-all ${
                     selectedCategory === category.id
                       ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/30'
                       : 'bg-white text-gray-700 hover:bg-cyan-50 border border-gray-200'
                   }`}
                 >
-                  <span className="mr-2">{category.icon}</span>
+                  {getCategoryIcon(category.id)}
                   {category.name}
                 </button>
               ))}
@@ -177,9 +217,12 @@ export default function LocationGuideTemplate() {
                       <h3 className="text-xl font-bold text-gray-900 mb-1">
                         {location.name}
                       </h3>
-                      <p className="text-sm text-cyan-600 font-semibold">
-                        📍 {location.distance} away
-                      </p>
+                      <div className="flex items-center gap-1 text-sm text-cyan-600 font-semibold">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>{location.distance} away</span>
+                      </div>
                     </div>
                     <span className="px-3 py-1 bg-cyan-100 text-cyan-700 text-xs font-bold rounded-full">
                       {locationCategories.find(c => c.id === location.type)?.name}
@@ -190,11 +233,15 @@ export default function LocationGuideTemplate() {
 
                   <div className="space-y-2 text-sm text-gray-500 mb-4">
                     <div className="flex items-center gap-2">
-                      <span>🏢</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+                      </svg>
                       <span>{location.floor}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span>🕐</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                      </svg>
                       <span>{location.hours}</span>
                     </div>
                   </div>
@@ -213,16 +260,20 @@ export default function LocationGuideTemplate() {
           </EmbrKitGrid>
 
           {/* Info Banner */}
-          <div className="mt-12 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl p-8 text-white">
+          <div className="mt-12 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl p-8 text-white shadow-xl">
             <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="text-6xl">📱</div>
+              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
               <div className="flex-1 text-center md:text-left">
                 <h3 className="text-2xl font-bold mb-2">Need Assistance?</h3>
                 <p className="text-cyan-100">
                   Our concierge team is available 24/7 to help you navigate the property and make reservations.
                 </p>
               </div>
-              <EmbrKitButton variant="secondary" className="bg-white text-cyan-600 hover:bg-cyan-50 whitespace-nowrap">
+              <EmbrKitButton variant="secondary" className="bg-white text-cyan-600 hover:bg-cyan-50 whitespace-nowrap px-8 py-3 font-semibold">
                 Contact Concierge
               </EmbrKitButton>
             </div>

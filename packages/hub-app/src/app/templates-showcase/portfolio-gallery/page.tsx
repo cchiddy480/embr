@@ -33,15 +33,18 @@ const categories = [
 ]
 
 const portfolio = [
-  { id: 1, title: 'Golden Hour', category: 'portrait', year: '2024', featured: true, emoji: '🌅', desc: 'Natural light portrait series' },
-  { id: 2, title: 'City Lights', category: 'urban', year: '2024', emoji: '🏙️', desc: 'Urban architecture at night' },
-  { id: 3, title: 'Mountain Vista', category: 'landscape', year: '2023', emoji: '🏔️', desc: 'Alpine landscape collection' },
-  { id: 4, title: 'Reflections', category: 'abstract', year: '2024', featured: true, emoji: '💧', desc: 'Water reflection series' },
-  { id: 5, title: 'Street Stories', category: 'urban', year: '2023', emoji: '🚶', desc: 'Urban life documentation' },
-  { id: 6, title: 'Natural Beauty', category: 'portrait', year: '2024', emoji: '👤', desc: 'Studio portrait series' },
-  { id: 7, title: 'Coastal Dreams', category: 'landscape', year: '2023', emoji: '🌊', desc: 'Ocean photography' },
-  { id: 8, title: 'Geometric', category: 'abstract', year: '2024', emoji: '◼️', desc: 'Abstract compositions' },
-  { id: 9, title: 'Skyline', category: 'urban', year: '2024', emoji: '🌆', desc: 'City skyline series' }
+  { id: 1, title: 'Golden Hour', category: 'portrait', year: '2024', featured: true, desc: 'Natural light portrait series captured during the magical golden hour' },
+  { id: 2, title: 'City Lights', category: 'urban', year: '2024', desc: 'Urban architecture at night showcasing the pulse of city life' },
+  { id: 3, title: 'Mountain Vista', category: 'landscape', year: '2023', desc: 'Alpine landscape collection from the Rocky Mountains' },
+  { id: 4, title: 'Reflections', category: 'abstract', year: '2024', featured: true, desc: 'Water reflection series exploring symmetry and distortion' },
+  { id: 5, title: 'Street Stories', category: 'urban', year: '2023', desc: 'Urban life documentation capturing authentic human moments' },
+  { id: 6, title: 'Natural Beauty', category: 'portrait', year: '2024', desc: 'Studio portrait series emphasizing authentic expression' },
+  { id: 7, title: 'Coastal Dreams', category: 'landscape', year: '2023', desc: 'Ocean photography from the California coastline' },
+  { id: 8, title: 'Geometric', category: 'abstract', year: '2024', desc: 'Abstract compositions exploring form and negative space' },
+  { id: 9, title: 'Skyline', category: 'urban', year: '2024', desc: 'City skyline series documenting architectural evolution' },
+  { id: 10, title: 'Desert Light', category: 'landscape', year: '2024', desc: 'Southwest desert landscapes at dawn and dusk' },
+  { id: 11, title: 'Character Study', category: 'portrait', year: '2023', desc: 'Environmental portraits of everyday people' },
+  { id: 12, title: 'Motion', category: 'abstract', year: '2024', featured: true, desc: 'Long exposure experiments with movement and time' }
 ]
 
 export default function PortfolioGalleryTemplate() {
@@ -97,25 +100,29 @@ export default function PortfolioGalleryTemplate() {
                 key={item.id}
                 className="group cursor-pointer"
               >
-                <div className="relative aspect-square bg-gray-200 mb-4 overflow-hidden">
-                  {/* Image Placeholder with Emoji */}
-                  <div className="absolute inset-0 flex items-center justify-center text-8xl bg-gradient-to-br from-gray-100 to-gray-200">
-                    {item.emoji}
+                <div className="relative aspect-square bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 mb-4 overflow-hidden group-hover:shadow-2xl transition-shadow duration-300">
+                  {/* Image Placeholder Icon */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-24 h-24 text-gray-300">
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                      </svg>
+                    </div>
                   </div>
 
                   {/* Overlay on Hover */}
-                  <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <div className="text-center text-white p-6">
-                      <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
-                      <p className="text-sm text-gray-300 mb-4">{item.desc}</p>
-                      <span className="text-xs text-gray-400">{item.year}</span>
+                      <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+                      <p className="text-sm text-gray-300 mb-4 leading-relaxed">{item.desc}</p>
+                      <span className="text-xs text-gray-400 uppercase tracking-wider">{item.year}</span>
                     </div>
                   </div>
 
                   {/* Featured Badge */}
                   {item.featured && (
                     <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1 bg-white text-gray-900 text-xs font-bold uppercase tracking-wide">
+                      <span className="px-3 py-1.5 bg-white text-gray-900 text-xs font-bold uppercase tracking-wide shadow-lg">
                         Featured
                       </span>
                     </div>
