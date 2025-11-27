@@ -8,7 +8,11 @@ const templateCategories = [
     id: 'business',
     name: 'Business & Corporate',
     description: 'Professional layouts for companies and services',
-    icon: '💼',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+      </svg>
+    ),
     variations: [
       { id: 'modern-business', name: 'Modern', colors: { primary: '#0F766E', secondary: '#38F9E4' }, style: 'Clean gradient with teal accents' },
       { id: 'business-minimal', name: 'Minimal', colors: { primary: '#1F2937', secondary: '#6B7280' }, style: 'Sleek black and white design' },
@@ -20,7 +24,11 @@ const templateCategories = [
     id: 'events',
     name: 'Events & Schedules',
     description: 'Timeline-based designs for conferences and festivals',
-    icon: '🎪',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
+      </svg>
+    ),
     variations: [
       { id: 'event-schedule', name: 'Vibrant', colors: { primary: '#8B5CF6', secondary: '#EC4899' }, style: 'Bold purple and pink gradients' },
       { id: 'event-minimal', name: 'Minimal', colors: { primary: '#0F172A', secondary: '#475569' }, style: 'Clean monochrome timeline' },
@@ -32,7 +40,11 @@ const templateCategories = [
     id: 'menu',
     name: 'Menu & Catalog',
     description: 'Product showcase for restaurants and retail',
-    icon: '🍽️',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/>
+      </svg>
+    ),
     variations: [
       { id: 'menu-catalog', name: 'Bold', colors: { primary: '#DC2626', secondary: '#F59E0B' }, style: 'Appetizing red and orange' },
       { id: 'menu-elegant', name: 'Elegant', colors: { primary: '#1F2937', secondary: '#D4AF37' }, style: 'Sophisticated dark with gold' },
@@ -44,7 +56,11 @@ const templateCategories = [
     id: 'wellness',
     name: 'Wellness & Timers',
     description: 'Calming designs for meditation and breathing',
-    icon: '🧘',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+      </svg>
+    ),
     variations: [
       { id: 'wellness-timer', name: 'Serene', colors: { primary: '#059669', secondary: '#34D399' }, style: 'Peaceful green gradients' },
       { id: 'wellness-zen', name: 'Zen', colors: { primary: '#6366F1', secondary: '#A78BFA' }, style: 'Calming purple and lavender' },
@@ -56,7 +72,11 @@ const templateCategories = [
     id: 'location',
     name: 'Location & Maps',
     description: 'Map-centric for venues and properties',
-    icon: '🗺️',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+      </svg>
+    ),
     variations: [
       { id: 'location-guide', name: 'Modern', colors: { primary: '#0891B2', secondary: '#06B6D4' }, style: 'Clean cyan with maps' },
       { id: 'location-urban', name: 'Urban', colors: { primary: '#1F2937', secondary: '#6B7280' }, style: 'Metropolitan dark theme' },
@@ -67,7 +87,11 @@ const templateCategories = [
     id: 'portfolio',
     name: 'Portfolio & Gallery',
     description: 'Image-focused for creative professionals',
-    icon: '📸',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+      </svg>
+    ),
     variations: [
       { id: 'portfolio-gallery', name: 'Minimal', colors: { primary: '#1F2937', secondary: '#6B7280' }, style: 'Clean monochrome gallery' },
       { id: 'portfolio-bold', name: 'Bold', colors: { primary: '#DC2626', secondary: '#F59E0B' }, style: 'Statement red and gold' },
@@ -78,7 +102,11 @@ const templateCategories = [
     id: 'booking',
     name: 'Booking & Scheduler',
     description: 'Appointment systems for services',
-    icon: '📅',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+      </svg>
+    ),
     variations: [
       { id: 'booking-scheduler', name: 'Professional', colors: { primary: '#7C3AED', secondary: '#A78BFA' }, style: 'Modern purple gradients' },
       { id: 'booking-minimal', name: 'Minimal', colors: { primary: '#0F172A', secondary: '#475569' }, style: 'Simple clean interface' },
@@ -89,7 +117,11 @@ const templateCategories = [
     id: 'dashboard',
     name: 'Dashboard & Analytics',
     description: 'Data visualization and reporting',
-    icon: '📊',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 3v18h18V3H3zm8 16H5v-6h6v6zm0-8H5V5h6v6zm8 8h-6V5h6v14z"/>
+      </svg>
+    ),
     variations: [
       { id: 'dashboard-stats', name: 'Professional', colors: { primary: '#3B82F6', secondary: '#10B981' }, style: 'Clean data-focused blue' },
       { id: 'dashboard-dark', name: 'Dark', colors: { primary: '#1F2937', secondary: '#6366F1' }, style: 'Dark mode analytics' }
