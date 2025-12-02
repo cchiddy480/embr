@@ -232,9 +232,33 @@ For questions and support:
 - Review [Troubleshooting](./docs/troubleshooting.md)
 - Open an issue on GitHub
 
+## 🎨 Template Showcase
+
+Embr includes **27 professional template variations** across 8 categories, demonstrating the flexibility and customization capabilities of the EmbrKit design system.
+
+### Access the Showcase
+Visit `/templates-showcase` in your development environment to explore:
+- Interactive template gallery with category filtering
+- 27 unique variations with distinct branding and visual styles
+- Live demonstrations of EmbrKit theming capabilities
+
+### Template Categories
+1. **Business & Corporate** (4 variations) - Professional layouts for companies and services
+2. **Events & Schedules** (4 variations) - Timeline-based designs for conferences and festivals
+3. **Menu & Catalog** (4 variations) - Product showcase for restaurants and retail
+4. **Wellness & Timers** (4 variations) - Calming designs for meditation and breathing
+5. **Location & Maps** (3 variations) - Map-centric for venues and properties
+6. **Portfolio & Gallery** (3 variations) - Image-focused for creative professionals
+7. **Booking & Scheduler** (3 variations) - Appointment systems for services
+8. **Dashboard & Analytics** (2 variations) - Data visualization and reporting
+
+Each template features:
+- Unique color schemes and branding
+- Professional company identities
+- Realistic content and data
+- Full EmbrKit component integration
+- Responsive design patterns
+
 ---
 
-**Embr Platform** - Empowering events and businesses with beautiful, focused digital experiences. 
-=======
-# embr
->>>>>>> a8e760b3486b51ba5bb9a9d02e1ac9e1b50ee863
+**Embr Platform** - Empowering events and businesses with beautiful, focused digital experiences.
