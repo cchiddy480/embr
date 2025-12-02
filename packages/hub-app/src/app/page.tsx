@@ -15,7 +15,7 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   
-  const { config, loadConfig, clearConfig, isExpired, loading } = useClientConfig();
+  const { config, loadConfig, isExpired, loading } = useClientConfig();
   const searchParams = useSearchParams()
   const pathname = usePathname()
 

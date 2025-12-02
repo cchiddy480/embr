@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { EmbrKitProvider, EmbrKitContainer, EmbrKitGrid, EmbrKitCard, EmbrKitCardContent } from '@embr/ui'
+import { EmbrKitProvider, EmbrKitGrid, EmbrKitCard, EmbrKitCardContent } from '@embr/ui'
 
 const theme = {
   primaryColor: '#059669',

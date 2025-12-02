@@ -132,7 +132,7 @@ const templateCategories = [
 export default function TemplatesShowcase() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
-  const categories = ['all', ...templateCategories.map(c => c.id)]
+  const _categories = ['all', ...templateCategories.map(c => c.id)]
 
   const filteredCategories = selectedCategory === 'all'
     ? templateCategories

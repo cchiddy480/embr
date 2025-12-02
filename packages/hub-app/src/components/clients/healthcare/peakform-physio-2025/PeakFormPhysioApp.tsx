@@ -8,8 +8,8 @@ interface PeakFormPhysioAppProps {
 export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
   const [activeTab, setActiveTab] = useState('home');
   const [showNotifications, setShowNotifications] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState(null);
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [_selectedExercise, _setSelectedExercise] = useState(null);
+  const [_selectedArticle, _setSelectedArticle] = useState(null);
   const [bookmarkedExercises, setBookmarkedExercises] = useState(new Set(['ex-2']));
   const [bookmarkedArticles, setBookmarkedArticles] = useState(new Set(['article-2']));
 

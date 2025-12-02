@@ -4,13 +4,11 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import {
   EmbrKitProvider,
-  EmbrKitContainer,
   EmbrKitGrid,
   EmbrKitCard,
   EmbrKitCardContent,
   EmbrKitButton,
-  EmbrKitInput,
-  EmbrKitLocationCard
+  EmbrKitInput
 } from '@embr/ui'
 
 const theme = {

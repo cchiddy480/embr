@@ -56,7 +56,7 @@ const locations = [
 ]
 
 export default function LocationUrbanTemplate() {
-  const [selectedLocation, setSelectedLocation] = useState(locations[0])
+  const [_selectedLocation, _setSelectedLocation] = useState(locations[0])
 
   return (
     <EmbrKitProvider initialTheme={theme}>

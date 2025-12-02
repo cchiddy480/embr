@@ -4,7 +4,6 @@ import React from 'react'
 import Link from 'next/link'
 import {
   EmbrKitProvider,
-  EmbrKitContainer,
   EmbrKitGrid,
   EmbrKitCard,
   EmbrKitCardContent,

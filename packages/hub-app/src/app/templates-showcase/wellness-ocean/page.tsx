@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { EmbrKitProvider, EmbrKitContainer, EmbrKitButton } from '@embr/ui'
+import { EmbrKitProvider, EmbrKitButton } from '@embr/ui'
 
 const theme = {
   primaryColor: '#0891B2',
