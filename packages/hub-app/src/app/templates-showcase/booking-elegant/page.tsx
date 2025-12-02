@@ -9,8 +9,7 @@ import {
   EmbrKitCard,
   EmbrKitCardContent,
   EmbrKitButton,
-  EmbrKitInput,
-  EmbrKitBadge
+  EmbrKitInput
 } from '@embr/ui'
 
 const theme = {

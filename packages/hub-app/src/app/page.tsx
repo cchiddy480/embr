@@ -64,11 +64,6 @@ export default function HomePage() {
     }
   }
 
-  const handleBackToHome = () => {
-    clearConfig()
-    setError(null)
-  }
-
   // Auto-load when URL specifies a client, overriding cached config if different
   useEffect(() => {
     try {

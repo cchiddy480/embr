@@ -4,13 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import {
   EmbrKitProvider,
-  EmbrKitContainer,
-  EmbrKitGrid,
-  EmbrKitCard,
-  EmbrKitCardContent,
-  EmbrKitStatCard,
-  EmbrKitProgressBar,
-  EmbrKitDataList
+  EmbrKitGrid
 } from '@embr/ui'
 
 const theme = {

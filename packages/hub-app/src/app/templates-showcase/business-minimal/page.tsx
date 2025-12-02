@@ -5,13 +5,7 @@ import Link from 'next/link'
 import {
   EmbrKitProvider,
   EmbrKitContainer,
-  EmbrKitGrid,
-  EmbrKitCard,
-  EmbrKitCardContent,
-  EmbrKitButton,
-  EmbrKitStatCard,
-  EmbrKitInput,
-  EmbrKitTextarea
+  EmbrKitButton
 } from '@embr/ui'
 
 const theme = {

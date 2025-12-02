@@ -5,9 +5,6 @@ import Link from 'next/link'
 import {
   EmbrKitProvider,
   EmbrKitContainer,
-  EmbrKitGrid,
-  EmbrKitCard,
-  EmbrKitCardContent,
   EmbrKitButton,
   EmbrKitInput
 } from '@embr/ui'
