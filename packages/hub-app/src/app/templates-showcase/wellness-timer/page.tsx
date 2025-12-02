@@ -4,12 +4,10 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   EmbrKitProvider,
-  EmbrKitContainer,
   EmbrKitGrid,
   EmbrKitCard,
   EmbrKitCardContent,
-  EmbrKitButton,
-  EmbrKitProgressCircle
+  EmbrKitButton
 } from '@embr/ui'
 
 const theme = {

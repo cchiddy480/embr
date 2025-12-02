@@ -5,9 +5,7 @@ import {
   EmbrKitContainer,
   EmbrKitCard,
   EmbrKitButton,
-  EmbrKitGrid,
-  EmbrKitBadge,
-  EmbrKitStatCard
+  EmbrKitBadge
 } from '@embr/ui';
 import { getVariationStyles } from '../../../lib/templateVariations';
 

@@ -19,6 +19,23 @@ interface ClientConfigContextType {
 
 const ClientConfigContext = createContext<ClientConfigContextType | undefined>(undefined);
 
+// Access code to client ID mapping - static fallback for known codes
+const ACCESS_CODE_MAPPING: Record<string, string> = {
+  'WILDROOTS2025': 'wildroots-festival-2025',
+  'PEAKFORM2025': 'peakform-physio-2025',
+  'FEST2025': 'summer-music-festival-2025',
+  'HEALTH2025': 'wellness-clinic-2025',
+  'MENU2025': 'tech-solutions-co-2025',
+  'REST2025': 'corner-bistro-2025',
+  'PROP2025': 'riverside-apartments-2025',
+  // Template Variation Examples
+  'FESTMOD2025': 'festival-modern-2025',
+  'FESTCLAS2025': 'festival-classic-2025',
+  'FESTMIN2025': 'festival-minimal-2025',
+  'FESTVIB2025': 'festival-vibrant-2025',
+  // Add more access codes here as needed
+};
+
 export function ClientConfigProvider({ children }: { children: ReactNode }): React.ReactElement {
   const [config, setConfig] = useState<ClientConfig | null>(null);
   const [isExpired, setIsExpired] = useState(false);
@@ -73,27 +90,10 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     })();
   }, [checkExpiry]);
 
-  // Access code to client ID mapping - static fallback for known codes
-  const ACCESS_CODE_MAPPING: Record<string, string> = {
-    'WILDROOTS2025': 'wildroots-festival-2025',
-    'PEAKFORM2025': 'peakform-physio-2025',
-    'FEST2025': 'summer-music-festival-2025',
-    'HEALTH2025': 'wellness-clinic-2025',
-    'MENU2025': 'tech-solutions-co-2025',
-    'REST2025': 'corner-bistro-2025',
-    'PROP2025': 'riverside-apartments-2025',
-    // Template Variation Examples
-    'FESTMOD2025': 'festival-modern-2025',
-    'FESTCLAS2025': 'festival-classic-2025',
-    'FESTMIN2025': 'festival-minimal-2025',
-    'FESTVIB2025': 'festival-vibrant-2025',
-    // Add more access codes here as needed
-  };
-
   // Helper function to resolve access code to client ID
-  const resolveClientId = async (input: string): Promise<string> => {
+  const resolveClientId = useCallback(async (input: string): Promise<string> => {
     const upperInput = input.toUpperCase();
-    
+
     // First check static mapping
     const clientIdFromMapping = ACCESS_CODE_MAPPING[upperInput];
     if (clientIdFromMapping) {
@@ -135,7 +135,7 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     // If not an access code, treat as direct client ID
     console.log('[resolveClientId] Using as direct client ID:', input);
     return input;
-  };
+  }, []);
 
   // Load config from static file or fallback to generic
   const loadConfig = useCallback(async (clientIdOrAccessCode?: string) => {
@@ -256,7 +256,7 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     localStorage.setItem(STORAGE_CLIENT_ID_KEY, clientId);
     localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(genericConfig));
     console.log('[loadConfig] loaded generic config:', genericConfig);
-  }, [checkExpiry]);
+  }, [checkExpiry, resolveClientId]);
 
   // Clear config
   const clearConfig = useCallback(async () => {

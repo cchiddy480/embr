@@ -4,20 +4,18 @@
  */
 
 import { db } from './firebase';
-import { 
-  collection, 
-  doc, 
-  getDocs, 
-  getDoc, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  query, 
-  where, 
-  orderBy, 
+import {
+  collection,
+  doc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  query,
+  where,
+  orderBy,
   limit,
   onSnapshot,
-  Timestamp 
+  Timestamp
 } from 'firebase/firestore';
 
 // Types for dynamic data
