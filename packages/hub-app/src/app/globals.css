@@ -111,4 +111,43 @@ a {
 
 .safe-area-right {
   padding-right: env(safe-area-inset-right);
+}
+
+/*
+ * Hub shell entrance animation: a restrained fade/rise-in, not a bouncy
+ * or infinite-loop effect. Same pattern as embr-landing's .reveal, kept
+ * separate since this file is the Hub shell (locked palette, no theme
+ * variables) rather than the marketing site.
+ */
+@keyframes hub-reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hub-reveal {
+  animation: hub-reveal-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hub-reveal-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.hub-reveal-delay-2 {
+  animation-delay: 0.16s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-reveal,
+  .hub-reveal-delay-1,
+  .hub-reveal-delay-2 {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 } 
