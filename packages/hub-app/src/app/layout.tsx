@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import ClientProviders from './ClientProviders'
@@ -6,10 +6,14 @@ import ClientProviders from './ClientProviders'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Embr Hub',
-  description: 'Dynamic micro-app platform for events and businesses',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
-  themeColor: '#0F766E', // Embr teal
+  title: 'Embr | Live event guide',
+  description: 'The live schedule, places and event details shared by your organiser.',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0c151d',
 }
 
 export default function RootLayout({
@@ -19,11 +23,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#101926] text-[#FEFEFE] min-h-screen w-full flex flex-col`}>
+      <body className={`${inter.className} min-h-screen w-full flex flex-col`}>
         <ClientProviders>
           {children}
         </ClientProviders>
       </body>
     </html>
   )
-} 
+}
