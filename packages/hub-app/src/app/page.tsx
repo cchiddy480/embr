@@ -3,8 +3,6 @@
 import Image from 'next/image'
 import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams, usePathname } from 'next/navigation'
-import { QRCodeScanner } from '../components/QRCodeScanner'
-import { AccessCodeEntry } from '../components/AccessCodeEntry'
 import { LoadingScreen } from '../components/LoadingScreen'
 import { ClientApp } from '../components/ClientApp'
 import { useClientConfig } from '../hooks/useClientConfig'
@@ -21,11 +19,9 @@ export default function HomePage() {
 }
 
 function HomePageContent() {
-  const [showQRScanner, setShowQRScanner] = useState(false)
-  const [showAccessCode, setShowAccessCode] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
   const { config, loadConfig, isExpired, loading } = useClientConfig();
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -34,46 +30,6 @@ function HomePageContent() {
     console.log('[HomePage] config:', config);
     console.log('[HomePage] isExpired:', isExpired);
   }, [config, isExpired]);
-
-  const handleQRScan = async (data: string) => {
-    setShowQRScanner(false)
-    setIsLoading(true)
-    setError(null)
-    
-    try {
-      // Parse the QR code data - it should contain a clientId or full config URL
-      let clientId = data
-      
-      // If it's a URL, extract the clientId from it
-      if (data.startsWith('http')) {
-        const url = new URL(data)
-        clientId = url.searchParams.get('clientId') || url.pathname.split('/').pop() || data
-      }
-      
-      await loadConfig(clientId)
-    } catch (err) {
-      setError('Invalid QR code. Please try again.')
-      console.error('QR scan error:', err)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  // Access code flow: keep modal open until success or error
-  const handleAccessCodeSubmit = async (code: string, setModalError: (msg: string) => void, setModalLoading: (loading: boolean) => void) => {
-    setModalError('')
-    setModalLoading(true)
-    setError(null)
-    try {
-      await loadConfig(code)
-      setShowAccessCode(false)
-    } catch (err) {
-      setModalError('Invalid access code. Please try again.')
-      console.error('Access code error:', err)
-    } finally {
-      setModalLoading(false)
-    }
-  }
 
   // Auto-load when URL specifies a client, overriding cached config if different
   useEffect(() => {
@@ -116,83 +72,56 @@ function HomePageContent() {
     return <ClientApp config={config} />;
   }
 
-  // Show loading screen during QR/access code fetches, but don't block indefinitely
+  // Show loading screen while a direct-link config is being fetched
   if (isLoading) {
-    return <LoadingScreen message="Loading your app..." />
+    return <LoadingScreen message="Loading your guide..." />
   }
 
+  // Fallback for the bare app.build-embr.co.uk root: guests always arrive via
+  // a direct per-trip link (?client=<id> or /c/<id>, handled above), so this
+  // only renders when someone lands here without one — a mistyped/expired
+  // link, or the raw domain itself. No QR scanner or access-code entry here;
+  // that generic multi-tenant flow doesn't match how guides are actually
+  // distributed, so it isn't worth presenting as a real capability. See
+  // src/components/README.md for what used to live here and why it's gone.
   return (
     <div className="min-h-screen bg-[#101926] flex flex-col justify-between items-center px-4 font-sans pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
       <div className="w-full flex-1 flex flex-col justify-center items-center">
-        {/* Embr Logo with larger, soft glow */}
-        <div className="flex flex-col items-center mb-8 relative w-full">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-[#0F766E] opacity-25 blur-3xl z-0" />
-          <Image src="/embr_logo_transparent_dark.svg" alt="Embr Logo" width={200} height={200} className="h-52 w-52 z-10" />
+        <div className="hub-reveal flex flex-col items-center mb-8 relative w-full">
+          <div className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-[#0F766E] opacity-[0.16] blur-[80px] z-0" />
+          <Image src="/embr_logo_transparent_dark.svg" alt="Embr" width={160} height={160} className="h-40 w-40 z-10" />
         </div>
-        {/* Welcome Text */}
-        <h1 className="text-3xl font-bold text-white mb-4 text-center font-sans">
-          Welcome to <span className="text-[#38F9E4]">Embr</span>
+
+        <h1 className="hub-reveal hub-reveal-delay-1 text-2xl font-bold text-white mb-3 text-center font-sans">
+          This link isn&rsquo;t pointing at a guide
         </h1>
-        <p className="text-gray-200 text-center mb-8 text-lg font-medium font-sans">
-          Micro Apps. One Purpose. No Bloat.
+        <p className="hub-reveal hub-reveal-delay-1 text-[#D1D5DB] text-center mb-8 max-w-sm font-sans">
+          Embr guides open from the link your organiser sent you. If you followed one here, it may be mistyped or expired.
         </p>
-        
-        {/* Error Message and Expiry Notification */}
+
         {(error || (config && isExpired)) && (
-          <div className="w-full max-w-sm mx-auto mb-6 p-4 bg-red-900/20 border border-red-500/30 rounded-xl text-red-200 text-center">
+          <div className="hub-reveal w-full max-w-sm mx-auto mb-6 p-4 bg-red-900/20 border border-red-500/30 rounded-xl text-red-200 text-center text-sm">
             {error}
             {config && isExpired && (
               <>
                 {error && <br />}
-                This app code has expired or is no longer available. Please check with your event organizer or try another code.
+                This event guide has expired or is no longer available. Please check with your organiser.
               </>
             )}
           </div>
         )}
 
-        {/* Action Buttons */}
-        <div className="w-full flex flex-col gap-5 mb-10 max-w-sm mx-auto">
-          <button
-            onClick={() => setShowQRScanner(true)}
-            className="w-full bg-[#0F766E] hover:bg-[#13a89a] text-white font-semibold py-4 px-4 rounded-xl shadow transition-colors duration-200 flex items-center justify-center gap-2 text-lg font-sans"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V6a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1zm12 0h2a1 1 0 001-1V6a1 1 0 00-1-1h-2a1 1 0 00-1 1v1a1 1 0 001 1zM5 20h2a1 1 0 001-1v-1a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1z" />
-            </svg>
-            <span>Scan QR Code</span>
-          </button>
-          <button
-            onClick={() => setShowAccessCode(true)}
-            className="w-full bg-transparent hover:bg-[#22304a] text-white font-semibold py-4 px-4 rounded-xl border border-[#2d3c5a] transition-colors duration-200 flex items-center justify-center gap-2 text-lg font-sans"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-            </svg>
-            <span>Enter Access Code</span>
-          </button>
-        </div>
+        <a
+          href="https://build-embr.co.uk"
+          className="hub-reveal hub-reveal-delay-2 w-full max-w-sm px-8 py-4 rounded-xl text-base font-semibold text-white text-center bg-gradient-to-b from-[#13a89a] to-[#0F766E] border border-white/10 shadow-[0_4px_16px_-2px_rgba(15,118,110,0.4)] transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#38F9E4]"
+        >
+          What is Embr?
+        </a>
       </div>
       <footer className="text-center text-sm text-gray-400 mb-4 font-sans w-full">
         <hr className="w-1/2 border-gray-700 mb-2 opacity-40 mx-auto" />
-        <p>Powered by Embr Platform</p>
-        <p className="mt-1">One app. One purpose. All power.</p>
+        <p>One App. One Purpose. Fast. Branded. Brilliant.</p>
       </footer>
-
-      {/* QR Scanner Modal */}
-      {showQRScanner && (
-        <QRCodeScanner
-          onScan={handleQRScan}
-          onClose={() => setShowQRScanner(false)}
-        />
-      )}
-
-      {/* Access Code Modal */}
-      {showAccessCode && (
-        <AccessCodeEntry
-          onSubmit={handleAccessCodeSubmit}
-          onClose={() => setShowAccessCode(false)}
-        />
-      )}
     </div>
   )
-} 
+}
