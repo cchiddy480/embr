@@ -17,9 +17,11 @@ jobs:
       - run: npm ci
       - run: npm run build --workspace=packages/hub-app
       - run: npm run lint --workspace=packages/hub-app
-      # audit:theme reports violations but doesn't fail the build (exit 0) —
-      # useful signal, not a hard gate yet.
+      # theming-audit.js exits 1 on existing rgba()/hex violations (there are
+      # several in the legacy renderers right now). Non-blocking on purpose —
+      # useful signal, not a hard gate yet — hence continue-on-error.
       - run: npm run audit:theme
+        continue-on-error: true
       # client:validate is intentionally NOT run here yet: the current
       # validator checks fields (`typography`, `offlineMode`, `label`) that
       # don't match the real ClientConfig shape (`fonts`, `offline`, `title`)

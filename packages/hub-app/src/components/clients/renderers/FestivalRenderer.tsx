@@ -13,7 +13,14 @@ interface FestivalRendererProps {
 }
 
 export function FestivalRenderer({ config }: FestivalRendererProps) {
-  const [activeTab, setActiveTab] = useState(config.navigation[0]?.id || 'home');
+  // Only 'home' and tabs with actual configured content are shown (see A7:
+  // hidden, not greyed-out, "coming soon" tabs). The default active tab must
+  // come from this same filtered list, or the initial tab can be one the nav
+  // bar never renders a button for.
+  const visibleNavigation = config.navigation.filter(
+    (item) => item.id === 'home' || Boolean((config.content as any)?.[item.id])
+  );
+  const [activeTab, setActiveTab] = useState(visibleNavigation[0]?.id || 'home');
 
   // Get variation styles (defaults to 'modern' if not specified)
   const varStyles = getVariationStyles(config.variation);
@@ -395,8 +402,7 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
             </h1>
 
             <div className="flex items-center gap-2">
-              {config.navigation
-                .filter((item) => item.id === 'home' || Boolean((config.content as any)?.[item.id]))
+              {visibleNavigation
                 .slice(0, 4)
                 .map((item) => (
                 <button
