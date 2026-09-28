@@ -1678,8 +1678,8 @@
 }
 
 .embr-contact-method:hover {
-  border-color: var(--embr-teal);
-  background: rgba(15, 118, 110, 0.05);
+  border-color: var(--embr-primary-color, var(--embr-teal));
+  background: color-mix(in srgb, var(--embr-primary-color, var(--embr-teal)) 5%, transparent);
   transform: translateY(-1px);
 }
 
