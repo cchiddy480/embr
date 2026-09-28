@@ -128,7 +128,7 @@ export default function PortfolioModernTemplate() {
 
           {/* About Section */}
           <div className="border-t-2 border-blue-300 pt-16">
-            <EmbrKitGrid cols={1} gap={12} className="md:grid-cols-2">
+            <EmbrKitGrid cols={1} gap={8} className="md:grid-cols-2">
               <div>
                 <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
                   About

@@ -183,7 +183,7 @@ export function PropertyRenderer({ config }: PropertyRendererProps) {
                   Explore Units
                 </EmbrKitButton>
                 <EmbrKitButton
-                  variant="ghost"
+                  variant="text"
                   size="lg"
                   onClick={() => setActiveTab('tour')}
                   className="transition-all duration-300 px-10 py-4 border-2"
@@ -270,7 +270,7 @@ export function PropertyRenderer({ config }: PropertyRendererProps) {
 
         {/* World-Class Amenities - Luxury Grid */}
         <div className="px-6 py-24" style={{ backgroundColor: config.theme.colors.background }}>
-          <EmbrKitContainer size="xl">
+          <EmbrKitContainer size="lg">
             <div className="text-center mb-16">
               <h2
                 className="text-4xl md:text-5xl mb-4"

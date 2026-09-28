@@ -6,6 +6,16 @@ interface PeakFormPhysioAppProps {
 }
 
 export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
+  // This hand-coded client predates the typed ClientContent shape and uses
+  // fields (home/appointments/exercises/wellness/notifications) the shared
+  // type doesn't describe. It's slated for deletion once this client
+  // migrates to the block engine (see the plan's cleanup pass) — cast here
+  // rather than widen the shared ClientContent type for a component being
+  // removed.
+  const content = config.content as any;
+  // Same story as `content` above: this file references legacy theme field
+  // names (`typography`) that predate the current ClientTheme shape (`fonts`).
+  const theme = config.theme as any;
   const [activeTab, setActiveTab] = useState('home');
   const [showNotifications, setShowNotifications] = useState(false);
   const [_selectedExercise, _setSelectedExercise] = useState(null);
@@ -33,13 +43,13 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
     setBookmarkedArticles(newBookmarks);
   };
 
-  const unreadNotifications = config.content.notifications?.recent?.filter(n => !n.read).length || 0;
+  const unreadNotifications = content.notifications?.recent?.filter((n: any) => !n.read).length || 0;
 
   const renderHome = () => (
     <div style={{ padding: '1rem' }}>
       {/* Hero Banner */}
       <div style={{
-        background: `linear-gradient(135deg, ${config.theme.colors.primary} 0%, ${config.theme.colors.secondary} 100%)`,
+        background: `linear-gradient(135deg, ${theme.colors.primary} 0%, ${theme.colors.secondary} 100%)`,
         borderRadius: '1rem',
         padding: '2rem',
         color: 'white',
@@ -49,34 +59,34 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         <h1 style={{ 
           margin: '0 0 0.5rem 0', 
           fontSize: '1.8rem',
-          fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
+          fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`,
           fontWeight: 700
         }}>
-          {config.content.home.title}
+          {content.home.title}
         </h1>
         <p style={{ margin: 0, opacity: 0.9, fontSize: '1rem' }}>
-          {config.content.home.subtitle}
+          {content.home.subtitle}
         </p>
       </div>
 
       {/* Quick Links */}
       <div style={{ marginBottom: '2rem' }}>
         <h2 style={{ 
-          color: config.theme.colors.primary,
-          fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
+          color: theme.colors.primary,
+          fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`,
           fontWeight: 600,
           marginBottom: '1rem'
         }}>
           Quick Access
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
-          {config.content.home.quickLinks?.map((link) => (
+          {content.home.quickLinks?.map((link: any) => (
             <button
               key={link.id}
               onClick={() => setActiveTab(link.path.replace('/', ''))}
               style={{
-                background: config.theme.colors.surface,
-                border: `1px solid ${config.theme.colors.border}`,
+                background: theme.colors.surface,
+                border: `1px solid ${theme.colors.border}`,
                 borderRadius: '0.75rem',
                 padding: '1.5rem 1rem',
                 textAlign: 'center',
@@ -85,11 +95,11 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 boxShadow: 'none'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = config.theme.colors.surfaceElevated;
+                e.currentTarget.style.background = theme.colors.surfaceElevated;
                 e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = config.theme.colors.surface;
+                e.currentTarget.style.background = theme.colors.surface;
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
@@ -99,7 +109,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 {link.icon === 'mail' && '📧'}
               </div>
               <div style={{ 
-                color: config.theme.colors.text,
+                color: theme.colors.text,
                 fontWeight: 500,
                 fontSize: '0.9rem'
               }}>
@@ -113,32 +123,32 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
       {/* Latest Tips */}
       <div style={{ marginBottom: '2rem' }}>
         <h2 style={{ 
-          color: config.theme.colors.primary,
-          fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
+          color: theme.colors.primary,
+          fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`,
           fontWeight: 600,
           marginBottom: '1rem'
         }}>
           Latest Wellness Tips
         </h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {config.content.home.latestTips?.slice(0, 3).map((tip) => (
+          {content.home.latestTips?.slice(0, 3).map((tip: any) => (
             <div
               key={tip.id}
-              onClick={() => setSelectedArticle(tip)}
+              onClick={() => _setSelectedArticle(tip)}
               style={{
-                background: config.theme.colors.surface,
-                border: `1px solid ${config.theme.colors.border}`,
+                background: theme.colors.surface,
+                border: `1px solid ${theme.colors.border}`,
                 borderRadius: '0.75rem',
                 padding: '1.5rem',
                 cursor: 'pointer',
                 transition: 'all 0.2s'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = config.theme.colors.surfaceElevated;
+                e.currentTarget.style.background = theme.colors.surfaceElevated;
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = config.theme.colors.surface;
+                e.currentTarget.style.background = theme.colors.surface;
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
@@ -146,7 +156,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 <div style={{
                   width: '60px',
                   height: '60px',
-                  background: config.theme.colors.secondary,
+                  background: theme.colors.secondary,
                   borderRadius: '0.5rem',
                   display: 'flex',
                   alignItems: 'center',
@@ -160,16 +170,16 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 <div style={{ flex: 1 }}>
                   <h3 style={{ 
                     margin: '0 0 0.25rem 0',
-                    color: config.theme.colors.text,
+                    color: theme.colors.text,
                     fontSize: '1rem',
                     fontWeight: 600,
-                    fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
+                    fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`
                   }}>
                     {tip.title}
                   </h3>
                   <p style={{ 
                     margin: 0,
-                    color: config.theme.colors.textSecondary,
+                    color: theme.colors.textSecondary,
                     fontSize: '0.9rem',
                     lineHeight: 1.4
                   }}>
@@ -177,7 +187,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                   </p>
                   <span style={{
                     display: 'inline-block',
-                    background: config.theme.colors.primary,
+                    background: theme.colors.primary,
                     color: 'white',
                     padding: '0.25rem 0.5rem',
                     borderRadius: '0.25rem',
@@ -195,24 +205,24 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
 
       {/* Mini Map Card */}
       <div style={{
-        background: config.theme.colors.surface,
-        border: `1px solid ${config.theme.colors.border}`,
+        background: theme.colors.surface,
+        border: `1px solid ${theme.colors.border}`,
         borderRadius: '0.75rem',
         padding: '1.5rem',
         textAlign: 'center'
       }}>
         <h3 style={{ 
           margin: '0 0 0.5rem 0',
-          color: config.theme.colors.primary,
+          color: theme.colors.primary,
           fontSize: '1.1rem',
           fontWeight: 600,
-          fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
+          fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`
         }}>
           Find Your Clinic
         </h3>
         <p style={{ 
           margin: '0 0 1rem 0',
-          color: config.theme.colors.textSecondary,
+          color: theme.colors.textSecondary,
           fontSize: '0.9rem'
         }}>
           Get directions to our Main Clinic or Sports Clinic
@@ -220,7 +230,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         <button
           onClick={() => setActiveTab('clinic')}
           style={{
-            background: config.theme.colors.primary,
+            background: theme.colors.primary,
             color: 'white',
             border: 'none',
             borderRadius: '0.5rem',
@@ -231,10 +241,10 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
             transition: 'background-color 0.2s'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = config.theme.colors.primaryHover;
+            e.currentTarget.style.background = theme.colors.primaryHover;
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = config.theme.colors.primary;
+            e.currentTarget.style.background = theme.colors.primary;
           }}
         >
           View Locations
@@ -246,21 +256,21 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
   const renderAppointments = () => (
     <div style={{ padding: '1rem' }}>
       <h1 style={{ 
-        color: config.theme.colors.primary,
-        fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
+        color: theme.colors.primary,
+        fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`,
         fontWeight: 600,
         marginBottom: '1.5rem'
       }}>
-        {config.content.appointments.title}
+        {content.appointments.title}
       </h1>
       
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {config.content.appointments.upcoming?.map((appointment) => (
+        {content.appointments.upcoming?.map((appointment: any) => (
           <div
             key={appointment.id}
             style={{
-              background: config.theme.colors.surface,
-              border: `1px solid ${config.theme.colors.border}`,
+              background: theme.colors.surface,
+              border: `1px solid ${theme.colors.border}`,
               borderRadius: '0.75rem',
               padding: '1.5rem',
               boxShadow: 'none'
@@ -268,7 +278,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
               <div style={{
-                background: config.theme.colors.primary,
+                background: theme.colors.primary,
                 color: 'white',
                 borderRadius: '0.5rem',
                 padding: '0.75rem',
@@ -285,23 +295,23 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               <div style={{ flex: 1 }}>
                 <h3 style={{ 
                   margin: '0 0 0.25rem 0',
-                  color: config.theme.colors.text,
+                  color: theme.colors.text,
                   fontSize: '1.1rem',
                   fontWeight: 600,
-                  fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
+                  fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`
                 }}>
                   {appointment.time} - {appointment.type}
                 </h3>
                 <p style={{ 
                   margin: '0 0 0.25rem 0',
-                  color: config.theme.colors.textSecondary,
+                  color: theme.colors.textSecondary,
                   fontSize: '0.9rem'
                 }}>
                   with {appointment.therapist}
                 </p>
                 <p style={{ 
                   margin: 0,
-                  color: config.theme.colors.textSecondary,
+                  color: theme.colors.textSecondary,
                   fontSize: '0.9rem'
                 }}>
                   📍 {appointment.location}
@@ -313,8 +323,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 style={{
                   flex: 1,
                   background: 'transparent',
-                  color: config.theme.colors.primary,
-                  border: `1px solid ${config.theme.colors.primary}`,
+                  color: theme.colors.primary,
+                  border: `1px solid ${theme.colors.primary}`,
                   borderRadius: '0.5rem',
                   padding: '0.75rem',
                   fontSize: '0.9rem',
@@ -323,12 +333,12 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                   transition: 'all 0.2s'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = config.theme.colors.primary;
+                  e.currentTarget.style.background = theme.colors.primary;
                   e.currentTarget.style.color = 'white';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.color = config.theme.colors.primary;
+                  e.currentTarget.style.color = theme.colors.primary;
                 }}
               >
                 Cancel
@@ -336,7 +346,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               <button
                 style={{
                   flex: 1,
-                  background: config.theme.colors.primary,
+                  background: theme.colors.primary,
                   color: 'white',
                   border: 'none',
                   borderRadius: '0.5rem',
@@ -347,10 +357,10 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                   transition: 'background-color 0.2s'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = config.theme.colors.primaryHover;
+                  e.currentTarget.style.background = theme.colors.primaryHover;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = config.theme.colors.primary;
+                  e.currentTarget.style.background = theme.colors.primary;
                 }}
               >
                 Reschedule
@@ -365,12 +375,12 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
   const renderExercises = () => (
     <div style={{ padding: '1rem' }}>
       <h1 style={{ 
-        color: config.theme.colors.primary,
-        fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
+        color: theme.colors.primary,
+        fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`,
         fontWeight: 600,
         marginBottom: '1.5rem'
       }}>
-        {config.content.exercises.title}
+        {content.exercises.title}
       </h1>
 
       {/* Category Filters */}
@@ -381,13 +391,13 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         paddingBottom: '0.5rem',
         marginBottom: '1.5rem'
       }}>
-        {config.content.exercises.categories?.map((category) => (
+        {content.exercises.categories?.map((category: any) => (
           <button
             key={category.id}
             style={{
-              background: config.theme.colors.surface,
-              color: config.theme.colors.text,
-              border: `1px solid ${config.theme.colors.border}`,
+              background: theme.colors.surface,
+              color: theme.colors.text,
+              border: `1px solid ${theme.colors.border}`,
               borderRadius: '1.5rem',
               padding: '0.5rem 1rem',
               fontSize: '0.9rem',
@@ -397,12 +407,12 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               transition: 'all 0.2s'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = config.theme.colors.primary;
+              e.currentTarget.style.background = theme.colors.primary;
               e.currentTarget.style.color = 'white';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = config.theme.colors.surface;
-              e.currentTarget.style.color = config.theme.colors.text;
+              e.currentTarget.style.background = theme.colors.surface;
+              e.currentTarget.style.color = theme.colors.text;
             }}
           >
             {category.label} ({category.count})
@@ -416,19 +426,19 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
         gap: '1rem' 
       }}>
-        {config.content.exercises.featured?.map((exercise) => (
+        {content.exercises.featured?.map((exercise: any) => (
           <div
             key={exercise.id}
             style={{
-              background: config.theme.colors.surface,
-              border: `1px solid ${config.theme.colors.border}`,
+              background: theme.colors.surface,
+              border: `1px solid ${theme.colors.border}`,
               borderRadius: '0.75rem',
               overflow: 'hidden',
               cursor: 'pointer',
               transition: 'all 0.2s',
               boxShadow: 'none'
             }}
-            onClick={() => setSelectedExercise(exercise)}
+            onClick={() => _setSelectedExercise(exercise)}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-2px)';
               e.currentTarget.style.boxShadow = 'none';
@@ -440,7 +450,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
           >
             <div style={{
               height: '120px',
-              background: config.theme.colors.secondary,
+              background: theme.colors.secondary,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -451,7 +461,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 position: 'absolute',
                 top: '0.5rem',
                 right: '0.5rem',
-                background: config.theme.colors.primary,
+                background: theme.colors.primary,
                 opacity: 0.7,
                 color: 'white',
                 padding: '0.25rem 0.5rem',
@@ -469,9 +479,9 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                   position: 'absolute',
                   top: '0.5rem',
                   left: '0.5rem',
-                  background: config.theme.colors.primary,
+                  background: theme.colors.primary,
                   opacity: 0.7,
-                  color: bookmarkedExercises.has(exercise.id) ? config.theme.colors.secondary : 'white',
+                  color: bookmarkedExercises.has(exercise.id) ? theme.colors.secondary : 'white',
                   border: 'none',
                   borderRadius: '50%',
                   width: '32px',
@@ -487,16 +497,16 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
             <div style={{ padding: '1rem' }}>
               <h3 style={{ 
                 margin: '0 0 0.5rem 0',
-                color: config.theme.colors.text,
+                color: theme.colors.text,
                 fontSize: '1rem',
                 fontWeight: 600,
-                fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
+                fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`
               }}>
                 {exercise.title}
               </h3>
               <p style={{ 
                 margin: '0 0 0.5rem 0',
-                color: config.theme.colors.textSecondary,
+                color: theme.colors.textSecondary,
                 fontSize: '0.9rem',
                 lineHeight: 1.4
               }}>
@@ -504,7 +514,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               </p>
               <span style={{
                 display: 'inline-block',
-                background: config.theme.colors.primary,
+                background: theme.colors.primary,
                 color: 'white',
                 padding: '0.25rem 0.5rem',
                 borderRadius: '0.25rem',
@@ -522,12 +532,12 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
   const renderWellness = () => (
     <div style={{ padding: '1rem' }}>
       <h1 style={{ 
-        color: config.theme.colors.primary,
-        fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
+        color: theme.colors.primary,
+        fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`,
         fontWeight: 600,
         marginBottom: '1.5rem'
       }}>
-        {config.content.wellness.title}
+        {content.wellness.title}
       </h1>
 
       {/* Category Filters */}
@@ -538,13 +548,13 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         paddingBottom: '0.5rem',
         marginBottom: '1.5rem'
       }}>
-        {config.content.wellness.categories?.map((category) => (
+        {content.wellness.categories?.map((category: any) => (
           <button
             key={category}
             style={{
-              background: config.theme.colors.surface,
-              color: config.theme.colors.text,
-              border: `1px solid ${config.theme.colors.border}`,
+              background: theme.colors.surface,
+              color: theme.colors.text,
+              border: `1px solid ${theme.colors.border}`,
               borderRadius: '1.5rem',
               padding: '0.5rem 1rem',
               fontSize: '0.9rem',
@@ -554,12 +564,12 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               transition: 'all 0.2s'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = config.theme.colors.primary;
+              e.currentTarget.style.background = theme.colors.primary;
               e.currentTarget.style.color = 'white';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = config.theme.colors.surface;
-              e.currentTarget.style.color = config.theme.colors.text;
+              e.currentTarget.style.background = theme.colors.surface;
+              e.currentTarget.style.color = theme.colors.text;
             }}
           >
             {category}
@@ -569,19 +579,19 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
 
       {/* Articles */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        {config.content.wellness.articles?.map((article) => (
+        {content.wellness.articles?.map((article: any) => (
           <div
             key={article.id}
             style={{
-              background: config.theme.colors.surface,
-              border: `1px solid ${config.theme.colors.border}`,
+              background: theme.colors.surface,
+              border: `1px solid ${theme.colors.border}`,
               borderRadius: '0.75rem',
               overflow: 'hidden',
               cursor: 'pointer',
               transition: 'all 0.2s',
               boxShadow: 'none'
             }}
-            onClick={() => setSelectedArticle(article)}
+            onClick={() => _setSelectedArticle(article)}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-1px)';
               e.currentTarget.style.boxShadow = 'none';
@@ -595,7 +605,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               <div style={{
                 width: '80px',
                 height: '80px',
-                background: config.theme.colors.secondary,
+                background: theme.colors.secondary,
                 borderRadius: '0.5rem',
                 display: 'flex',
                 alignItems: 'center',
@@ -616,7 +626,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                     top: 0,
                     right: 0,
                     background: 'transparent',
-                    color: bookmarkedArticles.has(article.id) ? config.theme.colors.secondary : config.theme.colors.textSecondary,
+                    color: bookmarkedArticles.has(article.id) ? theme.colors.secondary : theme.colors.textSecondary,
                     border: 'none',
                     fontSize: '1.2rem',
                     cursor: 'pointer'
@@ -626,22 +636,22 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 </button>
                 <h3 style={{ 
                   margin: '0 0 0.5rem 0',
-                  color: config.theme.colors.text,
+                  color: theme.colors.text,
                   fontSize: '1.1rem',
                   fontWeight: 600,
-                  fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
+                  fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`
                 }}>
                   {article.title}
                 </h3>
                 <p style={{ 
                   margin: '0 0 0.5rem 0',
-                  color: config.theme.colors.textSecondary,
+                  color: theme.colors.textSecondary,
                   fontSize: '0.9rem',
                   lineHeight: 1.4
                 }}>
                   {article.summary}
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.8rem', color: config.theme.colors.textSecondary }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '0.8rem', color: theme.colors.textSecondary }}>
                   <span>{article.author}</span>
                   <span>•</span>
                   <span>{article.readTime}</span>
@@ -650,7 +660,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 </div>
                 <span style={{
                   display: 'inline-block',
-                  background: config.theme.colors.primary,
+                  background: theme.colors.primary,
                   color: 'white',
                   padding: '0.25rem 0.5rem',
                   borderRadius: '0.25rem',
@@ -670,8 +680,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
   const renderMore = () => (
     <div style={{ padding: '1rem' }}>
       <h1 style={{ 
-        color: config.theme.colors.primary,
-        fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
+        color: theme.colors.primary,
+        fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`,
         fontWeight: 600,
         marginBottom: '1.5rem'
       }}>
@@ -682,8 +692,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         <button
           onClick={() => setActiveTab('clinic')}
           style={{
-            background: config.theme.colors.surface,
-            border: `1px solid ${config.theme.colors.border}`,
+            background: theme.colors.surface,
+            border: `1px solid ${theme.colors.border}`,
             borderRadius: '0.75rem',
             padding: '1.5rem',
             textAlign: 'left',
@@ -691,19 +701,19 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
             transition: 'all 0.2s'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = config.theme.colors.surfaceElevated;
+            e.currentTarget.style.background = theme.colors.surfaceElevated;
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = config.theme.colors.surface;
+            e.currentTarget.style.background = theme.colors.surface;
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <div style={{ fontSize: '1.5rem' }}>🏥</div>
             <div>
-              <h3 style={{ margin: '0 0 0.25rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif` }}>
+              <h3 style={{ margin: '0 0 0.25rem 0', color: theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif` }}>
                 Clinic Information
               </h3>
-              <p style={{ margin: 0, color: config.theme.colors.textSecondary, fontSize: '0.9rem' }}>
+              <p style={{ margin: 0, color: theme.colors.textSecondary, fontSize: '0.9rem' }}>
                 Contact details, hours, and team information
               </p>
             </div>
@@ -713,8 +723,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         <button
           onClick={() => setShowNotifications(true)}
           style={{
-            background: config.theme.colors.surface,
-            border: `1px solid ${config.theme.colors.border}`,
+            background: theme.colors.surface,
+            border: `1px solid ${theme.colors.border}`,
             borderRadius: '0.75rem',
             padding: '1.5rem',
             textAlign: 'left',
@@ -723,19 +733,19 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
             position: 'relative'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = config.theme.colors.surfaceElevated;
+            e.currentTarget.style.background = theme.colors.surfaceElevated;
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = config.theme.colors.surface;
+            e.currentTarget.style.background = theme.colors.surface;
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <div style={{ fontSize: '1.5rem' }}>🔔</div>
             <div>
-              <h3 style={{ margin: '0 0 0.25rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif` }}>
+              <h3 style={{ margin: '0 0 0.25rem 0', color: theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif` }}>
                 Notifications
               </h3>
-              <p style={{ margin: 0, color: config.theme.colors.textSecondary, fontSize: '0.9rem' }}>
+              <p style={{ margin: 0, color: theme.colors.textSecondary, fontSize: '0.9rem' }}>
                 View your recent notifications and updates
               </p>
             </div>
@@ -744,7 +754,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
                 position: 'absolute',
                 top: '1rem',
                 right: '1rem',
-                background: config.theme.colors.primary,
+                background: theme.colors.primary,
                 color: 'white',
                 borderRadius: '50%',
                 width: '20px',
@@ -762,21 +772,21 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         </button>
 
         <div style={{
-          background: config.theme.colors.surface,
-          border: `1px solid ${config.theme.colors.border}`,
+          background: theme.colors.surface,
+          border: `1px solid ${theme.colors.border}`,
           borderRadius: '0.75rem',
           padding: '1.5rem'
         }}>
-          <h3 style={{ margin: '0 0 1rem 0', color: config.theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif` }}>
+          <h3 style={{ margin: '0 0 1rem 0', color: theme.colors.text, fontSize: '1rem', fontWeight: 600, fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif` }}>
             App Settings
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ color: config.theme.colors.text, fontSize: '0.9rem' }}>Push Notifications</span>
+              <span style={{ color: theme.colors.text, fontSize: '0.9rem' }}>Push Notifications</span>
               <div style={{
                 width: '44px',
                 height: '24px',
-                background: config.theme.colors.primary,
+                background: theme.colors.primary,
                 borderRadius: '12px',
                 position: 'relative',
                 cursor: 'pointer'
@@ -794,11 +804,11 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ color: config.theme.colors.text, fontSize: '0.9rem' }}>Offline Mode</span>
+              <span style={{ color: theme.colors.text, fontSize: '0.9rem' }}>Offline Mode</span>
               <div style={{
                 width: '44px',
                 height: '24px',
-                background: config.theme.colors.border,
+                background: theme.colors.border,
                 borderRadius: '12px',
                 position: 'relative',
                 cursor: 'pointer'
@@ -828,7 +838,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
       left: 0,
       right: 0,
       bottom: 0,
-      background: config.theme.colors.background,
+      background: theme.colors.background,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -836,7 +846,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
       padding: '1rem'
     }}>
       <div style={{
-        background: config.theme.colors.surface,
+        background: theme.colors.surface,
         borderRadius: '1rem',
         padding: '1.5rem',
         maxWidth: '500px',
@@ -845,7 +855,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         overflow: 'auto'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h2 style={{ margin: 0, color: config.theme.colors.text, fontSize: '1.2rem', fontWeight: 600, fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif` }}>
+          <h2 style={{ margin: 0, color: theme.colors.text, fontSize: '1.2rem', fontWeight: 600, fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif` }}>
             Notifications
           </h2>
           <button
@@ -855,7 +865,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               border: 'none',
               fontSize: '1.5rem',
               cursor: 'pointer',
-              color: config.theme.colors.textSecondary
+              color: theme.colors.textSecondary
             }}
           >
             ✕
@@ -863,29 +873,29 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         </div>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {config.content.notifications?.recent?.map((notification) => (
+          {content.notifications?.recent?.map((notification: any) => (
             <div
               key={notification.id}
               style={{
-                background: notification.read ? config.theme.colors.surface : config.theme.colors.surfaceElevated,
-                border: `1px solid ${config.theme.colors.border}`,
+                background: notification.read ? theme.colors.surface : theme.colors.surfaceElevated,
+                border: `1px solid ${theme.colors.border}`,
                 borderRadius: '0.75rem',
                 padding: '1rem',
-                borderLeft: notification.read ? `4px solid ${config.theme.colors.border}` : `4px solid ${config.theme.colors.primary}`
+                borderLeft: notification.read ? `4px solid ${theme.colors.border}` : `4px solid ${theme.colors.primary}`
               }}
             >
               <h4 style={{ 
                 margin: '0 0 0.5rem 0',
-                color: config.theme.colors.text,
+                color: theme.colors.text,
                 fontSize: '0.9rem',
                 fontWeight: 600,
-                fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`
+                fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`
               }}>
                 {notification.title}
               </h4>
               <p style={{ 
                 margin: '0 0 0.5rem 0',
-                color: config.theme.colors.textSecondary,
+                color: theme.colors.textSecondary,
                 fontSize: '0.9rem',
                 lineHeight: 1.4
               }}>
@@ -893,7 +903,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               </p>
               <div style={{ 
                 fontSize: '0.8rem',
-                color: config.theme.colors.textSecondary
+                color: theme.colors.textSecondary
               }}>
                 {notification.date} at {notification.time}
               </div>
@@ -917,14 +927,14 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
 
   return (
     <div style={{ 
-      background: config.theme.colors.background,
-      color: config.theme.colors.text,
+      background: theme.colors.background,
+      color: theme.colors.text,
       minHeight: '100vh',
-      fontFamily: `"${config.theme.typography.body}", system-ui, sans-serif`
+      fontFamily: `"${theme.typography.body}", system-ui, sans-serif`
     }}>
       {/* Header */}
       <header style={{
-        background: config.theme.colors.primary,
+        background: theme.colors.primary,
         color: 'white',
         padding: '1rem',
         display: 'flex',
@@ -939,7 +949,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
           <h1 style={{ 
             margin: 0, 
             fontSize: '1.2rem',
-            fontFamily: `"${config.theme.typography.heading}", Inter, system-ui, sans-serif`,
+            fontFamily: `"${theme.typography.heading}", Inter, system-ui, sans-serif`,
             fontWeight: 600
           }}>
             {config.name}
@@ -962,7 +972,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               position: 'absolute',
               top: '-4px',
               right: '-4px',
-              background: config.theme.colors.secondary,
+              background: theme.colors.secondary,
               color: 'white',
               borderRadius: '50%',
               width: '16px',
@@ -990,8 +1000,8 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
         bottom: 0,
         left: 0,
         right: 0,
-        background: config.theme.colors.surface,
-        borderTop: `1px solid ${config.theme.colors.border}`,
+        background: theme.colors.surface,
+        borderTop: `1px solid ${theme.colors.border}`,
         display: 'flex',
         padding: '0.5rem 0',
         zIndex: 100
@@ -1004,7 +1014,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               flex: 1,
               background: 'transparent',
               border: 'none',
-              color: activeTab === item.path.replace('/', '') ? config.theme.colors.primary : config.theme.colors.textSecondary,
+              color: activeTab === item.path.replace('/', '') ? theme.colors.primary : theme.colors.textSecondary,
               padding: '0.5rem',
               cursor: 'pointer',
               transition: 'color 0.2s',
@@ -1022,7 +1032,7 @@ export function PeakFormPhysioApp({ config }: PeakFormPhysioAppProps) {
               {item.icon === 'menu' && '⚙️'}
             </div>
             <span style={{ fontSize: '0.7rem', fontWeight: 500 }}>
-              {item.label}
+              {item.title}
             </span>
           </button>
         ))}

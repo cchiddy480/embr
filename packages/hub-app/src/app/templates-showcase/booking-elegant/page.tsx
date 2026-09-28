@@ -22,7 +22,7 @@ const theme = {
   fontFamily: 'Georgia, serif',
   headingFontFamily: 'Georgia',
   borderRadius: 'rounded' as const,
-  materialStyle: 'elevated' as const
+  materialStyle: 'soft' as const
 }
 
 const services = [

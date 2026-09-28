@@ -35,7 +35,18 @@ const categories = [
   { id: 'networking', label: 'Networking', color: '#3B82F6' }
 ]
 
-const eventsData = {
+interface ScheduleEvent {
+  time: string
+  title: string
+  location: string
+  category: string
+  description: string
+  speakers?: string[]
+  capacity?: string
+  active?: boolean
+}
+
+const eventsData: Record<string, ScheduleEvent[]> = {
   day1: [
     {
       time: '8:00 AM',
