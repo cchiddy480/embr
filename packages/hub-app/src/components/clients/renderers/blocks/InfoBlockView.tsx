@@ -1,5 +1,5 @@
 import React from 'react';
-import { EmbrKitCard } from '@embr/ui';
+import { GuideCard } from './GuideCard';
 import type { InfoBlock, Theme } from '../../../../types/blocks-schema';
 
 interface InfoBlockViewProps {
@@ -13,7 +13,7 @@ export function InfoBlockView({ block, theme }: InfoBlockViewProps) {
     : null;
 
   return (
-    <EmbrKitCard className="p-6">
+    <GuideCard theme={theme}>
       <p
         className="text-base whitespace-pre-line"
         style={{ color: theme.colors.textSecondary, fontFamily: `'${theme.fonts.body}', sans-serif` }}
@@ -21,11 +21,11 @@ export function InfoBlockView({ block, theme }: InfoBlockViewProps) {
         {block.body}
       </p>
       {block.venue && (
-        <div className="mt-6 pt-6 border-t" style={{ borderColor: theme.colors.border ?? `${theme.colors.text}15` }}>
+        <div className="mt-6 pt-6" style={{ borderTop: `1px solid ${theme.colors.border ?? `${theme.colors.text}1a`}` }}>
           <p className="font-semibold" style={{ color: theme.colors.text, fontFamily: `'${theme.fonts.heading}', serif` }}>
             {block.venue.name}
           </p>
-          <p style={{ color: theme.colors.textSecondary }}>{block.venue.address}</p>
+          <p className="text-sm mt-0.5" style={{ color: theme.colors.textSecondary }}>{block.venue.address}</p>
           {mapUrl && (
             <a
               href={mapUrl}
@@ -34,11 +34,11 @@ export function InfoBlockView({ block, theme }: InfoBlockViewProps) {
               className="inline-flex items-center min-h-[44px] text-sm font-medium mt-1"
               style={{ color: theme.colors.primary }}
             >
-              Directions ↗
+              Get directions
             </a>
           )}
         </div>
       )}
-    </EmbrKitCard>
+    </GuideCard>
   );
 }

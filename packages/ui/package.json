@@ -7,9 +7,6 @@
   "description": "EmbrKit - Embr's comprehensive design system and component library",
   "keywords": ["design-system", "react", "components", "embr", "embrkit"],
   "license": "MIT",
-  "dependencies": {
-    "@chainlift/liftkit": "^0.1.1"
-  },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"

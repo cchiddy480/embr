@@ -1,38 +1,63 @@
 import React from 'react';
-import { EmbrKitCard, EmbrKitQuickContact } from '@embr/ui';
-import type { ContactsBlock, Contact, Theme } from '../../../../types/blocks-schema';
+import { GuideCard } from './GuideCard';
+import type { ContactsBlock, Theme } from '../../../../types/blocks-schema';
 
 interface ContactsBlockViewProps {
   block: ContactsBlock;
   theme: Theme;
 }
 
-function methodsFor(contact: Contact) {
-  const methods: { id: string; type: 'phone' | 'email' | 'website' | 'social'; label: string; value: string }[] = [];
-  if (contact.phone) methods.push({ id: `${contact.id}-phone`, type: 'phone', label: contact.phone, value: contact.phone });
-  if (contact.whatsapp) methods.push({ id: `${contact.id}-whatsapp`, type: 'social', label: 'WhatsApp', value: `https://wa.me/${contact.whatsapp.replace(/\D/g, '')}` });
-  if (contact.email) methods.push({ id: `${contact.id}-email`, type: 'email', label: contact.email, value: contact.email });
-  return methods;
-}
-
 export function ContactsBlockView({ block, theme }: ContactsBlockViewProps) {
   if (block.contacts.length === 0) {
     return (
-      <EmbrKitCard className="p-8 text-center">
+      <GuideCard theme={theme} className="text-center">
         <p style={{ color: theme.colors.textSecondary }}>No contacts added yet.</p>
-      </EmbrKitCard>
+      </GuideCard>
     );
   }
 
   return (
-    <div className="grid sm:grid-cols-2 gap-4">
+    <div className="flex flex-col gap-3">
       {block.contacts.map((contact) => (
-        <EmbrKitCard key={contact.id} className="p-5">
-          <EmbrKitQuickContact
-            title={contact.role ? `${contact.name} — ${contact.role}` : contact.name}
-            methods={methodsFor(contact)}
-          />
-        </EmbrKitCard>
+        <GuideCard key={contact.id} theme={theme} className="p-5">
+          <p className="font-semibold" style={{ color: theme.colors.text, fontFamily: `'${theme.fonts.heading}', serif` }}>
+            {contact.name}
+          </p>
+          {contact.role && (
+            <p className="text-sm mt-0.5" style={{ color: theme.colors.textSecondary }}>{contact.role}</p>
+          )}
+          {(contact.phone || contact.whatsapp || contact.email) && (
+            <div className="flex flex-col gap-1 mt-3">
+              {contact.phone && (
+                <a
+                  href={`tel:${contact.phone}`}
+                  className="min-h-[44px] flex items-center text-sm font-medium"
+                  style={{ color: theme.colors.primary }}
+                >
+                  {contact.phone}
+                </a>
+              )}
+              {contact.whatsapp && (
+                <a
+                  href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`}
+                  className="min-h-[44px] flex items-center text-sm font-medium"
+                  style={{ color: theme.colors.primary }}
+                >
+                  WhatsApp
+                </a>
+              )}
+              {contact.email && (
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="min-h-[44px] flex items-center text-sm font-medium"
+                  style={{ color: theme.colors.primary }}
+                >
+                  {contact.email}
+                </a>
+              )}
+            </div>
+          )}
+        </GuideCard>
       ))}
     </div>
   );

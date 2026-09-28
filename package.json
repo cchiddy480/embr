@@ -1,7 +1,7 @@
 {
   "name": "embr-platform",
   "version": "1.0.0",
-  "description": "Embr - Micro app platform for events and businesses",
+  "description": "Embr - done-for-you live event guides",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -9,8 +9,6 @@
   "scripts": {
     "dev": "npm run dev --workspace=@embr/hub-app",
     "build": "npm run build --workspace=@embr/hub-app",
-    "generate": "node scripts/generate-standalone.js",
-    "build-client": "node scripts/build-client.js",
     "devlog:update": "node scripts/update-dev-log.js",
     "devlog:append": "node scripts/update-dev-log.js --append",
     "update:docs": "node scripts/update-documentation.js",
@@ -21,8 +19,7 @@
     "prospect:demo": "npx tsx scripts/prospect-demo.ts",
     "review:log": "node scripts/log-review.js",
     "review:streak": "node scripts/review-streak.js",
-    "setup": "npm install && npm run setup:firebase",
-    "setup:firebase": "node scripts/setup-firebase.js",
+    "setup": "npm install",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces",
     "tsprune:hub": "npx ts-prune -p packages/hub-app/tsconfig.json",
@@ -43,12 +40,9 @@
     "git:end": "node scripts/git-workflow.js end",
     "git:status": "node scripts/git-workflow.js status",
     "git:cleanup": "node scripts/git-workflow.js cleanup",
-    "migrate:configs": "node scripts/migrate-configs-to-firestore.js",
-    "clients:loader": "node scripts/generate-client-loader.js",
     "clients:expiry": "node scripts/update-expiry.js"
   },
   "devDependencies": {
-    "@chainlift/liftkit": "^0.1.1",
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -69,20 +63,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/embr-platform/embr-platform.git"
+    "url": "https://github.com/cchiddy480/embr.git"
   },
   "keywords": [
-    "micro-apps",
-    "events",
-    "business",
-    "capacitor",
+    "event-guides",
     "nextjs",
     "firebase"
   ],
   "author": "Embr Team",
   "license": "MIT",
   "dependencies": {
-    "@capacitor/storage": "^1.2.5",
     "firebase-admin": "^13.4.0"
   }
 }

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { collection, query, orderBy, limit, onSnapshot, Timestamp } from 'firebase/firestore';
 import { db } from '../../../../lib/firebase';
-import { EmbrKitCard, EmbrKitAlert } from '@embr/ui';
+import { GuideCard } from './GuideCard';
 import type { UpdatesBlock, Theme } from '../../../../types/blocks-schema';
 
 interface UpdatesBlockViewProps {
@@ -17,6 +17,8 @@ interface GuideUpdate {
   message: string;
   postedAt: Timestamp | number | null;
 }
+
+const MONO_FONT = "'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
 function formatPostedAt(postedAt: GuideUpdate['postedAt']): string {
   if (!postedAt) return '';
@@ -51,29 +53,29 @@ export function UpdatesBlockView({ theme, clientId }: UpdatesBlockViewProps) {
   return (
     <div aria-live="polite" className="flex flex-col gap-3">
       {connError && (
-        <EmbrKitAlert
-          type="warning"
-          title="Showing the last saved version"
-          description="We couldn't reach the live feed just now — this may be out of date."
-          closable={false}
-        />
+        <div
+          className="rounded-2xl px-4 py-3 text-sm"
+          style={{ border: `1px solid ${theme.colors.border ?? `${theme.colors.text}1a`}`, color: theme.colors.textSecondary }}
+        >
+          Showing the last saved version — we could not reach the live feed just now.
+        </div>
       )}
       {loading ? (
-        <EmbrKitCard className="p-8 text-center">
-          <p style={{ color: theme.colors.textSecondary }}>Loading updates…</p>
-        </EmbrKitCard>
+        <GuideCard theme={theme} className="text-center">
+          <p style={{ color: theme.colors.textSecondary }}>Loading updates.</p>
+        </GuideCard>
       ) : updates.length === 0 ? (
-        <EmbrKitCard className="p-8 text-center">
-          <p style={{ color: theme.colors.textSecondary }}>No updates yet — anything that changes will show up here the moment it's posted.</p>
-        </EmbrKitCard>
+        <GuideCard theme={theme} className="text-center">
+          <p style={{ color: theme.colors.textSecondary }}>No updates yet. Anything that changes will show up here the moment it is posted.</p>
+        </GuideCard>
       ) : (
         updates.map((update) => (
-          <EmbrKitCard key={update.id} className="p-4">
+          <GuideCard key={update.id} theme={theme} className="p-4">
             <p style={{ color: theme.colors.text, fontFamily: `'${theme.fonts.body}', sans-serif` }}>{update.message}</p>
             {update.postedAt && (
-              <p className="text-xs mt-2" style={{ color: theme.colors.textSecondary }}>{formatPostedAt(update.postedAt)}</p>
+              <p className="text-xs mt-2" style={{ color: theme.colors.textSecondary, fontFamily: MONO_FONT }}>{formatPostedAt(update.postedAt)}</p>
             )}
-          </EmbrKitCard>
+          </GuideCard>
         ))
       )}
     </div>

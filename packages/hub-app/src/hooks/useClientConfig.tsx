@@ -1,16 +1,15 @@
 'use client'
 
 import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
-import { ClientConfig } from '../types/client';
+import { TripConfigSchema, type TripConfig } from '../types/blocks-schema';
 import { db } from '../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-// import { Preferences } from '@capacitor/preferences';
 
 const STORAGE_CLIENT_ID_KEY = 'embr-last-client-id';
 const STORAGE_CONFIG_KEY = 'embr-client-config';
 
 interface ClientConfigContextType {
-  config: ClientConfig | null;
+  config: TripConfig | null;
   isExpired: boolean;
   loading: boolean;
   loadConfig: (clientId?: string) => Promise<void>;
@@ -20,52 +19,37 @@ interface ClientConfigContextType {
 const ClientConfigContext = createContext<ClientConfigContextType | undefined>(undefined);
 
 export function ClientConfigProvider({ children }: { children: ReactNode }): React.ReactElement {
-  const [config, setConfig] = useState<ClientConfig | null>(null);
+  const [config, setConfig] = useState<TripConfig | null>(null);
   const [isExpired, setIsExpired] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Check if config is expired
   const checkExpiry = useCallback((expiry: string | null | undefined) => {
     if (!expiry) {
       setIsExpired(false);
       return;
     }
-    const expiryDate = new Date(expiry);
-    const now = new Date();
-    console.log('[checkExpiry] expiryDate:', expiryDate, 'now:', now);
-    setIsExpired(expiryDate < now);
+    setIsExpired(new Date(expiry) < new Date());
   }, []);
 
   useEffect(() => {
-    console.log('[ClientConfigProvider] MOUNTED');
-  }, []);
-  useEffect(() => {
-    console.log('[ClientConfigProvider] config changed:', config);
-  }, [config]);
-
-  useEffect(() => {
-    // On mount, try to load cached config from Capacitor Storage
+    // On mount, try to load cached config from localStorage
     (async () => {
       setLoading(true);
       // Safety valve: never hang the UI on first load
-      const loadingTimeout = setTimeout(() => {
-        console.warn('[ClientConfigProvider] Initial load timed out; releasing loading state');
-        setLoading(false);
-      }, 3000);
+      const loadingTimeout = setTimeout(() => setLoading(false), 3000);
       try {
         const cachedConfig = localStorage.getItem(STORAGE_CONFIG_KEY);
         if (cachedConfig) {
-          try {
-            const parsed = JSON.parse(cachedConfig);
-            setConfig(parsed);
-            checkExpiry(parsed.expiry);
-            console.log('[ClientConfigProvider] loaded cached config from localStorage:', parsed);
-          } catch (e) {
-            console.warn('[ClientConfigProvider] Failed to parse cached config from localStorage');
+          const parsed = TripConfigSchema.safeParse(JSON.parse(cachedConfig));
+          if (parsed.success) {
+            setConfig(parsed.data);
+            checkExpiry(parsed.data.expiry);
+          } else {
+            localStorage.removeItem(STORAGE_CONFIG_KEY);
           }
         }
-      } catch (err) {
-        console.warn('[ClientConfigProvider] localStorage.get failed; continuing without cached config');
+      } catch {
+        // Corrupt cache — ignore and continue without it.
       } finally {
         clearTimeout(loadingTimeout);
         setLoading(false);
@@ -74,21 +58,16 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
   }, [checkExpiry]);
 
   // Resolve an access code to a clientId via Firestore's access-codes/{CODE}
-  // collection (written by scripts/configs-push.js). No static mapping and
-  // no scanning every known config file — that whole approach couldn't
-  // scale past a handful of hardcoded clients. Anything that isn't a known,
-  // non-revoked code is treated as a direct clientId/slug (which is exactly
-  // how a real trip link — /c/<id> or ?client=<id> — already works).
+  // collection (written by scripts/configs-push.js). Anything that isn't a
+  // known, non-revoked code is treated as a direct clientId/slug — exactly
+  // how a real trip link (/c/<id> or ?client=<id>) already works.
   const resolveClientId = useCallback(async (input: string): Promise<string> => {
     const codeUpper = input.toUpperCase();
     try {
       const codeSnap = await getDoc(doc(db, 'access-codes', codeUpper));
       if (codeSnap.exists()) {
         const data = codeSnap.data();
-        if (!data.revoked && typeof data.tripId === 'string') {
-          console.log('[resolveClientId] Access code resolved:', input, '→', data.tripId);
-          return data.tripId;
-        }
+        if (!data.revoked && typeof data.tripId === 'string') return data.tripId;
       }
     } catch (error) {
       console.warn('[resolveClientId] Firestore access-code lookup failed, treating as direct clientId:', error);
@@ -96,128 +75,55 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     return input;
   }, []);
 
-  // Load config from static file or fallback to generic
   const loadConfig = useCallback(async (clientIdOrAccessCode?: string) => {
-    console.log('[loadConfig] called with clientIdOrAccessCode:', clientIdOrAccessCode);
-    console.log('[loadConfig] window:', typeof window);
-    
     if (!clientIdOrAccessCode) {
-      // Try to load from localStorage
       const cachedConfig = localStorage.getItem(STORAGE_CONFIG_KEY);
-      if (cachedConfig) {
-        try {
-          const parsed = JSON.parse(cachedConfig);
-          setConfig(parsed);
-          checkExpiry(parsed.expiry);
-          console.log('[loadConfig] loaded from localStorage:', parsed);
-          return;
-        } catch (error) {
-          console.error('Failed to parse cached config:', error);
-          localStorage.removeItem(STORAGE_CONFIG_KEY);
-          throw new Error('Invalid cached config');
-        }
-      } else {
-        throw new Error('No cached config found');
+      if (!cachedConfig) throw new Error('No cached config found');
+      const parsed = TripConfigSchema.safeParse(JSON.parse(cachedConfig));
+      if (!parsed.success) {
+        localStorage.removeItem(STORAGE_CONFIG_KEY);
+        throw new Error('Invalid cached config');
       }
+      setConfig(parsed.data);
+      checkExpiry(parsed.data.expiry);
+      return;
     }
 
-    // Resolve access code to client ID
     const clientId = await resolveClientId(clientIdOrAccessCode);
 
-    // Try to fetch from Firestore first
+    const applyConfig = (raw: unknown): boolean => {
+      const parsed = TripConfigSchema.safeParse(raw);
+      if (!parsed.success) return false;
+      setConfig(parsed.data);
+      checkExpiry(parsed.data.expiry);
+      localStorage.setItem(STORAGE_CLIENT_ID_KEY, clientId);
+      localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(parsed.data));
+      return true;
+    };
+
+    // Firestore is the live source of truth for a deployed guide.
     try {
-      const docRef = doc(db, 'client-configs', clientId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const fetchedConfig = docSnap.data() as ClientConfig;
-        setConfig(fetchedConfig);
-        checkExpiry(fetchedConfig.expiry);
-        localStorage.setItem(STORAGE_CLIENT_ID_KEY, clientId);
-        localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(fetchedConfig));
-        console.log('[loadConfig] loaded from Firestore:', fetchedConfig);
-        return;
-      } else {
-        throw new Error('Config not found in Firestore');
-      }
+      const docSnap = await getDoc(doc(db, 'client-configs', clientId));
+      if (docSnap.exists() && applyConfig(docSnap.data())) return;
     } catch (err) {
       console.warn(`[ClientConfigProvider] Could not fetch config for ${clientId} from Firestore, falling back to static.`, err);
     }
-    
-    // Fallback: fetch from static JSON
+
+    // Static JSON fallback — the same file scripts/configs-push.js reads
+    // from and scripts/create-client.js writes to, useful if Firestore is
+    // briefly unreachable or a guide hasn't been pushed yet.
     try {
       const res = await fetch(`/client-configs/${clientId}.json`);
-      if (!res.ok) throw new Error('Config not found');
-      const fetchedConfig = await res.json();
-      setConfig(fetchedConfig);
-      checkExpiry(fetchedConfig.expiry);
-      localStorage.setItem(STORAGE_CLIENT_ID_KEY, clientId);
-      localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(fetchedConfig));
-      console.log('[loadConfig] loaded from static JSON:', fetchedConfig);
-      return;
+      if (res.ok && applyConfig(await res.json())) return;
     } catch (err) {
       console.warn(`[ClientConfigProvider] Could not fetch config for ${clientId} from static JSON.`, err);
     }
 
-    // Fallback: create a generic config for unknown clientIds
-    const genericConfig: ClientConfig = {
-      clientId,
-      name: `App for ${clientId}`,
-      description: `A custom app for ${clientId}`,
-      version: '1.0.0',
-      expiry: '2024-12-31T23:59:59Z',
-      theme: {
-        colors: {
-          primary: '#0F766E',
-          secondary: '#38F9E4',
-          accent: '#FFD700',
-          background: '#101926',
-          surface: '#22304a',
-          text: '#FFFFFF',
-          textSecondary: '#CCCCCC'
-        },
-        fonts: {
-          heading: 'Inter',
-          body: 'Inter'
-        },
-        logo: {
-          light: '/embr_logo_transparent_dark.svg',
-          dark: '/embr_logo_transparent_dark.svg',
-          favicon: '/embr-logo.svg'
-        }
-      },
-      navigation: [
-        {
-          id: 'home',
-          title: 'Home',
-          icon: 'home',
-          path: '/'
-        }
-      ],
-      features: {
-        offline: true,
-        pushNotifications: false,
-        qrCode: false,
-        analytics: false
-      },
-      content: {},
-      pushNotifications: {
-        topics: [`embr_${clientId}`],
-        defaultTitle: 'Embr App',
-        defaultIcon: '/icon.png'
-      },
-      analytics: {
-        enabled: false
-      }
-    };
-
-    setConfig(genericConfig);
-    checkExpiry(genericConfig.expiry);
-    localStorage.setItem(STORAGE_CLIENT_ID_KEY, clientId);
-    localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(genericConfig));
-    console.log('[loadConfig] loaded generic config:', genericConfig);
+    // Nothing valid found — the caller renders this as an honest "this
+    // link isn't pointing at a guide" state, not a fabricated placeholder.
+    throw new Error(`No guide found for ${clientId}`);
   }, [checkExpiry, resolveClientId]);
 
-  // Clear config
   const clearConfig = useCallback(async () => {
     setConfig(null);
     setIsExpired(false);
@@ -235,7 +141,6 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
 
 export function useClientConfig() {
   const ctx = useContext(ClientConfigContext);
-  console.log('[useClientConfig] called, ctx:', ctx);
   if (!ctx) throw new Error('useClientConfig must be used within a ClientConfigProvider');
   return ctx;
 }

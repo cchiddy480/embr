@@ -1,11 +1,13 @@
 import React from 'react';
-import { EmbrKitSchedule, EmbrKitCard } from '@embr/ui';
+import { GuideCard } from './GuideCard';
 import type { ScheduleBlock, Theme } from '../../../../types/blocks-schema';
 
 interface ScheduleBlockViewProps {
   block: ScheduleBlock;
   theme: Theme;
 }
+
+const MONO_FONT = "'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
 
 // Groups events by their `day` label, preserving the order they were
 // authored in — never re-sorted by `time`, since that field is free text
@@ -25,59 +27,71 @@ function groupByDay(events: ScheduleBlock['events']) {
 export function ScheduleBlockView({ block, theme }: ScheduleBlockViewProps) {
   if (block.events.length === 0) {
     return (
-      <EmbrKitCard className="p-8 text-center">
+      <GuideCard theme={theme} className="text-center">
         <p style={{ color: theme.colors.textSecondary }}>No schedule added yet.</p>
-      </EmbrKitCard>
+      </GuideCard>
     );
   }
 
   const days = groupByDay(block.events);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       {days.map((group) => (
-        <EmbrKitSchedule key={group.day} title={block.title} date={group.day}>
-          {group.events.map((event) => (
-            <div
-              key={event.id}
-              className="p-4 rounded-xl mb-3 last:mb-0"
-              style={{ backgroundColor: theme.colors.surface, border: `1px solid ${theme.colors.border ?? `${theme.colors.text}15`}` }}
-            >
-              <div className="flex items-baseline justify-between gap-2 mb-1">
-                <h4 className="font-semibold" style={{ color: theme.colors.text, fontFamily: `'${theme.fonts.heading}', serif` }}>
-                  {event.title}
-                </h4>
+        <div key={group.day}>
+          <h3
+            className="text-xs font-semibold uppercase tracking-wide mb-2 px-1"
+            style={{ color: theme.colors.textSecondary, fontFamily: MONO_FONT }}
+          >
+            {group.day}
+          </h3>
+          <div className="flex flex-col gap-2">
+            {group.events.map((event) => (
+              <div
+                key={event.id}
+                className="flex gap-4 rounded-xl px-4 py-3"
+                style={{ border: `1px solid ${theme.colors.border ?? `${theme.colors.text}1a`}` }}
+              >
                 {event.time && (
-                  <span className="text-sm font-medium whitespace-nowrap" style={{ color: theme.colors.primary }}>
-                    {event.time}{event.timeApprox ? ' (approx)' : ''}
-                  </span>
+                  <div
+                    className="shrink-0 text-sm pt-0.5 tabular-nums"
+                    style={{ color: theme.colors.primary, fontFamily: MONO_FONT, minWidth: '4.5rem' }}
+                  >
+                    {event.time}
+                    {event.timeApprox ? '*' : ''}
+                  </div>
                 )}
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold" style={{ color: theme.colors.text, fontFamily: `'${theme.fonts.heading}', serif` }}>
+                    {event.title}
+                  </p>
+                  {event.location && (
+                    <p className="text-sm mt-0.5" style={{ color: theme.colors.textSecondary }}>{event.location}</p>
+                  )}
+                  {event.description && (
+                    <p className="text-sm mt-1" style={{ color: theme.colors.textSecondary, fontFamily: `'${theme.fonts.body}', sans-serif` }}>
+                      {event.description}
+                    </p>
+                  )}
+                  {event.timezoneNote && (
+                    <p className="text-xs mt-1 italic" style={{ color: theme.colors.textSecondary }}>{event.timezoneNote}</p>
+                  )}
+                  {event.mapUrl && (
+                    <a
+                      href={event.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center min-h-[44px] text-sm font-medium"
+                      style={{ color: theme.colors.primary }}
+                    >
+                      Get directions
+                    </a>
+                  )}
+                </div>
               </div>
-              {event.location && (
-                <p className="text-sm mb-1" style={{ color: theme.colors.textSecondary }}>📍 {event.location}</p>
-              )}
-              {event.description && (
-                <p className="text-sm mt-2" style={{ color: theme.colors.textSecondary, fontFamily: `'${theme.fonts.body}', sans-serif` }}>
-                  {event.description}
-                </p>
-              )}
-              {event.timezoneNote && (
-                <p className="text-xs mt-2 italic" style={{ color: theme.colors.textSecondary }}>{event.timezoneNote}</p>
-              )}
-              {event.mapUrl && (
-                <a
-                  href={event.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center min-h-[44px] text-sm font-medium mt-1"
-                  style={{ color: theme.colors.primary }}
-                >
-                  Directions ↗
-                </a>
-              )}
-            </div>
-          ))}
-        </EmbrKitSchedule>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
   );
