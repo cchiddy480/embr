@@ -18,6 +18,9 @@
     "configs:push:one": "node scripts/configs-push.js --only",
     "client:create": "node scripts/create-client.js",
     "client:validate": "node scripts/validate-client-config.js --all",
+    "prospect:demo": "npx tsx scripts/prospect-demo.ts",
+    "review:log": "node scripts/log-review.js",
+    "review:streak": "node scripts/review-streak.js",
     "setup": "npm install && npm run setup:firebase",
     "setup:firebase": "node scripts/setup-firebase.js",
     "lint": "npm run lint --workspaces",
@@ -57,6 +60,7 @@
     "postcss": "^8.4.0",
     "tailwindcss": "^3.3.0",
     "ts-prune": "^0.10.3",
+    "tsx": "^4.23.15",
     "typescript": "^5.0.0"
   },
   "engines": {

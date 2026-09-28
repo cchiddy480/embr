@@ -21,7 +21,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const admin = require('firebase-admin');
+const { getAdminDb, admin } = require('./lib/firebase-admin-init');
+const { TripConfigSchema, isTripConfigShape } = require('./lib/trip-config-schema');
 
 // Best-effort load of .env.local/.env if dotenv is available
 try {
@@ -54,37 +55,6 @@ function resolveConfigsDir(repoRoot) {
   return path.resolve(dirArg ? dirArg : defaultDir);
 }
 
-function loadServiceAccount(repoRoot) {
-  const gac = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-  if (gac && fs.existsSync(gac)) {
-    return JSON.parse(fs.readFileSync(gac, 'utf8'));
-  }
-  const fsa = process.env.FIREBASE_SERVICE_ACCOUNT;
-  if (fsa) {
-    if (fsa.trim().startsWith('{')) {
-      return JSON.parse(fsa);
-    }
-    const p = path.resolve(fsa);
-    if (fs.existsSync(p)) return JSON.parse(fs.readFileSync(p, 'utf8'));
-  }
-  const fallback = path.join(repoRoot, 'firebase-service-account.json');
-  if (fs.existsSync(fallback)) {
-    return JSON.parse(fs.readFileSync(fallback, 'utf8'));
-  }
-  // No explicit key found. Fall back to Application Default Credentials (ADC),
-  // which supports OIDC (google-github-actions/auth) in CI without static keys.
-  return null;
-}
-
-function initFirebaseAdmin(serviceAccount) {
-  if (admin.apps && admin.apps.length) return;
-  if (serviceAccount) {
-    admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
-  } else {
-    admin.initializeApp({ credential: admin.credential.applicationDefault() });
-  }
-}
-
 function listConfigFiles(configsDir) {
   if (!fs.existsSync(configsDir)) return [];
   return fs
@@ -102,15 +72,42 @@ function readJsonFile(filePath) {
   }
 }
 
-function assertRequiredFields(config, fileName) {
-  // Phase A: fail hard rather than warn-and-push. The full rewrite to the
-  // zod-based blocks schema happens in Phase B — this is the minimal guard
-  // until then so a broken config can't reach Firestore silently.
+function assertLegacyRequiredFields(config, fileName) {
+  // Phase A fallback for configs that don't have a `blocks` array (the old
+  // template-based shape). Trip-shaped configs go through the full
+  // TripConfigSchema validation in validateAndPreparePush instead.
   const required = ['clientId', 'name', 'version', 'expiry', 'theme', 'navigation'];
   const missing = required.filter((k) => !(k in config));
   if (missing.length) {
     throw new Error(`${fileName}: missing required fields: ${missing.join(', ')}`);
   }
+}
+
+/**
+ * Validates and prepares one config for push. Returns:
+ *   { publicPayload, accessCode|null, isTripConfig }
+ * For a trip-shaped config (`blocks` array present): validates against
+ * TripConfigSchema (throws with zod's own issue list on failure), returns
+ * the *parsed* output as publicPayload — zod strips any unknown fields
+ * (like an authoring-time `accessCode`) automatically since the schema
+ * isn't `.passthrough()`'d, so the raw input's `accessCode` (if any) is
+ * read separately here, before validation, for the access-codes upsert.
+ * For a legacy config: unchanged Phase A behavior (fail-hard field check,
+ * accessCode stays embedded in the pushed doc as before).
+ */
+function validateAndPreparePush(rawConfig, fileName) {
+  if (isTripConfigShape(rawConfig)) {
+    const accessCode = typeof rawConfig.accessCode === 'string' ? rawConfig.accessCode.toUpperCase() : null;
+    const result = TripConfigSchema.safeParse(rawConfig);
+    if (!result.success) {
+      const issues = result.error.issues.map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`).join('; ');
+      throw new Error(`${fileName}: TripConfigSchema validation failed: ${issues}`);
+    }
+    return { publicPayload: result.data, accessCode, isTripConfig: true };
+  }
+
+  assertLegacyRequiredFields(rawConfig, fileName);
+  return { publicPayload: rawConfig, accessCode: null, isTripConfig: false };
 }
 
 async function pushConfigs() {
@@ -120,9 +117,7 @@ async function pushConfigs() {
   const dryRun = hasFlag('--dry');
   const collectionName = getArg('--collection') || 'client-configs';
 
-  const serviceAccount = loadServiceAccount(repoRoot);
-  initFirebaseAdmin(serviceAccount);
-  const db = admin.firestore();
+  const db = getAdminDb(repoRoot);
 
   const files = listConfigFiles(configsDir);
   if (!files.length) {
@@ -147,15 +142,45 @@ async function pushConfigs() {
   for (const filePath of selectedFiles) {
     const base = path.basename(filePath);
     const slug = base.replace(/\.json$/, '');
-    const cfg = readJsonFile(filePath);
-    if (!cfg.clientId) cfg.clientId = slug;
-    assertRequiredFields(cfg, base);
+    const rawCfg = readJsonFile(filePath);
+    if (!rawCfg.clientId) rawCfg.clientId = slug;
 
-    const docRef = db.collection(collectionName).doc(cfg.clientId);
+    const { publicPayload, accessCode, isTripConfig } = validateAndPreparePush(rawCfg, base);
+
+    const docRef = db.collection(collectionName).doc(publicPayload.clientId);
+    const expireAt = isTripConfig && publicPayload.expiry
+      ? admin.firestore.Timestamp.fromDate(new Date(publicPayload.expiry))
+      : null;
+
+    // `expireAt`/`paidState.isPaid` are only ever set here on first
+    // creation. Once a trip exists, the Stripe webhook (Phase D) owns
+    // paidState and may set expireAt to null on payment to remove TTL
+    // eligibility — a plain re-push (e.g. editing the schedule) must never
+    // clobber that back to a stale timestamp or isPaid:false.
+    const privateRef = isTripConfig ? db.collection('private').doc(publicPayload.clientId) : null;
+    const isFirstPush = isTripConfig && !dryRun ? !(await privateRef.get()).exists : false;
+
     if (dryRun) {
-      console.log(`- would set ${cfg.clientId} from ${base}`);
+      console.log(`- would set ${publicPayload.clientId} from ${base}${accessCode ? ` (access code ${accessCode})` : ''}`);
     } else {
-      batch.set(docRef, cfg, { merge: true });
+      batch.set(
+        docRef,
+        isTripConfig && isFirstPush ? { ...publicPayload, expireAt } : publicPayload,
+        { merge: true }
+      );
+
+      if (isTripConfig) {
+        // Sensitive/internal state lives under private/, admin-SDK only —
+        // never in the public client-configs doc.
+        if (isFirstPush) {
+          batch.set(privateRef, { paidState: { isPaid: false }, expireAt }, { merge: true });
+        }
+
+        if (accessCode) {
+          const codeRef = db.collection('access-codes').doc(accessCode);
+          batch.set(codeRef, { tripId: publicPayload.clientId, revoked: false }, { merge: true });
+        }
+      }
     }
     count += 1;
   }

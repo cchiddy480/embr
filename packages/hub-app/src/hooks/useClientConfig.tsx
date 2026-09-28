@@ -19,23 +19,6 @@ interface ClientConfigContextType {
 
 const ClientConfigContext = createContext<ClientConfigContextType | undefined>(undefined);
 
-// Access code to client ID mapping - static fallback for known codes
-const ACCESS_CODE_MAPPING: Record<string, string> = {
-  'WILDROOTS2025': 'wildroots-festival-2025',
-  'PEAKFORM2025': 'peakform-physio-2025',
-  'FEST2025': 'summer-music-festival-2025',
-  'HEALTH2025': 'wellness-clinic-2025',
-  'MENU2025': 'tech-solutions-co-2025',
-  'REST2025': 'corner-bistro-2025',
-  'PROP2025': 'riverside-apartments-2025',
-  // Template Variation Examples
-  'FESTMOD2025': 'festival-modern-2025',
-  'FESTCLAS2025': 'festival-classic-2025',
-  'FESTMIN2025': 'festival-minimal-2025',
-  'FESTVIB2025': 'festival-vibrant-2025',
-  // Add more access codes here as needed
-};
-
 export function ClientConfigProvider({ children }: { children: ReactNode }): React.ReactElement {
   const [config, setConfig] = useState<ClientConfig | null>(null);
   const [isExpired, setIsExpired] = useState(false);
@@ -90,50 +73,26 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
     })();
   }, [checkExpiry]);
 
-  // Helper function to resolve access code to client ID
+  // Resolve an access code to a clientId via Firestore's access-codes/{CODE}
+  // collection (written by scripts/configs-push.js). No static mapping and
+  // no scanning every known config file — that whole approach couldn't
+  // scale past a handful of hardcoded clients. Anything that isn't a known,
+  // non-revoked code is treated as a direct clientId/slug (which is exactly
+  // how a real trip link — /c/<id> or ?client=<id> — already works).
   const resolveClientId = useCallback(async (input: string): Promise<string> => {
-    const upperInput = input.toUpperCase();
-
-    // First check static mapping
-    const clientIdFromMapping = ACCESS_CODE_MAPPING[upperInput];
-    if (clientIdFromMapping) {
-      console.log('[resolveClientId] Access code mapped from static:', input, '→', clientIdFromMapping);
-      return clientIdFromMapping;
-    }
-
-    // Try to find access code by scanning config files
-    const configFileNames = [
-      'wildroots-festival-2025.json',
-      'peakform-physio-2025.json',
-      'smith-jones-wedding-2024.json',
-      'demo-festival.json',
-      'summer-music-festival-2025.json',
-      'wellness-clinic-2025.json',
-      'tech-solutions-co-2025.json',
-      'corner-bistro-2025.json',
-      'riverside-apartments-2025.json',
-      // Add more as needed, or make this dynamic
-    ];
-
-    for (const fileName of configFileNames) {
-      try {
-        const clientId = fileName.replace('.json', '');
-        const res = await fetch(`/client-configs/${fileName}`);
-        if (res.ok) {
-          const config = await res.json();
-          if (config.accessCode && config.accessCode.toUpperCase() === upperInput) {
-            console.log('[resolveClientId] Access code found in config:', input, '→', clientId);
-            return clientId;
-          }
+    const codeUpper = input.toUpperCase();
+    try {
+      const codeSnap = await getDoc(doc(db, 'access-codes', codeUpper));
+      if (codeSnap.exists()) {
+        const data = codeSnap.data();
+        if (!data.revoked && typeof data.tripId === 'string') {
+          console.log('[resolveClientId] Access code resolved:', input, '→', data.tripId);
+          return data.tripId;
         }
-      } catch (error) {
-        // Continue to next config file
-        console.log('[resolveClientId] Could not check', fileName, error);
       }
+    } catch (error) {
+      console.warn('[resolveClientId] Firestore access-code lookup failed, treating as direct clientId:', error);
     }
-
-    // If not an access code, treat as direct client ID
-    console.log('[resolveClientId] Using as direct client ID:', input);
     return input;
   }, []);
 

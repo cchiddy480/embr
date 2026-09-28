@@ -648,7 +648,16 @@ export const EmbrKitTabs: React.FC<EmbrKitTabsProps> = ({
               onSelect: () => onTabChange(child.props.id)
             });
           }
-          return child;
+          // Anything else passed as a child (e.g. EmbrKitTabPanel elements,
+          // when Tab and TabPanel children are interleaved in one flat
+          // `children` array) doesn't belong in the tab-button strip.
+          // Previously this fell through to `return child`, which rendered
+          // every panel's full content here too — unconditionally, on top
+          // of the second map below that's supposed to gate panels by
+          // activeTab. That's a real bug: it showed every panel's content
+          // stacked above the tab buttons regardless of which tab was
+          // selected. Filtering it out here is the fix.
+          return null;
         })}
       </div>
       {React.Children.map(children, (child) => {
