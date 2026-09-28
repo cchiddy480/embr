@@ -6,6 +6,8 @@ Turn an itinerary into a live trip/event guide your guests will actually open.
 
 Embr is a **done-for-you live event guide**: send us an itinerary, we turn it into one branded link — schedule, contacts, key info, live updates — instead of a PDF nobody re-opens or messages buried in a group chat.
 
+The marketing site lives in a separate repo, [`cchiddy480/embr-landing`](https://github.com/cchiddy480/embr-landing) (deployed to `build-embr.co.uk`), kept apart from this repo (`app.build-embr.co.uk`) deliberately — different framework versions, independent deploy cadence, no shared code. Its pricing/positioning copy should stay in sync with what's actually true here; see its README.
+
 ## How It Works
 
 Every guide is a single config document (a `TripConfig`) rendered through one block engine — there's no per-client code, no template catalog, no app install. A guide is built by hand from a real itinerary (via a Claude Code skill, see below), pushed to Firestore, and served at a branded link.

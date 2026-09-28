@@ -19,6 +19,8 @@ Embr sells a **done-for-you live event/trip guide**: a planner hands over an iti
 
 This is a deliberate narrowing from an earlier, broader "Universal Micro-App Framework" concept (breathing timers, business menus, property showcases, etc., across many industries). That direction is retired — see [History](#history-how-we-got-here). Everything below describes the current, singular product.
 
+The marketing site is a separate repo, [`cchiddy480/embr-landing`](https://github.com/cchiddy480/embr-landing) (`build-embr.co.uk`), kept apart deliberately (different framework versions, independent deploy cadence, no shared code with this repo). Its pricing and positioning copy describe this product and can drift — when either changes here, check it against `embr-landing`'s `src/app/page.tsx`.
+
 ---
 
 ## Data Model
