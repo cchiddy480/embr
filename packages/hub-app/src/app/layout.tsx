@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Embr | Live event guide',
   description: 'The live schedule, places and event details shared by your organiser.',
+  icons: { icon: { url: '/embr-logo.svg', type: 'image/svg+xml' } },
 }
 
 export const viewport: Viewport = {

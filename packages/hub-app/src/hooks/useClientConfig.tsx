@@ -182,7 +182,7 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
         logo: {
           light: '/embr_logo_transparent_dark.svg',
           dark: '/embr_logo_transparent_dark.svg',
-          favicon: '/favicon.ico'
+          favicon: '/embr-logo.svg'
         }
       },
       navigation: [
@@ -238,4 +238,4 @@ export function useClientConfig() {
   console.log('[useClientConfig] called, ctx:', ctx);
   if (!ctx) throw new Error('useClientConfig must be used within a ClientConfigProvider');
   return ctx;
-} 
+}

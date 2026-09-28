@@ -22,6 +22,8 @@ Embr is a done-for-you live event guide. Guest interfaces should feel calm under
 
 Client guides use the same surface, spacing, and navigation rules but replace signal teal with the client's single primary colour. Secondary client colours are decorative only, not competing CTAs.
 
+The Embr mark is always the original four-ember cluster, rebuilt as flat vector geometry. Use signal teal on transparent or ink backgrounds, keep all four embers equal, and never add glow, gradients, shadows, or rearrange the cluster.
+
 ## Type and shape
 
 - Brand shell: Geist or Inter. Client guides may use their configured heading and body fonts.
