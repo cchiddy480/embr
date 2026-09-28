@@ -59,8 +59,9 @@ function validateAll() {
   const configsDir = 'packages/hub-app/public/client-configs';
 
   if (!fs.existsSync(configsDir)) {
-    console.log('❌ Configs directory not found');
-    process.exitCode = 1;
+    // Not an error: git doesn't track empty directories, so a fresh clone
+    // with no guides authored yet simply won't have this folder.
+    console.log('📁 No config files found (configs directory does not exist yet)');
     return;
   }
 
