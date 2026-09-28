@@ -78,9 +78,13 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
   };
 
   const renderHomeContent = () => {
-    const homeContent = config.content?.home || {};
-    const scheduleContent = config.content?.schedule || {};
-    const vendorsContent = config.content?.vendors || {};
+    // ClientContent only types festival/wedding content (schedule, vendors,
+    // map, guests, venue) — 'home' isn't part of the shared shape. Cast here
+    // rather than widen the shared type for content this renderer alone uses.
+    const flexContent = config.content as any;
+    const homeContent = flexContent?.home || {};
+    const scheduleContent = flexContent?.schedule || {};
+    const vendorsContent = flexContent?.vendors || {};
 
     return (
       <div className="min-h-screen">
@@ -134,15 +138,14 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
                 {homeContent.description || config.description}
               </p>
 
-              {/* Ticket-Style Stats Cards */}
+              {/* Ticket-Style Stats Cards — only real, config-derived numbers, no fake placeholders */}
+              {(scheduleContent.events?.length || vendorsContent.categories?.length) ? (
               <div className="mb-16">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {[
-                    { value: scheduleContent.events?.length || '12', label: 'Events', icon: '🎪' },
-                    { value: vendorsContent.categories?.length || '8', label: 'Vendors', icon: '🎭' },
-                    { value: '3', label: 'Days', icon: '📅' },
-                    { value: '100+', label: 'Guests', icon: '🎉' }
-                  ].map((stat, idx) => (
+                    scheduleContent.events?.length ? { value: scheduleContent.events.length, label: 'Events', icon: '🎪' } : null,
+                    vendorsContent.categories?.length ? { value: vendorsContent.categories.length, label: 'Vendors', icon: '🎭' } : null,
+                  ].filter((stat): stat is { value: number; label: string; icon: string } => stat !== null).map((stat, idx) => (
                     <div
                       key={idx}
                       className="p-6 relative transition-transform"
@@ -178,6 +181,7 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
                   ))}
                 </div>
               </div>
+              ) : null}
 
               {/* Bold CTA Buttons - Variation-styled */}
               <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
@@ -207,7 +211,7 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
                     backgroundColor: 'transparent',
                     color: '#ffffff',
                     fontWeight: varStyles.bodyWeight,
-                    fontFamily: embrKitTheme.bodyFontFamily,
+                    fontFamily: embrKitTheme.fontFamily,
                     border: varStyles.borderStyle + ' rgba(255, 255, 255, 0.5)',
                     borderRadius: varStyles.borderRadius,
                     backdropFilter: 'blur(10px)',
@@ -349,7 +353,7 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
       default:
         return renderGenericContent(
           navItem?.title || 'Feature',
-          config.content?.[activeTab]?.description || 'This feature is coming soon',
+          (config.content as any)?.[activeTab]?.description || 'This feature is coming soon',
           '🎪'
         );
     }
@@ -391,7 +395,10 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
             </h1>
 
             <div className="flex items-center gap-2">
-              {config.navigation.slice(0, 4).map((item) => (
+              {config.navigation
+                .filter((item) => item.id === 'home' || Boolean((config.content as any)?.[item.id]))
+                .slice(0, 4)
+                .map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}

@@ -7,6 +7,7 @@ export interface ClientTheme {
     surface: string
     text: string
     textSecondary: string
+    border?: string
   }
   fonts: {
     heading: string
@@ -81,6 +82,18 @@ export interface ClientContent {
     parking?: string
     accessibility?: string
   }
+  /**
+   * The template renderers (FestivalRenderer, HealthcareRenderer,
+   * MenuRenderer, PropertyRenderer, RestaurantRenderer) and hand-coded
+   * client apps each read additional, renderer-specific sections keyed by
+   * nav-item id (e.g. `home`, `appointments`, `exercises`) that predate this
+   * type and aren't worth formally typing here — these renderers are slated
+   * for deletion once the Phase B block engine replaces them (see the
+   * production plan's cleanup pass). This index signature accepts that
+   * content without widening it to `any` at every call site.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any
 }
 
 export interface PushNotifications {

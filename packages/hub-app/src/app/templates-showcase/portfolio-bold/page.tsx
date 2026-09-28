@@ -21,7 +21,7 @@ const theme = {
   fontFamily: 'Inter, system-ui, sans-serif',
   headingFontFamily: 'Inter',
   borderRadius: 'sharp' as const,
-  materialStyle: 'elevated' as const
+  materialStyle: 'soft' as const
 }
 
 const categories = [
@@ -130,7 +130,7 @@ export default function PortfolioBoldTemplate() {
 
           {/* About Section */}
           <div className="border-t-4 border-red-800 pt-16">
-            <EmbrKitGrid cols={1} gap={12} className="md:grid-cols-2">
+            <EmbrKitGrid cols={1} gap={8} className="md:grid-cols-2">
               <div>
                 <h2 className="text-5xl font-bold text-red-900 mb-6">About</h2>
                 <div className="prose prose-red max-w-none">

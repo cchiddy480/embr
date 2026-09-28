@@ -211,7 +211,7 @@ export function ClientConfigProvider({ children }: { children: ReactNode }): Rea
           primary: '#0F766E',
           secondary: '#38F9E4',
           accent: '#FFD700',
-        background: undefined,
+          background: '#101926',
           surface: '#22304a',
           text: '#FFFFFF',
           textSecondary: '#CCCCCC'

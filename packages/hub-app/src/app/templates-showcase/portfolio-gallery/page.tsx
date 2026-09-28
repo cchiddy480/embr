@@ -140,7 +140,7 @@ export default function PortfolioGalleryTemplate() {
 
           {/* About Section */}
           <div className="border-t border-gray-200 pt-16">
-            <EmbrKitGrid cols={1} gap={12} className="md:grid-cols-2">
+            <EmbrKitGrid cols={1} gap={8} className="md:grid-cols-2">
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">About</h2>
                 <div className="prose prose-gray">

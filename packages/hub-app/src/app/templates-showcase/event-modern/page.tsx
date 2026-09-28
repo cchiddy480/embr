@@ -232,7 +232,7 @@ export default function EventModern() {
         <div className="bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-500 text-white py-16 shadow-xl">
           <EmbrKitContainer>
             <div className="text-center max-w-3xl mx-auto">
-              <EmbrKitBadge variant="default" className="mb-4 bg-white/20 text-white border-white/30">
+              <EmbrKitBadge variant="neutral" className="mb-4 bg-white/20 text-white border-white/30">
                 Virtual + In-Person
               </EmbrKitBadge>
               <h2 className="text-5xl font-bold mb-4">Join 5,000+ Innovators</h2>

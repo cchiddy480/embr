@@ -102,11 +102,14 @@ function readJsonFile(filePath) {
   }
 }
 
-function warnIfMissingFields(config, fileName) {
+function assertRequiredFields(config, fileName) {
+  // Phase A: fail hard rather than warn-and-push. The full rewrite to the
+  // zod-based blocks schema happens in Phase B — this is the minimal guard
+  // until then so a broken config can't reach Firestore silently.
   const required = ['clientId', 'name', 'version', 'expiry', 'theme', 'navigation'];
   const missing = required.filter((k) => !(k in config));
   if (missing.length) {
-    console.warn(`[warn] ${fileName}: missing fields: ${missing.join(', ')} (pushing anyway)`);
+    throw new Error(`${fileName}: missing required fields: ${missing.join(', ')}`);
   }
 }
 
@@ -146,7 +149,7 @@ async function pushConfigs() {
     const slug = base.replace(/\.json$/, '');
     const cfg = readJsonFile(filePath);
     if (!cfg.clientId) cfg.clientId = slug;
-    warnIfMissingFields(cfg, base);
+    assertRequiredFields(cfg, base);
 
     const docRef = db.collection(collectionName).doc(cfg.clientId);
     if (dryRun) {

@@ -3,9 +3,6 @@ const isProd = process.env.NODE_ENV === 'production'
 const isExport = process.env.NEXT_EXPORT === 'true'
 
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
     domains: ['firebasestorage.googleapis.com', 'localhost'],
   },

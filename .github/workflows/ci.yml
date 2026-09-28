@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=packages/hub-app
+      - run: npm run lint --workspace=packages/hub-app
+      # audit:theme reports violations but doesn't fail the build (exit 0) —
+      # useful signal, not a hard gate yet.
+      - run: npm run audit:theme
+      # client:validate is intentionally NOT run here yet: the current
+      # validator checks fields (`typography`, `offlineMode`, `label`) that
+      # don't match the real ClientConfig shape (`fonts`, `offline`, `title`)
+      # — a known bug, fixed in Phase B when the validator is rewritten
+      # against the zod blocks schema. Running it now would fail CI on
+      # pre-existing demo configs unrelated to any given change. Do not add
+      # it back until scripts/validate-client-config.js is Phase-B-rewritten.

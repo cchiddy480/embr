@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams, usePathname } from 'next/navigation'
 import { QRCodeScanner } from '../components/QRCodeScanner'
 import { AccessCodeEntry } from '../components/AccessCodeEntry'
@@ -9,7 +9,18 @@ import { LoadingScreen } from '../components/LoadingScreen'
 import { ClientApp } from '../components/ClientApp'
 import { useClientConfig } from '../hooks/useClientConfig'
 
+// useSearchParams() requires a Suspense boundary for Next.js static
+// generation, otherwise `next build` fails to prerender "/" — see
+// https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
 export default function HomePage() {
+  return (
+    <Suspense fallback={<LoadingScreen message="Loading..." />}>
+      <HomePageContent />
+    </Suspense>
+  )
+}
+
+function HomePageContent() {
   const [showQRScanner, setShowQRScanner] = useState(false)
   const [showAccessCode, setShowAccessCode] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
