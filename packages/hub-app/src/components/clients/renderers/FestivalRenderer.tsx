@@ -315,7 +315,12 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
     );
   };
 
-  const renderGenericContent = (title: string, description: string, emoji: string) => (
+  // Fallback for a tab that's visible (has some content, per visibleNavigation's
+  // filter) but whose shape this renderer doesn't specifically know how to lay
+  // out. Genuinely empty tabs never reach here — they're hidden from nav
+  // entirely (see A7) — so this is a true "nothing to show" case, not a stand-in
+  // for unbuilt features.
+  const renderEmptyState = (title: string, description: string, emoji: string) => (
     <EmbrKitContainer size="lg" className="px-6 pt-16 pb-8">
       <EmbrKitCard className="text-center p-12">
         <h1 className="text-4xl md:text-5xl mb-4" style={{
@@ -330,22 +335,128 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
         }}>
           {description}
         </p>
-
         <div className="py-20">
           <div className="text-8xl mb-6 opacity-30">{emoji}</div>
-          <h3 className="text-2xl mb-4" style={{
-            fontFamily: config.theme.fonts?.heading ? `'${config.theme.fonts.heading}', serif` : "'Inter', sans-serif",
-            color: config.theme.colors.text
-          }}>
-            Coming Soon
-          </h3>
-          <p className="text-lg max-w-2xl mx-auto" style={{
-            color: config.theme.colors.textSecondary,
-            fontFamily: config.theme.fonts?.body ? `'${config.theme.fonts.body}', sans-serif` : "'Inter', sans-serif"
-          }}>
-            This feature is being carefully crafted for your {config.name.toLowerCase()} experience.
-          </p>
         </div>
+      </EmbrKitCard>
+    </EmbrKitContainer>
+  );
+
+  const formatTime = (iso?: string) => {
+    if (!iso) return '';
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  };
+
+  // Renders a list of event-shaped items (title/startTime/endTime/location/
+  // description/speaker), e.g. a ScheduleContent's `events`. Sorted by start
+  // time so a hand-authored config doesn't need to pre-sort its entries.
+  const renderEventList = (title: string, events: Array<Record<string, any>>) => {
+    const sorted = [...events].sort((a, b) => (a.startTime || '').localeCompare(b.startTime || ''));
+    return (
+      <EmbrKitContainer size="lg" className="px-6 pt-12 pb-8">
+        <h1 className="text-3xl md:text-4xl mb-8 font-bold" style={{
+          fontFamily: embrKitTheme.headingFontFamily,
+          color: config.theme.colors.text
+        }}>
+          {title}
+        </h1>
+        <div className="flex flex-col gap-4">
+          {sorted.map((event, idx) => (
+            <EmbrKitCard key={event.id || idx} className="p-6">
+              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 mb-2">
+                <h3 className="text-xl font-semibold" style={{ color: config.theme.colors.text, fontFamily: embrKitTheme.headingFontFamily }}>
+                  {event.title}
+                </h3>
+                {(event.startTime || event.endTime) && (
+                  <span className="text-sm font-medium" style={{ color: config.theme.colors.primary }}>
+                    {formatTime(event.startTime)}{event.endTime ? ` – ${formatTime(event.endTime)}` : ''}
+                  </span>
+                )}
+              </div>
+              {event.location && (
+                <p className="text-sm mb-1" style={{ color: config.theme.colors.textSecondary }}>
+                  📍 {event.location}
+                </p>
+              )}
+              {event.speaker && (
+                <p className="text-sm mb-1" style={{ color: config.theme.colors.textSecondary }}>
+                  {event.speaker}
+                </p>
+              )}
+              {event.description && (
+                <p className="text-base mt-2" style={{ color: config.theme.colors.textSecondary, fontFamily: embrKitTheme.fontFamily }}>
+                  {event.description}
+                </p>
+              )}
+            </EmbrKitCard>
+          ))}
+        </div>
+      </EmbrKitContainer>
+    );
+  };
+
+  // Renders a list of contact-shaped items (name/role/phone/email/whatsapp).
+  const renderContactList = (title: string, contacts: Array<Record<string, any>>) => (
+    <EmbrKitContainer size="lg" className="px-6 pt-12 pb-8">
+      <h1 className="text-3xl md:text-4xl mb-8 font-bold" style={{
+        fontFamily: embrKitTheme.headingFontFamily,
+        color: config.theme.colors.text
+      }}>
+        {title}
+      </h1>
+      <div className="grid sm:grid-cols-2 gap-4">
+        {contacts.map((contact, idx) => (
+          <EmbrKitCard key={contact.id || idx} className="p-6">
+            <h3 className="text-lg font-semibold mb-1" style={{ color: config.theme.colors.text, fontFamily: embrKitTheme.headingFontFamily }}>
+              {contact.name}
+            </h3>
+            {contact.role && (
+              <p className="text-sm mb-3" style={{ color: config.theme.colors.textSecondary }}>{contact.role}</p>
+            )}
+            <div className="flex flex-col gap-1 text-sm">
+              {contact.phone && (
+                <a href={`tel:${contact.phone}`} className="min-h-[44px] flex items-center" style={{ color: config.theme.colors.primary }}>
+                  📞 {contact.phone}
+                </a>
+              )}
+              {contact.whatsapp && (
+                <a href={`https://wa.me/${contact.whatsapp.replace(/\D/g, '')}`} className="min-h-[44px] flex items-center" style={{ color: config.theme.colors.primary }}>
+                  💬 WhatsApp
+                </a>
+              )}
+              {contact.email && (
+                <a href={`mailto:${contact.email}`} className="min-h-[44px] flex items-center" style={{ color: config.theme.colors.primary }}>
+                  ✉️ {contact.email}
+                </a>
+              )}
+            </div>
+          </EmbrKitCard>
+        ))}
+      </div>
+    </EmbrKitContainer>
+  );
+
+  // Renders a plain-text info block ({ body: string }, optionally with a venue).
+  const renderTextContent = (title: string, body: string, venue?: { name?: string; address?: string }) => (
+    <EmbrKitContainer size="lg" className="px-6 pt-12 pb-8">
+      <EmbrKitCard className="p-8">
+        <h1 className="text-3xl md:text-4xl mb-6 font-bold" style={{
+          fontFamily: embrKitTheme.headingFontFamily,
+          color: config.theme.colors.text
+        }}>
+          {title}
+        </h1>
+        <p className="text-lg whitespace-pre-line" style={{ color: config.theme.colors.textSecondary, fontFamily: embrKitTheme.fontFamily }}>
+          {body}
+        </p>
+        {venue?.name && (
+          <div className="mt-6 pt-6 border-t" style={{ borderColor: `${config.theme.colors.text}10` }}>
+            <p className="font-semibold" style={{ color: config.theme.colors.text }}>{venue.name}</p>
+            {venue.address && <p style={{ color: config.theme.colors.textSecondary }}>{venue.address}</p>}
+          </div>
+        )}
       </EmbrKitCard>
     </EmbrKitContainer>
   );
@@ -353,17 +464,22 @@ export function FestivalRenderer({ config }: FestivalRendererProps) {
   const renderContent = () => {
     const getNavItem = (id: string) => config.navigation.find(nav => nav.id === id);
     const navItem = getNavItem(activeTab);
+    const title = navItem?.title || 'Feature';
 
-    switch (activeTab) {
-      case 'home':
-        return renderHomeContent();
-      default:
-        return renderGenericContent(
-          navItem?.title || 'Feature',
-          (config.content as any)?.[activeTab]?.description || 'This feature is coming soon',
-          '🎪'
-        );
-    }
+    if (activeTab === 'home') return renderHomeContent();
+
+    // Any visible non-home tab has some content (visibleNavigation guarantees
+    // this) — render whatever shape it actually is rather than a placeholder.
+    const tabContent = (config.content as any)?.[activeTab];
+    const events = tabContent?.events;
+    const contacts = tabContent?.contacts;
+    if (Array.isArray(events) && events.length > 0) return renderEventList(title, events);
+    if (Array.isArray(contacts) && contacts.length > 0) return renderContactList(title, contacts);
+    if (typeof tabContent?.body === 'string') return renderTextContent(title, tabContent.body, tabContent.venue);
+
+    // Content exists (nav filter guarantees it) but isn't a shape this
+    // renderer knows how to lay out yet — an honest empty state, not a fake one.
+    return renderEmptyState(title, tabContent?.description || `No ${title.toLowerCase()} details added yet.`, '🎪');
   };
 
   return (
