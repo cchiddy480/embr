@@ -1,11 +1,8 @@
 import { z } from 'zod';
 
 /**
- * The Phase B block engine's single source of truth. Replaces hand-rolled
- * validation (scripts/validate-client-config.js) and the untyped legacy
- * `ClientContent` shape for any config that opts into the new `blocks`
- * array. Legacy configs (template-based, no `blocks` field) keep working
- * unchanged through the existing renderer chain — see ClientApp.tsx.
+ * The single source of truth for a guide's shape. Every guide is a
+ * TripConfig — validated here, not hand-rolled elsewhere.
  */
 
 const hexColor = z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'must be a 6-digit hex color, e.g. #0F766E');

@@ -2,10 +2,8 @@
 
 /**
  * Embr Dev Log Updater
- * - Ensures today's daily file exists in docs/dev-log/YYYY-MM-DD.md
- * - Updates DEV_LOG.md Latest Summary date to today
- * - Adds today's entry to the Index if missing
- * - Optional: pass --append "message" to append a bullet to today's entry
+ * - Ensures today's entry exists at the top of DEV_LOG.md
+ * - Optional: pass --append "message" to append a bullet under today's entry
  */
 
 const fs = require('fs');
@@ -19,82 +17,62 @@ function formatDate(date) {
 }
 
 function getToday() {
-  // Use local date (sessions are local-time scoped)
   return formatDate(new Date());
 }
 
-function ensureDailyFile(repoRoot, dateStr) {
-  const dailyDir = path.join(repoRoot, 'docs', 'dev-log');
-  const dailyPath = path.join(dailyDir, `${dateStr}.md`);
-  if (!fs.existsSync(dailyDir)) fs.mkdirSync(dailyDir, { recursive: true });
-  if (!fs.existsSync(dailyPath)) {
-    const template = `# ${dateStr} — Daily Log\n\n## Overview\n- Session started.\n\n## Changes\n- \n\n## Impact\n- \n\n## Next\n- \n`;
-    fs.writeFileSync(dailyPath, template, 'utf8');
-    return { created: true, dailyPath };
-  }
-  return { created: false, dailyPath };
-}
-
-function updateDevLog(repoRoot, dateStr) {
+function ensureTodayEntry(repoRoot, dateStr) {
   const devLogPath = path.join(repoRoot, 'DEV_LOG.md');
   if (!fs.existsSync(devLogPath)) {
     throw new Error('DEV_LOG.md not found at repository root');
   }
   let md = fs.readFileSync(devLogPath, 'utf8');
-  let changed = false;
+  const heading = `### ${dateStr}`;
+  if (md.includes(heading)) return { created: false };
 
-  // Ensure date exists in Index
-  const indexHeader = '### Index';
-  const indexStart = md.indexOf(indexHeader);
-  if (indexStart !== -1) {
-    const afterIndex = indexStart + indexHeader.length;
-    const nextHeadingPos = md.indexOf('### ', afterIndex);
-    const indexEnd = nextHeadingPos !== -1 ? nextHeadingPos : md.length;
-    const indexBlock = md.slice(afterIndex, indexEnd);
-    const entryLine = `- ${dateStr} → docs/dev-log/${dateStr}.md`;
-    if (!indexBlock.includes(entryLine)) {
-      const insertionPoint = indexEnd;
-      const prefix = md.slice(0, insertionPoint);
-      const suffix = md.slice(insertionPoint);
-      const needsNewline = prefix.endsWith('\n') ? '' : '\n';
-      md = `${prefix}${needsNewline}${entryLine}\n${suffix}`;
-      changed = true;
-    }
+  const entriesHeader = '## Entries';
+  const insertAt = md.indexOf(entriesHeader);
+  const template = `${heading}\n- \n\n`;
+  if (insertAt === -1) {
+    // No entries section yet — append one.
+    if (!md.endsWith('\n')) md += '\n';
+    md += `\n${entriesHeader}\n\n${template}`;
+  } else {
+    const afterHeader = insertAt + entriesHeader.length;
+    const nextNewline = md.indexOf('\n', afterHeader);
+    const insertPos = nextNewline !== -1 ? nextNewline + 1 : md.length;
+    // Skip a following blank line so the new entry sits right under the header.
+    let cursor = insertPos;
+    while (md[cursor] === '\n') cursor += 1;
+    md = md.slice(0, cursor) + `\n${template}` + md.slice(cursor);
   }
-
-  // Update Latest Summary heading date
-  const latestSummaryRegex = /(### Latest Summary \()\d{4}-\d{2}-\d{2}(\))/;
-  if (latestSummaryRegex.test(md)) {
-    md = md.replace(latestSummaryRegex, `$1${dateStr}$2`);
-    changed = true;
-  }
-
-  if (changed) {
-    fs.writeFileSync(path.join(repoRoot, 'DEV_LOG.md'), md, 'utf8');
-  }
-  return { changed };
+  fs.writeFileSync(devLogPath, md, 'utf8');
+  return { created: true };
 }
 
-function appendToDaily(repoRoot, dateStr, message) {
+function appendToToday(repoRoot, dateStr, message) {
   if (!message) return false;
-  const dailyPath = path.join(repoRoot, 'docs', 'dev-log', `${dateStr}.md`);
-  if (!fs.existsSync(dailyPath)) return false;
+  const devLogPath = path.join(repoRoot, 'DEV_LOG.md');
+  let md = fs.readFileSync(devLogPath, 'utf8');
+  const heading = `### ${dateStr}`;
+  const headingPos = md.indexOf(heading);
+  if (headingPos === -1) return false;
+
   const timestamp = new Date().toLocaleTimeString();
   const line = `- [${timestamp}] ${message}`;
-  let content = fs.readFileSync(dailyPath, 'utf8');
-
-  // Append under Changes section if present, else to end
-  const changesHeader = '\n## Changes';
-  const pos = content.indexOf(changesHeader);
-  if (pos !== -1) {
-    const insertPos = content.indexOf('\n', pos + changesHeader.length);
-    const at = insertPos !== -1 ? insertPos + 1 : content.length;
-    content = content.slice(0, at) + line + '\n' + content.slice(at);
+  const afterHeading = headingPos + heading.length;
+  const nextHeadingPos = md.indexOf('\n### ', afterHeading);
+  const sectionEnd = nextHeadingPos !== -1 ? nextHeadingPos : md.length;
+  const section = md.slice(afterHeading, sectionEnd);
+  // Replace a lone empty placeholder bullet ("- ") if that's all there is.
+  const trimmedSection = section.trim();
+  let newSection;
+  if (trimmedSection === '-' || trimmedSection === '') {
+    newSection = `\n${line}\n\n`;
   } else {
-    if (!content.endsWith('\n')) content += '\n';
-    content += `\n${line}\n`;
+    newSection = section.replace(/\n*$/, `\n${line}\n\n`);
   }
-  fs.writeFileSync(dailyPath, content, 'utf8');
+  md = md.slice(0, afterHeading) + newSection + md.slice(sectionEnd);
+  fs.writeFileSync(devLogPath, md, 'utf8');
   return true;
 }
 
@@ -107,13 +85,11 @@ function main() {
     const appendIndex = args.indexOf('--append');
     const appendMsg = appendIndex !== -1 ? args[appendIndex + 1] : undefined;
 
-    const { created, dailyPath } = ensureDailyFile(repoRoot, today);
-    const { changed } = updateDevLog(repoRoot, today);
-    const appended = appendToDaily(repoRoot, today, appendMsg);
+    const { created } = ensureTodayEntry(repoRoot, today);
+    const appended = appendMsg ? appendToToday(repoRoot, today, appendMsg) : false;
 
     console.log('[Dev Log] Date:', today);
-    if (created) console.log('[Dev Log] Created daily entry:', dailyPath);
-    if (changed) console.log('[Dev Log] Updated DEV_LOG.md (index and/or latest summary).');
+    if (created) console.log('[Dev Log] Created today\'s entry in DEV_LOG.md');
     if (appendMsg) console.log('[Dev Log] Appended to today\'s entry:', appended ? 'ok' : 'failed');
   } catch (err) {
     console.error('[Dev Log] Error:', err.message);
@@ -122,5 +98,3 @@ function main() {
 }
 
 main();
-
-

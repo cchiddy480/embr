@@ -310,7 +310,7 @@ switch (command) {
     console.log('  npm run git:cleanup <branch-name>   - Cleanup specific branch');
     console.log('');
     console.log('Examples:');
-    console.log('  npm run git:session wildroots-fixes');
+    console.log('  npm run git:session schedule-block-fixes');
     console.log('  npm run git:save "Fixed TypeScript errors"');
     console.log('  npm run git:end');
     console.log('');

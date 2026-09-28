@@ -17,7 +17,7 @@ const DEMO_PATHS = [
 const CLIENT_CONFIG_PATHS = [
   'packages/hub-app/src/hooks/useClientConfig.tsx',
   'packages/hub-app/src/components/ClientApp.tsx',
-  'packages/hub-app/src/types/client.ts',
+  'packages/hub-app/src/types/blocks-schema.ts',
   'packages/hub-app/src/app/page.tsx'
 ];
 
@@ -28,7 +28,7 @@ const FORBIDDEN_IMPORTS = {
     'ClientConfig',
     '../hooks/useClientConfig',
     '../components/ClientApp',
-    '../types/client'
+    '../types/blocks-schema'
   ],
   clientConfigs: [
     'embrkit-demo',

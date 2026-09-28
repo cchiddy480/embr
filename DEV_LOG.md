@@ -1,42 +1,20 @@
 ## Embr Dev Log
 
-Purpose: A concise, chronological record of every change, patch, and decision. Reviewed at the start of each session alongside `EMBR_KNOWLEDGE_LEDGER.md`.
+Purpose: a concise, chronological record of notable changes and decisions. Reviewed at the start of a session alongside `EMBR_KNOWLEDGE_LEDGER.md`.
 
-How this log is organized
-- Daily entries live in `docs/dev-log/` as `YYYY-MM-DD.md`.
-- This file serves as the index and high-level summary.
+Newest entries at the top. Update with `npm run devlog:update` (ensures today's heading exists) and `npm run devlog:append -- "message"` (adds a bullet under today's heading).
 
-### Index
-- 2025-01-27 → docs/dev-log/2025-01-27.md
-- 2025-01-28 → docs/dev-log/2025-01-28.md
-- 2025-08-08 → docs/dev-log/2025-08-08.md
-- 2025-09-13 → docs/dev-log/2025-09-13.md
-- 2025-09-15 → docs/dev-log/2025-09-15.md
-- 2025-09-16 → docs/dev-log/2025-09-16.md
-- 2025-11-20 → docs/dev-log/2025-11-20.md
-- 2025-12-02 → docs/dev-log/2025-12-02.md
+## Entries
 
-### Latest Summary (2025-12-02)
-- Merged template-variations branch: 27 template variations across 8 categories
-- Created 12 missing template variations with unique branding and professional content
-- Replaced all emoji icons with professional SVG icons in showcase
-- Zero compilation errors, no technical debt (no TODOs/FIXMEs)
-- All templates use EmbrKitProvider with theme customization
-- Comprehensive quality review: code standards, visual polish, responsive design
-- Fast-forward merge to main, pushed to remote, cleaned up feature branch
+### 2026-09-28
+- Repo-wide cleanup: removed everything left over from the old "Universal Micro-App Framework" direction (multi-industry per-client renderers and registry/loader system, 2 hand-coded demo clients, 13 old template-showcase demo configs, the 28-page `templates-showcase` gallery, `standalone-app`, the entire Capacitor + QR-code dependency stack, several dead scripts, two already-broken npm scripts, stray root files, `docs/` and `PRODUCTION_CHECKLIST.md`). Rewrote `README.md`, `CLAUDE.md`, and `EMBR_KNOWLEDGE_LEDGER.md` to describe the current product — a single config-driven `TripConfig`/`BlockRenderer` block engine — instead of the retired framework vision. `ClientApp.tsx`/`useClientConfig.tsx` simplified to the single `TripConfig` shape, dropping the old generic-fallback-theme dead code.
+- Brought the four block view components (Schedule/Info/Contacts/Updates) and a new `GuideCard` primitive into compliance with `DESIGN.md`'s actual rules (no em dashes, no emoji, border-only elevation instead of `EmbrKitCard`'s drop-shadow, monospace time/date) — found via direct user feedback on a rendered test guide, not caught by an earlier token-compatibility-only check.
+- Ran a timed, real end-to-end guide-creation test (import → validate → local render) to measure actual time-to-guide.
 
-### Previous Summary (2025-11-20)
-- Fixed embrkit-components-demo button styling issues (white buttons until hover)
-- Fixed font styling for monetary amounts in data display components
-- Made all demo pages completely independent with inline CSS variables
-- Created comprehensive isolation strategy between demo pages and client configs
-- Added automated isolation checker script (npm run check:isolation)
-- Created DEVELOPMENT_ISOLATION_GUIDE.md with complete workflow and emergency recovery procedures
-
-### Previous Summary (2025-01-27)
-- Restored Hub app to pre-LiftKit visual baseline and documented it in the ledger.
-- Fixed dev asset 404s by disabling static export in dev.
-- Prevented Hub loading hang with safety timeout and improved escape hatch.
-- Aligned Access Code modal styling (contrast, buttons) to original.
-- Eliminated dark background bands in client app by forcing html/body background to client theme while active and covering 100dvh.
-
+### Earlier (condensed)
+The detailed daily logs before this date described the earlier "Universal Micro-App Framework" direction in depth and have been retired along with that direction — see `EMBR_KNOWLEDGE_LEDGER.md`'s History section for the shape of what changed and why. Summary of the major prior milestones, for continuity:
+- EmbrKit design system built out (component library + CSS tokens).
+- Template-showcase gallery and per-industry hand-coded demo clients built (later deleted — no real customer behind either).
+- Hub app visual baseline established and protected.
+- Pivot to a single product (live trip/event guides) on one config-driven block engine: `TripConfigSchema`, `BlockRenderer`, Firestore data model (`client-configs`/`access-codes`/`private`), the `import-guide` Claude Code skill, and a dormant API-based import pipeline kept for a future self-serve endpoint.
+- A brand/design overhaul (`DESIGN.md`, Ink/Paper/Signal tokens) superseded the original golden-ratio/fixed-teal EmbrKit visual language.

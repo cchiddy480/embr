@@ -58,26 +58,18 @@ function updateKnowledgeLedger() {
 
 function updateDocumentationFiles() {
   console.log('📄 Checking Documentation Files...');
-  
-  const docsDir = path.join(process.cwd(), 'docs');
-  if (!fs.existsSync(docsDir)) {
-    console.log('   ⚠️  docs/ directory not found');
-    return false;
-  }
-  
-  // List documentation files
-  const files = fs.readdirSync(docsDir, { recursive: true })
-    .filter(file => file.endsWith('.md'))
-    .map(file => path.join(docsDir, file));
-  
-  console.log(`   📋 Found ${files.length} documentation files`);
-  
-  // Check if any files need updates (placeholder logic)
-  const needsUpdates = files.some(file => {
+
+  const docFiles = ['README.md', 'CLAUDE.md', 'EMBR_KNOWLEDGE_LEDGER.md', 'DESIGN.md', 'DEV_LOG.md']
+    .map(file => path.join(process.cwd(), file))
+    .filter(file => fs.existsSync(file));
+
+  console.log(`   📋 Found ${docFiles.length} documentation files`);
+
+  const needsUpdates = docFiles.some(file => {
     const content = fs.readFileSync(file, 'utf8');
     return content.includes('TODO') || content.includes('FIXME');
   });
-  
+
   if (needsUpdates) {
     console.log('   📝 Some documentation files may need updates');
     return false;
@@ -115,10 +107,10 @@ function displayDocumentationStatus() {
   console.log('   npm run update:docs            - Run this comprehensive update');
   console.log('');
   console.log('📖 Key Documentation Files:');
+  console.log('   CLAUDE.md                      - Guidance for AI coding assistants');
   console.log('   EMBR_KNOWLEDGE_LEDGER.md       - Complete project reference');
-  console.log('   docs/DEVELOPMENT_GUIDE.md      - Development workflow guide');
-  console.log('   docs/dev-log/YYYY-MM-DD.md     - Daily development logs');
-  console.log('   .cursorrules                   - Cursor AI session rules');
+  console.log('   DESIGN.md                      - Visual design spec');
+  console.log('   DEV_LOG.md                     - Development history');
 }
 
 function main() {

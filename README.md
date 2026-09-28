@@ -1,264 +1,88 @@
+# Embr
 
-# Embr Platform
+Turn an itinerary into a live trip/event guide your guests will actually open.
 
-A modular, modern platform for building micro apps—apps that serve a single purpose with maximum clarity and ease.
+> The pinned link in your WhatsApp group, not a replacement for it.
 
-> **One app. One purpose. All power.**
+Embr is a **done-for-you live event guide**: send us an itinerary, we turn it into one branded link — schedule, contacts, key info, live updates — instead of a PDF nobody re-opens or messages buried in a group chat.
 
-## 🌱 What is Embr?
+## How It Works
 
-Embr is designed to simplify digital experiences for events and businesses by delivering lightweight, focused apps that do one thing beautifully. Think:
+Every guide is a single config document (a `TripConfig`) rendered through one block engine — there's no per-client code, no template catalog, no app install. A guide is built by hand from a real itinerary (via a Claude Code skill, see below), pushed to Firestore, and served at a branded link.
 
-- A digital schedule for a food festival
-- A guest info hub for a wedding  
-- A simple app for a local business with a price list and contact form
-- A university open day app with maps, timeslots, and speaker bios
+## Architecture
 
-These are not bloated platforms or templated websites, but highly specific, installable tools—designed to be quick to build, easy to use, and branded for trust.
+```
+embr/
+├── packages/
+│   ├── hub-app/          # Next.js 14 app: the block engine, guide rendering, config loading
+│   └── ui/                # @embr/ui (EmbrKit) — shared design system
+├── scripts/                # Config validation/push, dev-log, git-session helpers
+├── .claude/skills/         # import-guide — the day-to-day guide-authoring flow
+├── DESIGN.md               # Visual design spec — source of truth for guide UI
+├── CLAUDE.md                # Guidance for AI coding assistants working in this repo
+└── EMBR_KNOWLEDGE_LEDGER.md # Full project reference
+```
 
-## 🏗️ Architecture
-
-The Embr platform consists of two core components:
-
-### 1. Embr Hub App
-A single native iOS/Android application that dynamically loads any client's micro-app via QR code or access code. Features:
-- Offline support with local caching
-- Configurable expiry for temporary events
-- Per-client push notifications
-- Dynamic theming and navigation
-
-### 2. Standalone App Generator
-Automated process to build and wrap a dedicated, fully branded iOS/Android app for a given client config. Features:
-- Injects client assets and preloads config
-- Runs Capacitor build process
-- Produces production-ready binaries
-- Handles app store metadata generation
-
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Node.js (v18 or higher)
-- npm (v9 or higher)
-- Xcode (for iOS development)
-- Android Studio (for Android development)
+- Node.js ≥ 18, npm ≥ 9
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/embr-platform/embr-platform.git
-cd embr-platform
-
-# Install dependencies
+git clone https://github.com/cchiddy480/embr.git
+cd embr
 npm install
-
-# Start development server
 npm run dev
 ```
 
-The Hub App will be available at `http://localhost:3000`
+The hub app runs at `http://localhost:3000`.
 
 ### Environment Setup
 
-Create a `.env.local` file in the root directory:
+Firebase config for the client SDK goes in `packages/hub-app/.env.local`. Firestore admin access (needed for `scripts/configs-push.js`) comes from a service account — see `CLAUDE.md`'s Firebase/Firestore Setup section. Never commit a raw service account key.
+
+## Creating a Guide
+
+The normal flow is the `import-guide` Claude Code skill (`.claude/skills/import-guide/SKILL.md`) — paste or point at an itinerary in a Claude Code session in this repo, and it extracts a `TripConfig`, validates it, and (on your go-ahead) pushes it live.
+
+To do it by hand instead:
 
 ```bash
-# Firebase Configuration
-FIREBASE_API_KEY=your_api_key
-FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-FIREBASE_APP_ID=your_app_id
+# Scaffold a new config
+npm run client:create
 
-# Development Settings
-NEXT_PUBLIC_EMBR_ENV=development
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+# Validate all configs under packages/hub-app/public/client-configs/
+npm run client:validate
+
+# Preview a Firestore push without writing
+node scripts/configs-push.js --dry
+
+# Push one guide
+npm run configs:push:one -- <clientId>
 ```
 
-## 📁 Project Structure
+View it locally at `http://localhost:3000/c/<clientId>` or `http://localhost:3000/?client=<clientId>`.
 
-```
-/embr-platform
-├── packages/
-│   ├── hub-app/          # Core Embr Hub App (Next.js + Capacitor)
-│   └── standalone-app/   # Standalone app generator scripts
-├── client-configs/       # Client configuration files (JSON)
-├── scripts/             # CLI utilities for building and deployment
-├── docs/               # Documentation and guides
-└── dist/               # Build outputs
-```
-
-## 🛠️ Development
-
-### Hub App Development
+## Development
 
 ```bash
-# Navigate to Hub App
-cd packages/hub-app
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Sync with Capacitor
-npm run cap:sync
-
-# Open iOS simulator
-npm run cap:open:ios
-
-# Open Android emulator
-npm run cap:open:android
+npm run build          # Production build
+npm run lint           # ESLint
+npm run test           # Vitest
+npm run audit:theme    # Flag hardcoded colors in client-facing code
 ```
 
-### Client Configuration
+See `CLAUDE.md` for the full command reference, data model, and architecture notes.
 
-Create client configurations in the `client-configs/` directory:
+## Contributing
 
-```json
-{
-  "clientId": "your-client-id",
-  "name": "Your Client Name",
-  "version": "1.0.0",
-  "expiry": "2024-12-31T23:59:59Z",
-  "theme": {
-    "colors": {
-      "primary": "#your-color"
-    }
-  },
-  "navigation": [
-    {
-      "id": "home",
-      "title": "Home",
-      "path": "/"
-    }
-  ]
-}
-```
+1. Create a branch (`npm run git:session <name>` or `git checkout -b feature/your-feature`)
+2. Make your changes, commit
+3. Push and open a pull request
 
-### Generating Standalone Apps
+## License
 
-```bash
-# Generate web app
-npm run generate -- standalone <client-id> --web
-
-# Generate iOS app
-npm run generate -- standalone <client-id> --ios
-
-# Generate Android app
-npm run generate -- standalone <client-id> --android
-```
-
-### Deploying Client Configs
-
-```bash
-# Deploy to Firebase
-npm run build-client -- deploy <client-id>
-
-# Validate config
-npm run build-client -- validate <config-path>
-
-# List all configs
-npm run build-client -- list
-```
-
-## 🧪 Testing
-
-The platform includes sample configurations for testing:
-
-- **Food Festival**: `client-configs/sample-festival.json`
-- **Wedding**: `client-configs/sample-wedding.json`
-
-```bash
-# Test with sample festival
-npm run build-client -- deploy cornwall-food-festival-2024 --dry-run
-
-# Test with sample wedding
-npm run build-client -- deploy smith-jones-wedding-2024 --dry-run
-```
-
-## 📚 Documentation
-
-Comprehensive documentation is available in the `/docs` directory:
-
-- [Getting Started](./docs/getting-started.md) - Quick setup guide
-- [Hub App Development](./docs/hub-app-guide.md) - Building the core app
-- [Standalone App Generator](./docs/standalone-app-guide.md) - Creating client apps
-- [Client Configuration](./docs/client-config-guide.md) - Config schema guide
-- [Firebase Setup](./docs/firebase-setup.md) - Backend configuration
-- [CI/CD Guide](./docs/ci-cd-guide.md) - Automated deployment
-
-## 🎯 Key Features
-
-### Dynamic Theming
-Client configurations define complete theming including colors, fonts, and logos that are applied at runtime.
-
-### Offline Support
-Apps work offline with local caching of configurations and content, syncing when connectivity is restored.
-
-### Push Notifications
-Per-client FCM topics allow targeted notifications for specific events or businesses.
-
-### QR Code Integration
-Quick app loading via QR codes or manual access code entry.
-
-### Expiry Management
-Configurable expiry dates for temporary events, automatically clearing cached data.
-
-## 🏆 Success Criteria
-
-- Hub App can load any client config in <5s, works offline, handles expiry
-- Standalone Generator produces signed iOS/Android builds with correct branding
-- All workflows documented; new developer can onboard in <2 hours
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-For questions and support:
-- Check the [FAQ](./docs/faq.md)
-- Review [Troubleshooting](./docs/troubleshooting.md)
-- Open an issue on GitHub
-
-## 🎨 Template Showcase
-
-Embr includes **27 professional template variations** across 8 categories, demonstrating the flexibility and customization capabilities of the EmbrKit design system.
-
-### Access the Showcase
-Visit `/templates-showcase` in your development environment to explore:
-- Interactive template gallery with category filtering
-- 27 unique variations with distinct branding and visual styles
-- Live demonstrations of EmbrKit theming capabilities
-
-### Template Categories
-1. **Business & Corporate** (4 variations) - Professional layouts for companies and services
-2. **Events & Schedules** (4 variations) - Timeline-based designs for conferences and festivals
-3. **Menu & Catalog** (4 variations) - Product showcase for restaurants and retail
-4. **Wellness & Timers** (4 variations) - Calming designs for meditation and breathing
-5. **Location & Maps** (3 variations) - Map-centric for venues and properties
-6. **Portfolio & Gallery** (3 variations) - Image-focused for creative professionals
-7. **Booking & Scheduler** (3 variations) - Appointment systems for services
-8. **Dashboard & Analytics** (2 variations) - Data visualization and reporting
-
-Each template features:
-- Unique color schemes and branding
-- Professional company identities
-- Realistic content and data
-- Full EmbrKit component integration
-- Responsive design patterns
-
----
-
-**Embr Platform** - Empowering events and businesses with beautiful, focused digital experiences.
+MIT.

@@ -130,36 +130,6 @@ try {
   console.log('❌ Theme audit failed:', error.message);
 }
 
-// Platform-specific checks
-console.log('');
-console.log('🔧 Platform-Specific Checks...');
-if (isMac) {
-  try {
-    // Check Xcode
-    const xcodeVersion = execSync('xcode-select --version', { encoding: 'utf8' });
-    console.log(`🍎 Xcode: ${xcodeVersion.trim()}`);
-  } catch (error) {
-    console.log('⚠️  Xcode not found or not configured');
-  }
-  
-  try {
-    // Check Capacitor
-    const capacitorVersion = execSync('npx cap --version', { encoding: 'utf8' });
-    console.log(`📱 Capacitor: ${capacitorVersion.trim()}`);
-  } catch (error) {
-    console.log('⚠️  Capacitor not found');
-  }
-  
-  // Check iOS platform
-  if (fs.existsSync('packages/hub-app/ios')) {
-    console.log('✅ iOS platform configured');
-  } else {
-    console.log('⚠️  iOS platform not configured');
-  }
-} else if (isWindows) {
-  console.log('🪟 Windows-specific checks completed');
-}
-
 // Update development log
 console.log('');
 console.log('📝 Updating Development Log...');

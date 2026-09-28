@@ -1,77 +1,64 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with code in this repository.
 
 ## Essential Context Files
 
-**ALWAYS READ THESE FILES FIRST:**
-1. `EMBR_KNOWLEDGE_LEDGER.md` - Complete project reference, architectural decisions, and current status
-2. `.cursorrules` - Client architecture conventions, development workflows, and quality standards
-3. `DEV_LOG.md` - Recent development history and session notes
+**Read these first:**
+1. `EMBR_KNOWLEDGE_LEDGER.md` — full project reference: data model, architecture, current status
+2. `DESIGN.md` — the brand/visual design spec. This is the source of truth for how a guide looks; do not improvise past it.
+3. `DEV_LOG.md` — recent development history
 
-## Project Overview
+## What Embr Is
 
-Embr is a **Universal Micro-App Framework** for creating single-purpose digital tools (breathing timers, business menus, event guides, property showcases, etc.). The mission: "One App. One Purpose. Fast. Branded. Brilliant."
+Embr is a **done-for-you live event/trip guide**. A planner sends an itinerary; Embr turns it into a single branded link — schedule, contacts, key info, live updates — that guests actually open, instead of a PDF or a wall of WhatsApp messages. One product, one config shape, one render path. It is not a multi-industry template platform and does not have a native app — see "What Embr Is Not" below.
 
 ### Core Architecture
-- **Monorepo**: Next.js 14 + TypeScript + Capacitor
-- **Design System**: EmbrKit (37 components, hybrid approach)
-- **Distribution**: PWA-first with native mobile wrapper
-- **Configuration**: JSON-driven client configs stored in Firestore
+- **Monorepo**: Next.js 14 + TypeScript, npm workspaces (`packages/hub-app`, `packages/ui`)
+- **Config-driven**: every guide is a `TripConfig` (zod schema, see below) — no per-client code
+- **Rendering**: a single block engine (`BlockRenderer` + one component per block type) renders every guide
+- **Design system**: `@embr/ui` (EmbrKit) — shared components/tokens, themed per-guide from `TripConfig.theme`
+- **Data**: Firestore (`client-configs`, `access-codes`, `private`) is the source of truth for a live guide
+- **Distribution**: a plain web link (`/c/<clientId>` or an access code), no app install, no QR-only flow
+
+### What Embr Is Not
+These were true of an earlier direction and are no longer accurate — don't reintroduce them without a real reason:
+- Not a "Universal Micro-App Framework" with per-industry hand-coded client apps (healthcare/events/retail/etc. registries) — deleted.
+- Not a native iOS/Android app — Capacitor was never actually initialized (no `capacitor.config.*`, no `ios`/`android` project) and has been removed from dependencies.
+- Not a template-showcase product — the 28-page `templates-showcase` gallery and `standalone-app` generator have been deleted.
+- No QR-code distribution path.
 
 ## Development Commands
 
-### Starting a Development Session
-```bash
-# MANDATORY: Ask user platform (Mac/Windows), then run:
-npm run session:init
-# This checks Git sync, installs dependencies, runs quality checks, updates dev log
-
-# After session complete:
-npm run session:end
-```
-
-### Common Development Tasks
 ```bash
 # Development
 npm run dev                    # Start hub-app dev server (Next.js)
 npm run build                  # Build hub-app for production
-npm run lint                   # Run ESLint
-npm run test                   # Run tests in all workspaces
+npm run lint                   # ESLint
+npm run test                   # Vitest, all workspaces
 
-# Client Development
-npm run client:create          # Create new client configuration
-npm run client:validate        # Validate all client configs
+# Guide authoring (see .claude/skills/import-guide/SKILL.md — the normal day-to-day flow)
+npm run client:create          # Scaffold a new guide config by hand
+npm run client:validate        # Validate all configs in public/client-configs against TripConfigSchema
 npm run configs:push           # Push all configs to Firestore
-npm run configs:push:one       # Push single config: npm run configs:push:one -- <slug>
-npm run clients:loader         # Regenerate client loader (after adding/removing clients)
+npm run configs:push:one -- <slug>   # Push a single config
+node scripts/configs-push.js --dry   # Preview a push without writing
 
-# Git Workflow (Session-Based - MANDATORY)
-npm run git:session <name>     # Create session branch: session/name-YYYY-MM-DD
-npm run git:save "message"     # Save progress during session
-npm run git:end                # Merge session to main and cleanup
+# Quality
+npm run audit:theme            # Flag hardcoded colors / styling violations in client-facing code
+npm run check:isolation        # Ensure demo pages and guide configs stay separate
+npm run tsprune:hub / tsprune:ui     # Find unused TypeScript exports
+npm run depcheck:root / :hub / :ui   # Find unused dependencies
 
-# Quality Assurance
-npm run audit:theme            # Check for hardcoded colors/styling violations
-npm run check:isolation        # Ensure demo pages and client configs are separate
-npm run tsprune:hub            # Find unused TypeScript exports in hub-app
-npm run tsprune:ui             # Find unused TypeScript exports in ui package
-npm run depcheck:root          # Check for unused dependencies at root
-npm run depcheck:hub           # Check for unused dependencies in hub-app
-npm run depcheck:ui            # Check for unused dependencies in ui
+# Dev log
+npm run devlog:update          # Refresh DEV_LOG.md's latest-entry date
+npm run devlog:append -- "msg" # Add a timestamped bullet to today's entry
 
-# Dev Log Management
-npm run devlog:update          # Ensure today's entry exists and update DEV_LOG.md
-npm run devlog:append -- "msg" # Add timestamped bullet to today's changes
-
-# Documentation
-npm run update:docs            # Update project documentation
-
-# Capacitor (Mobile Development)
-cd packages/hub-app
-npm run cap:sync               # Sync web assets to native projects
-npm run cap:open:ios           # Open iOS project in Xcode (Mac only)
-npm run cap:open:android       # Open Android project in Android Studio
+# Git workflow (session-based, optional but recommended)
+npm run git:session <name>     # Create a session branch
+npm run git:save "message"     # Commit + push progress
+npm run git:end                # Merge session branch to main and clean up
+npm run git:status             # Check current branch/status
 ```
 
 ## Repository Structure
@@ -79,433 +66,95 @@ npm run cap:open:android       # Open Android project in Android Studio
 ```
 embr/
 ├── packages/
-│   ├── hub-app/                    # Next.js Hub Application
+│   ├── hub-app/                          # Next.js app
 │   │   ├── src/
+│   │   │   ├── types/blocks-schema.ts    # TripConfigSchema — the single config shape
+│   │   │   ├── presets/trip.ts           # Default blocks + theme for a new guide
 │   │   │   ├── components/
-│   │   │   │   ├── clients/       # Client-specific micro-apps
-│   │   │   │   │   ├── [industry]/[client-id]/
-│   │   │   │   │   │   ├── ClientApp.tsx
-│   │   │   │   │   │   └── index.ts
-│   │   │   │   │   ├── GenericClientApp.tsx  # Fallback renderer
-│   │   │   │   │   ├── index.ts   # CLIENT_APP_REGISTRY
-│   │   │   │   │   └── loader.ts  # Auto-generated lazy loader
-│   │   │   │   ├── ClientApp.tsx  # Client router
+│   │   │   │   ├── ClientApp.tsx         # config -> BlockRenderer
+│   │   │   │   ├── clients/renderers/
+│   │   │   │   │   ├── BlockRenderer.tsx # tabs/nav + dispatches to one view per block type
+│   │   │   │   │   └── blocks/           # ScheduleBlockView, InfoBlockView, ContactsBlockView, UpdatesBlockView, GuideCard
 │   │   │   │   └── AccessCodeEntry.tsx
-│   │   │   ├── app/
-│   │   │   │   ├── page.tsx       # Hub landing page
-│   │   │   │   ├── embrkit-demo/  # Design system showcase
-│   │   │   │   └── embrkit-components-demo/
+│   │   │   ├── hooks/useClientConfig.tsx # loads + validates a guide (Firestore, then static JSON fallback)
 │   │   │   └── lib/
-│   │   └── public/
-│   │       └── client-configs/    # JSON config files (legacy)
-│   ├── ui/                        # @embr/ui - EmbrKit Design System
-│   │   ├── src/
-│   │   │   ├── components/
-│   │   │   │   └── embrkit.tsx   # All 37 React components
-│   │   │   └── lib/
-│   │   │       ├── embrkit-core.css         # Design tokens
-│   │   │       └── embrkit-components.css   # Component styles
-│   └── standalone-app/            # Standalone app generator
-├── scripts/                       # Build & automation utilities
-├── docs/                          # Documentation
-└── firebase.json                  # Firebase/Firestore config
+│   │   │       ├── import.ts, import-prompt.ts, safeFetchUrl.ts   # dormant API-based AI import pipeline (see below)
+│   │   │       └── firebase.ts, firebaseAdmin.ts
+│   │   └── public/client-configs/        # static JSON fallback + local authoring output
+│   └── ui/                               # @embr/ui (EmbrKit) — design system
+│       └── src/
+│           ├── components/embrkit.tsx    # React components
+│           └── lib/embrkit-*.css         # design tokens + component styles
+├── scripts/                              # config validation/push, dev-log, session/git workflow helpers
+├── .claude/skills/import-guide/          # the day-to-day guide-authoring flow (see below)
+└── DESIGN.md                             # visual design spec — source of truth for guide UI
 ```
 
-## Client App Development Architecture
+## The Config Shape
 
-### Client Independence System (CRITICAL)
+Every guide is a `TripConfig` (`packages/hub-app/src/types/blocks-schema.ts`, zod): `clientId`, `name`, `expiry`, `status` (`preview`/`active`/`expired`), `theme` (colors + fonts), and a `blocks` array. A block is one of `schedule`, `info`, `contacts`, `updates` — each has its own schema and its own view component under `renderers/blocks/`. There is no other config shape; `useClientConfig.tsx` validates against `TripConfigSchema` at every load point and refuses anything that doesn't parse.
 
-Each client micro-app is a **completely independent React component** with:
-- Unique UI layouts and content structures
-- Custom styling and interactions
-- Business-specific features and workflows
-- Complete visual independence from other clients
+Adding a new block type means: extend the schema, add a view component, wire it into `BlockRenderer`. There is no per-client component to write.
 
-### Creating a New Client App
+## Authoring a Guide
 
-#### 1. Directory Structure
+The normal flow is the **`import-guide` Claude Code skill** (`.claude/skills/import-guide/SKILL.md`): paste or point at an itinerary in a Claude Code session working in this repo, it extracts a `TripConfig`, writes it to `public/client-configs/<clientId>.json`, validates it, and — only on explicit go-ahead — pushes it to Firestore via `configs-push.js`.
+
+There is also a **dormant, API-based import pipeline** (`lib/import.ts` + `@anthropic-ai/sdk`, `import-prompt.ts`'s system prompt, `safeFetchUrl.ts`'s SSRF-safe fetcher, `scripts/prospect-demo.ts`) built for a future unattended endpoint (a public `/try` page) that doesn't exist yet. It's kept as-is, unused, for when that endpoint is built — do not delete it, and do not wire it up without a reason to.
+
+## Firestore Data Model
+
 ```
-packages/hub-app/src/components/clients/
-└── [industry]/              # healthcare, events, hospitality, retail, services, other
-    └── [client-slug-2025]/
-        ├── ClientApp.tsx    # Main component
-        ├── components/      # Optional: client-specific components
-        ├── styles/         # Optional: client-specific styles
-        ├── types/          # Optional: client-specific types
-        └── index.ts        # Re-export: export { default as ClientApp } from './ClientApp'
+client-configs/{clientId}        # PUBLIC, get-only — the live TripConfig
+client-configs/{clientId}/updates/{id}   # PUBLIC, get+list — live updates, written server-side only
+access-codes/{CODE}              # PUBLIC, get-only — code -> clientId lookup, no PII
+private/{clientId}               # ADMIN-ONLY — paid state, edit tokens, planner contact info
 ```
+Written by `scripts/configs-push.js`. There are no local Firestore credentials in most dev environments — use `--dry` to preview a push without writing.
 
-#### 2. Component Implementation
-```typescript
-// ClientApp.tsx
-import { EmbrKitProvider, EmbrKitContainer, EmbrKitButton } from '@embr/ui';
+## Design (DESIGN.md is authoritative)
 
-interface ClientAppProps {
-  config: ClientConfig;
-}
+`DESIGN.md` at the repo root defines the actual visual/brand rules (Ink/Paper/Signal color tokens, spacing grid, typography, motion, focus ring, elevation via borders not shadows, no emoji/em dashes/hype in interface copy, mobile-bottom-nav vs desktop-header-nav, etc). When building or reviewing anything in the guide-render path, check it against DESIGN.md's actual rules, not just "does it use the theme tokens" — token-compatibility and visual-quality compliance are different checks and both matter.
 
-export default function ClientApp({ config }: ClientAppProps) {
-  // Use EmbrKit components for foundation + custom code for unique visuals
-  const embrKitTheme = {
-    colors: {
-      primary: config.theme.colors.primary,
-      // ... map all theme colors
-    }
-  };
+### EmbrKit Usage
+`@embr/ui` components are a starting point, not a mandate — some of its shared CSS (e.g. card shadows, default icon sets) currently doesn't match DESIGN.md's rules. Prefer a small local primitive (see `GuideCard.tsx`) over fighting a shared component's CSS, rather than editing shared styles that ripple into unrelated consumers.
 
-  return (
-    <EmbrKitProvider initialTheme={embrKitTheme}>
-      <EmbrKitContainer>
-        {/* Independent, purpose-built UI for this client */}
-      </EmbrKitContainer>
-    </EmbrKitProvider>
-  );
-}
-```
-
-#### 3. Registration
-```typescript
-// packages/hub-app/src/components/clients/[industry]/index.ts
-export const INDUSTRY_CLIENTS = {
-  'client-slug-2025': ClientApp,
-} as const;
-
-// packages/hub-app/src/components/clients/index.ts
-import { HEALTHCARE_CLIENTS } from './healthcare';
-import { EVENTS_CLIENTS } from './events';
-// ... other industries
-
-export const CLIENT_APP_REGISTRY = {
-  ...HEALTHCARE_CLIENTS,
-  ...EVENTS_CLIENTS,
-  // ... other industries
-} as const;
-```
-
-#### 4. Generate Lazy Loader
-```bash
-npm run clients:loader
-```
-
-#### 5. Create Firestore Config
-```json
-{
-  "clientId": "client-slug-2025",
-  "name": "Client Name",
-  "pluginId": "client-slug-2025",
-  "configVersion": "1.0",
-  "expiry": "2025-12-31T23:59:59Z",
-  "theme": {
-    "colors": {
-      "primary": "#0f766e",
-      "secondary": "#22c55e",
-      "background": "#ffffff",
-      "surface": "#f9fafb",
-      "surfaceElevated": "#ffffff",
-      "text": "#1a1a1a",
-      "textSecondary": "#6b7280",
-      "border": "#e5e7eb",
-      "buttonOutline": "#0f766e"
-    },
-    "typography": {
-      "fontFamily": "Inter, system-ui, sans-serif"
-    }
-  },
-  "navigation": [...],
-  "features": [...],
-  "content": {...}
-}
-```
-
-#### 6. Deploy Config
-```bash
-# Push to Firestore
-npm run configs:push:one -- client-slug-2025
-
-# Update dev log
-npm run devlog:append -- "Created client-slug-2025 client app"
-```
-
-### Hybrid Development Model (REQUIRED)
-
-**EmbrKit Components (50% Speed) + Custom Code (100% Control) = Perfect Micro-Apps**
-
-#### Use EmbrKit For:
-- Structure and layout (Container, Grid, Stack)
-- Common UI patterns (Button, Card, Input, Modal)
-- Data display (Table, StatCard, DataCard)
-- Forms (FormField, FormInput, FileUpload)
-- Navigation (Navbar, Tabs, Breadcrumbs)
-- Feedback (Alert, Loading, Toast)
-
-#### Use Custom Code For:
-- Unique visual elements (decorative graphics, animations)
-- Brand-specific layouts (hero sections, feature grids)
-- Advanced interactions (custom animations, micro-interactions)
-- Specialized functionality (complex forms, data visualizations)
-- Integration code (third-party APIs, custom logic)
-
-#### Client Theming Tokens (MANDATORY)
-```css
-/* Approved theme tokens - inject via EmbrKitProvider */
---embr-primary-color
---embr-secondary-color
---embr-background
---embr-surface
---embr-surface-elevated
---embr-text
---embr-text-secondary
---embr-border
---embr-button-outline-color
---embr-primary-hover (optional)
---embr-secondary-hover (optional)
-```
-
-**NEVER use:**
-- Hardcoded hex colors in client code
-- Tailwind `ring-*` utilities
-- Client theme colors in Hub shell
-
-## Git Workflow (MANDATORY)
-
-### Session-Based Development
-Every development session MUST use session branches:
-
-```bash
-# Start session
-npm run git:session <descriptive-name>
-# Creates: session/descriptive-name-YYYY-MM-DD
-
-# Save progress frequently
-npm run git:save "Implemented feature X"
-
-# End session (merges to main, deletes session branch)
-npm run git:end
-```
-
-### Branch Naming Convention
-- Session branches: `session/wildroots-fixes-2025-01-27`
-- Feature branches: `feature/embrkit-improvements`
-- Never work directly on `main`
-
-### Status Checking
-```bash
-npm run git:status  # Check current branch and uncommitted changes
-```
-
-## EmbrKit Design System
-
-### Core Principles
-- **Border Radius**: Use `--embr-radius-2xl` (1rem/16px) for primary components
-- **Typography**: Inter font family with `font-weight: 600` for buttons/headings
-- **Colors**: Primary teal (#0f766e) with success/warning/error variants
-- **Spacing**: Golden ratio-based spacing system
-- **Accessibility**: WCAG AA compliance required
-
-### Component Usage
-```typescript
-import {
-  EmbrKitProvider,
-  EmbrKitButton,
-  EmbrKitCard,
-  EmbrKitContainer,
-  EmbrKitGrid,
-  EmbrKitStatCard,
-  EmbrKitModal,
-  // ... 37 total components
-} from '@embr/ui';
-```
-
-### Demo Pages
-- `/embrkit-demo` - Design system principles, colors, typography
-- `/embrkit-components-demo` - Interactive component showcase
-- `/embrkit-themes-demo` - Theme sandbox for visual verification
-
-## Hub App Visual Baseline (LOCKED)
-
-The Hub shell uses **fixed Embr-branded colors** and does NOT inherit client themes.
-
-### Hub Color Palette (DO NOT CHANGE)
-```css
-/* Background & Surfaces */
---hub-background: #101926
---hub-surface: #22304a
---hub-border: #2d3c5a
-
-/* Text */
---hub-text: #FEFEFE
---hub-text-secondary: #EDEDED / #D1D5DB
-
-/* Primary/Accent */
---hub-primary: #0F766E
---hub-primary-hover: #13a89a
---hub-accent-ring: #38F9E4
-```
-
-### Protected Hub Files
+### Hub Shell vs. Guide Theming
+The hub shell (the landing/access-code entry experience, not a specific guide) uses its own fixed colors and must not inherit a guide's theme. Guide theming (`config.theme.colors.*`) is scoped entirely inside the guide-render path (`ClientApp` → `BlockRenderer` → block views) and must never leak into hub shell components. Protected hub files:
 - `packages/hub-app/src/app/globals.css`
 - `packages/hub-app/src/app/layout.tsx`
 - `packages/hub-app/src/app/page.tsx`
 - `packages/hub-app/src/components/AccessCodeEntry.tsx`
 - `packages/hub-app/src/components/LoadingScreen.tsx`
 
-**Do NOT replace Hub's fixed hex colors with theme variables.**
-
-## Quality Assurance
-
-### Before Creating PR
-```bash
-# Run quality checks
-npm run audit:theme         # Check for hardcoded colors/styling violations
-npm run check:isolation     # Ensure demo/client separation
-npm run lint                # ESLint check
-
-# Manual checks
-# - Hub baseline visuals unchanged (compare to git tag)
-# - 30-second keyboard focus test
-# - Test client with access code
-```
-
-### Focus Policy
-- Outlines allowed ONLY on filled and ghost controls
-- MUST use `--embr-button-outline-color`
-- MUST appear only on `:focus-visible`
-- NO Tailwind `ring-*` utilities
-
-### Theme Compliance
-- NO hardcoded colors (hex/rgba) in client code
-- USE CSS custom properties or config brand constants
-- Client theming scoped inside `ClientApp` only
-
-## Firebase/Firestore Configuration
-
-### Service Account Setup
-Ensure service account is available via:
-- `GOOGLE_APPLICATION_CREDENTIALS` (file path)
-- `FIREBASE_SERVICE_ACCOUNT` (file path or JSON string)
-- `./firebase-service-account.json` at repo root
-
-### Security Guidelines
-- **DO NOT commit** raw service account keys to repo
-- Use env vars pointing to files outside repo
-- In CI: use OIDC Workload Identity Federation or secret manager
-
-### Config Operations
-```bash
-# Push all configs
-npm run configs:push
-
-# Push single config
-npm run configs:push:one -- <client-slug>
-
-# Dry run (preview)
-node scripts/configs-push.js --dry
-
-# Custom options
-node scripts/configs-push.js --dir ./path --collection client-configs-staging
-```
-
 ## Testing
 
-### Test Client with Access Code
 ```bash
-npm run dev
-# Navigate to: http://localhost:3000/?client=<clientId>
-# Or: http://localhost:3000/c/<clientId>
+npm run test              # Vitest, all workspaces
 ```
+Covers `TripConfigSchema` (valid/invalid configs) and one render test per block view component. For UI changes, also verify manually: `npm run dev`, then `http://localhost:3000/c/<clientId>` or `?client=<clientId>` against a real or scratch config.
 
-### Manual Testing Checklist
-- [ ] Client loads correctly with access code
-- [ ] Theme colors applied correctly
-- [ ] Navigation works
-- [ ] All interactive elements keyboard accessible
-- [ ] Responsive design works on mobile/tablet/desktop
-- [ ] Offline functionality (if applicable)
-- [ ] No console errors
+## Common Pitfalls
 
-## Common Pitfalls to Avoid
+❌ Don't add a per-client React component — everything goes through `TripConfig` + `BlockRenderer`.
+❌ Don't hardcode colors in the guide-render path — use `config.theme.colors.*` or DESIGN.md's tokens.
+❌ Don't let guide theming touch the hub shell, or vice versa.
+❌ Don't treat "renders without crashing" as "matches DESIGN.md" — check the actual visual rules (shadows, emoji, em dashes, spacing, focus ring, mobile nav placement).
+❌ Don't wire up the dormant API import pipeline casually — it's there for a future public endpoint, not for routine use.
 
-### Client App Development
-❌ **DON'T**: Create generic templates that all clients share
-❌ **DON'T**: Use hardcoded colors or content
-❌ **DON'T**: Make clients look like carbon copies
-❌ **DON'T**: Share layouts/structures between clients
-❌ **DON'T**: Edit `clients/loader.ts` manually
-
-✅ **DO**: Create unique, purpose-built experiences
-✅ **DO**: Use client's brand colors via theme tokens
-✅ **DO**: Implement business-specific features
-✅ **DO**: Run `npm run clients:loader` after adding clients
-
-### Hub Shell Development
-❌ **DON'T**: Replace Hub's fixed colors with theme variables
-❌ **DON'T**: Leak client theming into Hub shell
-❌ **DON'T**: Modify Hub baseline without explicit approval
-
-✅ **DO**: Keep client theming scoped inside `ClientApp`
-✅ **DO**: Maintain Hub visual baseline
-✅ **DO**: Check against Hub color palette before changes
-
-## Platform-Specific Notes
-
-### Mac Development
-- Full iOS testing available (Xcode required)
-- Safari compatibility testing
-- Native builds via Capacitor
-- Cross-platform validation
-
-### Windows Development
-- Web development focus
-- Chrome/Edge testing
-- Windows PWA features
-- No iOS testing (use Mac for that)
+✅ Do use the `import-guide` skill for day-to-day guide creation.
+✅ Do validate every config against `TripConfigSchema` before it goes near Firestore.
+✅ Do check DESIGN.md when touching anything in the guide-render path.
 
 ## TypeScript Configuration
 
-- Strict mode enabled
-- Path aliases configured:
-  - `@/*` → `packages/hub-app/src/*`
-  - `@/components/*` → `packages/hub-app/src/components/*`
-  - `@/lib/*` → `packages/hub-app/src/lib/*`
-  - `@/types/*` → `packages/hub-app/src/types/*`
+- Strict mode enabled.
+- Path aliases: `@/*` → `packages/hub-app/src/*`, plus `@/components/*`, `@/lib/*`, `@/types/*`.
 
-## Key Scripts Reference
+## Firebase/Firestore Setup
 
-### Session Management
-- `npm run session:init` - Initialize development session
-- `npm run session:end` - End development session
-
-### Git Workflow
-- `npm run git:session <name>` - Create session branch
-- `npm run git:save "message"` - Save session progress
-- `npm run git:end` - Merge session and cleanup
-- `npm run git:status` - Check current status
-
-### Client Development
-- `npm run client:create` - Create new client config
-- `npm run client:validate` - Validate all client configs
-- `npm run clients:loader` - Regenerate client loader
-- `npm run configs:push` - Deploy configs to Firestore
-- `npm run configs:push:one -- <slug>` - Deploy single config
-
-### Quality Assurance
-- `npm run audit:theme` - Theme compliance check
-- `npm run check:isolation` - Demo isolation check
-- `npm run lint` - Code quality check
-- `npm run test` - Run all tests
-
-### Dev Log
-- `npm run devlog:update` - Update dev log
-- `npm run devlog:append -- "message"` - Add log entry
-
-## Success Metrics
-
-- **Development Speed**: 50%+ faster with hybrid approach
-- **Visual Control**: 95%+ visual parity with custom designs
-- **Brand Integrity**: Client branding perfectly preserved
-- **Accessibility**: WCAG AA compliant
-- **Performance**: Sub-3-second load times
+Service account via `GOOGLE_APPLICATION_CREDENTIALS`, `FIREBASE_SERVICE_ACCOUNT`, or `./firebase-service-account.json` at repo root (never commit the raw key). In CI/production, use a secret store or OIDC Workload Identity Federation.
 
 ---
 
-**Remember**: Embr is a Universal Micro-App Framework that can create ANY single-purpose digital tool while maintaining perfect brand integrity and blazing-fast performance. Every decision should support: "One App. One Purpose. Fast. Branded. Brilliant."
+**Remember**: Embr is a done-for-you live event guide, config-driven through a single block engine. Every decision should support that — not the old multi-industry framework vision.

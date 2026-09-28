@@ -12,8 +12,7 @@ const { execSync } = require('child_process');
 // Configuration
 const SCAN_DIRECTORIES = [
   'packages/hub-app/src',
-  'packages/ui/src',
-  'packages/standalone-app/src'
+  'packages/ui/src'
 ];
 
 const FILE_REFERENCE_PATTERNS = [

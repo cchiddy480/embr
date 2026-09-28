@@ -1,16 +1,10 @@
 #!/usr/bin/env node
 
 /*
-  Embr Client Config Validator (Phase B)
-  - For any config with a `blocks` array, validates it against
-    TripConfigSchema (scripts/lib/trip-config-schema.js) and prints zod's
-    own issue list on failure.
-  - For any config WITHOUT a `blocks` array (the old template-based shape:
-    wildroots-festival-2025, festival-*-2025, etc.), this is a legacy
-    config outside Phase B's scope — it's noted and skipped, not failed.
-    Those still render through the legacy renderer chain in ClientApp.tsx
-    and aren't part of this rewrite (see the production plan's cleanup
-    pass for when they eventually get migrated or deleted).
+  Embr Client Config Validator
+  Validates a guide config against TripConfigSchema
+  (scripts/lib/trip-config-schema.js) and prints zod's own issue list on
+  failure. Every guide config is a TripConfig — there is no other shape.
 
   Usage:
     node scripts/validate-client-config.js [config-file]
@@ -31,7 +25,7 @@ function hasFlag(flag) {
   return process.argv.includes(flag);
 }
 
-// Returns 'valid' | 'invalid' | 'skipped-legacy'
+// Returns 'valid' | 'invalid'
 function validateFile(filePath) {
   console.log(`\n📋 Validating: ${path.basename(filePath)}`);
 
@@ -44,8 +38,8 @@ function validateFile(filePath) {
   }
 
   if (!isTripConfigShape(config)) {
-    console.log('⏭️  Legacy config (no `blocks` array) — outside Phase B schema scope, skipping.');
-    return 'skipped-legacy';
+    console.log('❌ Not a TripConfig — missing a `blocks` array. Every guide config is a TripConfig.');
+    return 'invalid';
   }
 
   const result = TripConfigSchema.safeParse(config);
@@ -79,7 +73,7 @@ function validateAll() {
 
   console.log(`🔍 Validating ${files.length} config file(s)...`);
 
-  const counts = { valid: 0, invalid: 0, 'skipped-legacy': 0 };
+  const counts = { valid: 0, invalid: 0 };
   files.forEach((file) => {
     const result = validateFile(path.join(configsDir, file));
     counts[result] += 1;
@@ -88,7 +82,6 @@ function validateAll() {
   console.log(`\n📊 Validation Summary:`);
   console.log(`   ✅ Valid TripConfigs: ${counts.valid}`);
   console.log(`   ❌ Invalid TripConfigs: ${counts.invalid}`);
-  console.log(`   ⏭️  Legacy (skipped): ${counts['skipped-legacy']}`);
 
   if (counts.invalid > 0) {
     console.log('\n🔧 Please fix the errors above before deploying.');
@@ -105,7 +98,7 @@ function main() {
 
   if (help) {
     console.log(`
-🔍 Embr Client Config Validator (Phase B)
+🔍 Embr Client Config Validator
 
 Usage:
   node scripts/validate-client-config.js [config-file]
